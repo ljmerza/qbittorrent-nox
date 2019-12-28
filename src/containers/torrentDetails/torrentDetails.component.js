@@ -18,6 +18,7 @@ import { getIsOpen, getSelectedTorrent } from './torrentDetails.selectors';
 import GeneralTab from './tabs/general.component';
 import TrackersTab from './tabs/trackers.component';
 import PeersTab from './tabs/peers.component';
+import FilesTab from './tabs/files.component';
 
 const TabPanel = props => {
     const { children, value, index } = props;
@@ -60,7 +61,7 @@ function TorrentDetails({ isOpen, clearTorrent }) {
                 <PeersTab />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Content
+                <FilesTab />
             </TabPanel>
         </Drawer>
     );

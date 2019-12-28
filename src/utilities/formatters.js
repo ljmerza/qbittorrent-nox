@@ -26,6 +26,7 @@ function precisionRounding(value, precision = 1) {
 }
 
 export const computePercentDone = progress => {
+    if (progress === -1) progress = 0;
     return `${precisionRounding(progress * 100)}%`;
 };
 

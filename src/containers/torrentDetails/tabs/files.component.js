@@ -9,45 +9,36 @@ import Text from '../../../components/fields/text.component';
 import { Item } from '../../../components/grid.component';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import { torrentDetailsActions } from '../torrentDetails.reducer';
-import { getTrackersInfoLoading, getTrackersInfo } from '../torrentDetails.selectors';
+import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
 import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
 const SIDEBAR_TAB_HEIGHT = 100;
 
-const TrackerCard = ({ peer }) => {
+const FileCard = ({ file }) => {
     return (
-        <Card key={peer.url} title={peer.url}>
+        <Card key={file.url} title={file.name}>
             <Item>
-                <Text label='Tier' disabled value={peer.tier} />
-            </Item>
-            <Item>
-                <Text label='Seeds' disabled value={peer.num_seeds} />
+                <Text label='Size' disabled value={file.sizeUi} />
             </Item>
             <Item>
-                <Text label='Peers' disabled value={peer.num_peers} />
+                <Text label='Progress' disabled value={file.progressUi} />
             </Item>
             <Item>
-                <Text label='Leeches' disabled value={peer.num_leeches} />
+                <Text label='Priority' disabled value={file.priorityUi} />
             </Item>
             <Item>
-                <Text label='Downloaded' disabled value={peer.num_downloaded} />
-            </Item>
-            <Item xs={12} sm={12} md={12}>
-                <Text label='Status' disabled value={peer.statusUi} />
-            </Item>
-            <Item xs={12} sm={12} md={12}>
-                <Text label='Message' disabled value={peer.msg} />
+                <Text label='Availability' disabled value={file.availabilityUi} />
             </Item>
         </Card>
     )
 }
-function TrackersTab({ refreshInterval, getTrackersInfo, loading, data }) {
+function FilesTab({ refreshInterval, getFilesInfo, loading, data }) {
 
     useEffect(() => {
-        getTrackersInfo();
-        let timerId = setInterval(getTrackersInfo, refreshInterval);
+        getFilesInfo();
+        let timerId = setInterval(getFilesInfo, refreshInterval);
         return () => clearInterval(timerId);
-    }, [getTrackersInfo, refreshInterval]);
+    }, [getFilesInfo, refreshInterval]);
 
 
     if (!data.length && loading) {
@@ -60,15 +51,15 @@ function TrackersTab({ refreshInterval, getTrackersInfo, loading, data }) {
         <Virtuoso
             style={{ height: `calc(100vh - ${SIDEBAR_TAB_HEIGHT}px)` }}
             totalCount={data.length}
-            item={index => <TrackerCard peer={data[index]} />}
+            item={index => <FileCard file={data[index]} />}
         />
     )
 }
 
 
-TrackersTab.propTypes = {
+FilesTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
-    getTrackersInfo: PropTypes.func.isRequired,
+    getFilesInfo: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     data: PropTypes.any,
 };
@@ -76,14 +67,14 @@ TrackersTab.propTypes = {
 const mapStateToProps = state => {
     return {
         refreshInterval: getConfigInternalRefreshInterval(state),
-        loading: getTrackersInfoLoading(state),
-        data: getTrackersInfo(state),
+        loading: getFilesInfoLoading(state),
+        data: getFilesInfo(state),
     }
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        getTrackersInfo: () => dispatch(torrentDetailsActions.getTrackersInfo()),
+        getFilesInfo: () => dispatch(torrentDetailsActions.getFilesInfo()),
     };
 }
 
@@ -92,4 +83,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(TrackersTab);
+)(FilesTab);

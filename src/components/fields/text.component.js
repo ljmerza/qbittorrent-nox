@@ -14,6 +14,7 @@ function Text({
     onChange,
     validatorRef,
     hasValidation,
+    emptyValue,
     inputProps={},
     ...restProps
 }) {
@@ -30,7 +31,7 @@ function Text({
                 root: hasValidation ? classes.formControlNoMargin : classes.formControl
             }}
             ref={validatorRef}
-            value={value}
+            value={value || (emptyValue ? '' : '-')}
             disabled={disabled}
             onChange={onChange}
             InputProps={{
