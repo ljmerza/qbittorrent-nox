@@ -10,7 +10,9 @@ import FiltersComponent from '../../containers/filters';
 
 
 function LoggedInRoutes({ getConfig }) {
-    useEffect(() => getConfig());
+    useEffect(() => {
+        getConfig();
+    });
 
     return (
         <Switch>

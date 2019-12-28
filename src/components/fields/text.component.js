@@ -89,7 +89,6 @@ const styles = theme => ({
     formControl: {
         marginRight: theme.spacing(1),
         width: `calc(100% - ${theme.spacing(1)}px)`,
-        marginBottom: '1.9rem'
     },
     formControlNoMargin: {
         marginBottom: '0rem'

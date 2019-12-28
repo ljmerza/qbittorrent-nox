@@ -10,3 +10,9 @@ export const getGeneralInfo = createSelector(getTorrentDetails, torrentDetails =
 
 export const getTrackersInfoLoading = createSelector(getTorrentDetails, torrentDetails => torrentDetails.isLoadingTrackers);
 export const getTrackersInfo = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrentTrackers);
+
+export const getPeersInfoLoading = createSelector(getTorrentDetails, torrentDetails => torrentDetails.isLoadingPeers);
+export const getPeersInfo = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrentPeers);
+
+export const getFilesInfoLoading = createSelector(getTorrentDetails, torrentDetails => torrentDetails.isLoadingFiles);
+export const getFilesInfo = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrentFiles);

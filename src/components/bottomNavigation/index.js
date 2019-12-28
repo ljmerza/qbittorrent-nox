@@ -7,8 +7,8 @@ import { Helmet } from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import SettingsIcon from '@material-ui/icons/Settings';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import SpeedIcon from '../speedIcon.component';
 import { filtersActions } from '../../containers/filters/filters.reducer';
@@ -37,19 +37,20 @@ function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const down = `${dlSpeed}/s`;
-    const up = `${upSpeed}/s`;
+    const down = `${dlSpeed || 0}/s`;
+    const up = `${upSpeed || 0}/s`;
+    const title = (dlSpeed && upSpeed) ? `D: ${down}, U: ${up}` : ``;
 
     const SpeedUi = (
         <div className={classes.speeds}>
             {down} <SpeedIcon /> {up}
         </div>
     );
-
+    
     return (
         <>  
             <Helmet defer={false}>
-                <title>{`D: ${down}, U: ${up}`}</title>
+                <title>{title}</title>
             </Helmet>
 
             {/* add spacing so elements above arent hidden behind fixed BottomNavigation */}
@@ -63,7 +64,7 @@ function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
                 
                 <BottomNavigationAction icon={<FilterListIcon />} onClick={toggleFilterDrawer} />
                 <BottomNavigationAction icon={<KeyboardArrowUpIcon />} label={SpeedUi} />
-                <BottomNavigationAction icon={<SettingsIcon />} />
+                <BottomNavigationAction icon={<MoreVertIcon />} />
                 
             </BottomNavigation>
         </>

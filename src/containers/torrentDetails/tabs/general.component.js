@@ -4,8 +4,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Card, CardContent, Typography } from '@material-ui/core';
 
 import Text from '../../../components/fields/text.component';
 import { Container, Item } from '../../../components/grid.component';
@@ -15,12 +14,8 @@ import { getGeneralInfoLoading, getGeneralInfo, getSelectedTorrent } from '../to
 import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-    },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
+    card: {
+        margin: theme.spacing(1),
     },
 }));
 
@@ -44,7 +39,7 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
 
     if (!data && loading){
         return <LoadingIndicator noOverlay />
-    } else if (!data){
+    } else if (!data || !selectedTorrent){
         return null;
     }
 
@@ -55,91 +50,87 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
     const downLimit = changedFields.dl_limit === undefined ? data.dl_limit : changedFields.dl_limit;
     const upLimit = changedFields.up_limit === undefined ? data.up_limit : changedFields.up_limit;
 
-    return (
-        <div className={classes.root}>
-            <ExpansionPanel defaultExpanded>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Information</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
+    return ( 
+        <>
+            <Card className={classes.card}>
+                <CardContent>
+                    <Typography component="h6" variant="h6">Information</Typography>
                     <Container>
-                        <Item xs={12}>
+                        <Item xs={12} sm={12}>
                             <Text label='Name' name='name' onChange={onChange} value={name} />
                         </Item>
-                        <Item xs={12}>
+                        <Item xs={12} sm={12}>
                             <Text label='Save Path' name='save_path' onChange={onChange} value={savePath} />
                         </Item>
-                        <Item  xs={12} sm={6}>
+                        <Item>
                             <Text label='Time Active' disabled value={data.timeElapsedUi} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='ETA' disabled value={data.etaUi} />
                         </Item>
-                        <Item  xs={12} sm={6}>
+                        <Item>
                             <Text label='Added On' disabled value={data.additionDateUi} />
                         </Item>
-                        <Item  xs={12} sm={6}>
+                        <Item>
                             <Text label='Completed On' disabled value={data.completionDateUi} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Last Seen Complete' disabled value={data.lastSeenUi} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Pieces' disabled value={`${data.pieces_num} x ${data.pieceSizeUi} (have ${data.pieces_have})`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Created By' disabled value={data.created_by} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Reannounce In' disabled value={data.reannounceUi} />
                         </Item>
                         <Item xs={12}>
                             <Text label='Comment' disabled value={data.comment} />
                         </Item>
                     </Container>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
+                </CardContent>
+            </Card>
 
-            <ExpansionPanel defaultExpanded>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Transfer</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
+            <Card className={classes.card}>
+                <CardContent>
+                    <Typography component="h6" variant="h6">Transfer</Typography>
                     <Container>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Seeds' disabled value={`${data.seeds} (${data.seeds_total})`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Peers' disabled value={`${data.peers} (${data.peers_total})`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Downloaded' disabled value={`${data.totalDownloadedUi} (${data.totalDownloadedSessionUi} session)`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Uploaded' disabled value={`${data.totalDownloadedUi} (${data.totalUploadedSessionUi} session)`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Wasted' disabled value={data.totalWastedUi} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Ratio' disabled value={data.share_ratio.toFixed(2)} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Download Speed (Avg)' disabled value={`${data.dlSpeedUi} (${data.dlSpeedAvgUi})`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label={`Download Limit (${data.dlLimitUi}/s)`} name='dl_limit' onChange={onChange} value={downLimit} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label='Upload Speed (Avg)' disabled value={`${data.upSpeedUi} (${data.upSpeedAvgUi})`} />
                         </Item>
-                        <Item xs={12} sm={6}>
+                        <Item>
                             <Text label={`Upload Limit (${data.upLimitUi}/s)`} name='up_limit' onChange={onChange} value={upLimit} />
                         </Item>
                     </Container>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-        </div>
+                </CardContent>
+            </Card>
+        </>
     )
 }
 

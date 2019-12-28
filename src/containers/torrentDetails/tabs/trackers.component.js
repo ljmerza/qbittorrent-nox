@@ -7,7 +7,8 @@ import { Virtuoso } from 'react-virtuoso';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core';
 
-import SubText from '../../../components/fields/subText.component';
+import Text from '../../../components/fields/text.component';
+import { Container, Item } from '../../../components/grid.component';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getTrackersInfoLoading, getTrackersInfo } from '../torrentDetails.selectors';
@@ -20,27 +21,31 @@ const useStyles = makeStyles(theme => ({
     url: {
         wordBreak: 'break-all',
     },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%'
-    },
 }));
 
 const SIDEBAR_TAB_HEIGHT = 100;
 
-const PeerCard = ({ peer, classes }) => {
+const TrackerCard = ({ peer, classes }) => {
     return (
         <Card key={peer.url} className={classes.card}>
             <CardContent>
                 <Typography component="h6" variant="h6" className={classes.url}>
                     {peer.url}
                 </Typography>
-                <div className={classes.details}>
-                    <SubText variant="subtitle1" text={`seed/peer: ${peer.num_seeds}/${peer.num_peers}`} />
-                    <SubText variant="subtitle1" text={`Leechers: ${peer.num_leeches}`} />
-                    <SubText variant="subtitle1" text={`Downloaded: ${peer.num_downloaded}`} />
-                </div>
+                <Container>
+                    <Item>
+                        <Text label='Seeds' disabled value={peer.num_seeds} />
+                    </Item>
+                    <Item>
+                        <Text label='Peers' disabled value={peer.num_peers} />
+                    </Item>
+                    <Item>
+                        <Text label='Downloaded' disabled value={peer.num_downloaded} />
+                    </Item>
+                    <Item xs={12} sm={12}>
+                        <Text label='Message' disabled value={peer.msg} />
+                    </Item>
+                </Container>
             </CardContent>
         </Card>
     )
@@ -56,9 +61,9 @@ function TrackersTab({ refreshInterval, getTrackersInfo, loading, data }) {
     }, [getTrackersInfo, refreshInterval]);
 
 
-    if (!data && loading) {
+    if (!data.length && loading) {
         return <LoadingIndicator noOverlay />
-    } else if (!data) {
+    } else if (!data.length) {
         return null;
     }
 
@@ -66,7 +71,7 @@ function TrackersTab({ refreshInterval, getTrackersInfo, loading, data }) {
         <Virtuoso
             style={{ height: `calc(100vh - ${SIDEBAR_TAB_HEIGHT}px)` }}
             totalCount={data.length}
-            item={index => <PeerCard peer={data[index]} classes={classes} />}
+            item={index => <TrackerCard peer={data[index]} classes={classes} />}
         />
     )
 }
