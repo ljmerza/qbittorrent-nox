@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import history from '../utilities/history';
 
-import { globalReducer } from '../common/global/global.reducer';
 import { toastReducer } from '../common/toast/toast.reducer';
 import { configReducer } from '../containers/config/config.reducer';
 import { loginReducer } from '../containers/login/login.reducer';
@@ -14,7 +13,6 @@ export const initialState = {};
 
 export const rootReducer = combineReducers({
     config: configReducer,
-    global: globalReducer,
     toast: toastReducer,
     login: loginReducer,
     torrents: torrentsReducer,

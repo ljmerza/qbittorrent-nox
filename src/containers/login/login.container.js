@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { ValidatorForm } from 'react-material-ui-form-validator';
@@ -11,10 +9,12 @@ import { PermIdentity, Lock, VisibilityOff, Visibility } from '@material-ui/icon
 
 import PrimaryButton from '../../components/buttons/primary.component';
 import TextValidator from '../../components/fields/textValidator.component';
+import Text from '../../components/fields/text.component';
 import PageContainer from '../../components/pageContainer';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 import { loginActions } from './login.reducer';
+import { getLoginUsername, getLoginPassword, getLoginApiRoot, getLoginLoading } from './login.selectors';
 
 class LoginContainer extends Component {
     constructor(props){
@@ -23,23 +23,20 @@ class LoginContainer extends Component {
         this.state = {
             username: props.username,
             password: props.password,
+            apiRoot: props.apiRoot,
             showPassword: false,
         };
     }
 
     onChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
-    handleToggleShowPassword = () =>
-        this.setState(prevState => ({ showPassword: !prevState.showPassword }));
+    handleToggleShowPassword = () => this.setState(prevState => ({ showPassword: !prevState.showPassword }));
 
-    handleSubmit = () => {
-        const { username, password } = this.state;
-        this.props.login({ username, password });
-    };
+    handleSubmit = () => this.props.login(this.state);
 
     render() {
         const { classes, theme, loading } = this.props;
-        const { username, password, showPassword } = this.state;
+        const { username, password, apiRoot, showPassword } = this.state;
 
         return (
             <PageContainer>
@@ -96,6 +93,17 @@ class LoginContainer extends Component {
                         />
                     </FormControl>
 
+                    <FormControl className={classes.fieldWrapper}>
+                        <Text
+                            type="text"
+                            name="apiRoot"
+                            label="API URL"
+                            value={apiRoot}
+                            onChange={this.onChange}
+                            fullWidth
+                        />
+                    </FormControl>
+
                     <div className={classes.buttonsWrapper}>
                         <PrimaryButton fullWidth type="submit" size="large" color="primary" variant="contained">
                             Login
@@ -129,17 +137,20 @@ const styles = (/* theme */) => ({
 });
 
 LoginContainer.propTypes = {
-    history: ReactRouterPropTypes.history.isRequired,
     classes: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    apiRoot: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
     return {
-        loading: state.login.loading,
-        username: state.login.username,
-        password: state.login.password,
+        username: getLoginUsername(state),
+        password: getLoginPassword(state),
+        apiRoot: getLoginApiRoot(state),
+        loading: getLoginLoading(state),
     }
 };
 
@@ -152,7 +163,6 @@ function mapDispatchToProps(dispatch) {
 
 export default compose(
     withStyles(styles, { withTheme: true }),
-    withRouter,
     connect(
         mapStateToProps,
         mapDispatchToProps

@@ -1,12 +1,12 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from '../../utilities/request';
-import { selectGlobalApi } from '../../common/global/global.selectors';
+import { getLoginApiUrl } from '../login/login.selectors';
 import { initialState, loginActions } from './login.reducer';
 
 function* login(action) {
     try {
-        const apiUrl = yield select(selectGlobalApi);
+        const apiUrl = (yield select(getLoginApiUrl)) || action.payload.apiRoot;
 
         const formData = new FormData();
         formData.append("username", action.payload.username);
