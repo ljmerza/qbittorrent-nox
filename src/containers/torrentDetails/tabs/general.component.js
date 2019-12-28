@@ -12,6 +12,7 @@ import { Container, Item } from '../../../components/grid.component';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getGeneralInfoLoading, getGeneralInfo, getSelectedTorrent } from '../torrentDetails.selectors';
+import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,7 +43,7 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
 
 
     if (!data && loading){
-        return <LoadingIndicator />
+        return <LoadingIndicator noOverlay />
     } else if (!data){
         return null;
     }
@@ -153,7 +154,7 @@ GeneralTab.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        refreshInterval: 5000,
+        refreshInterval: getConfigInternalRefreshInterval(state),
         loading: getGeneralInfoLoading(state),
         data: getGeneralInfo(state),
         selectedTorrent: getSelectedTorrent(state),

@@ -19,7 +19,12 @@ function* login(action) {
         }
 
         const loggedIn = yield call(request, options);
-        yield put({ type: `${loginActions.loginSuccess}`, loggedIn });
+        
+        if (loggedIn) {
+            yield put({ type: `${loginActions.loginSuccess}`, loggedIn });
+        } else {
+            yield put({ type: `${loginActions.loginError}`, error: null });
+        }
 
     } catch (e) {
         yield put({ type: `${loginActions.loginError}`, error: e.message });

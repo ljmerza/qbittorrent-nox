@@ -11,6 +11,7 @@ import SubText from '../../../components/fields/subText.component';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getTrackersInfoLoading, getTrackersInfo } from '../torrentDetails.selectors';
+import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -56,7 +57,7 @@ function TrackersTab({ refreshInterval, getTrackersInfo, loading, data }) {
 
 
     if (!data && loading) {
-        return <LoadingIndicator />
+        return <LoadingIndicator noOverlay />
     } else if (!data) {
         return null;
     }
@@ -80,7 +81,7 @@ TrackersTab.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        refreshInterval: 5000,
+        refreshInterval: getConfigInternalRefreshInterval(state),
         loading: getTrackersInfoLoading(state),
         data: getTrackersInfo(state),
     }

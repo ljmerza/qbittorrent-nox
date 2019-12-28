@@ -4,7 +4,7 @@ import history from '../utilities/history';
 
 import { globalReducer } from '../common/global/global.reducer';
 import { toastReducer } from '../common/toast/toast.reducer';
-
+import { configReducer } from '../containers/config/config.reducer';
 import { loginReducer } from '../containers/login/login.reducer';
 import { torrentsReducer } from '../containers/torrents/torrents.reducer';
 import { filtersReducer } from '../containers/filters/filters.reducer';
@@ -12,7 +12,8 @@ import { torrentDetailsReducer } from '../containers/torrentDetails/torrentDetai
 
 export const initialState = {};
 
- export const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
+    config: configReducer,
     global: globalReducer,
     toast: toastReducer,
     login: loginReducer,

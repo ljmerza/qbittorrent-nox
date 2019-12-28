@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
     username: '',
     password: '',
-    loggedIn: true,
+    loggedIn: null,
     loading: false,
     error: '',
     path: 'auth/login'
@@ -15,7 +15,7 @@ export const loginSlice = createSlice({
     reducers: {
         login: (state, action) => ({ ...state, loading: true, username: action.username, password: action.password }),
         loginSuccess: (state, action) => ({ ...state, loading: false, loggedIn: true }),
-        loginError: (state, action) => ({ ...state, loading: false, loggedIn:false, error: action.error }),
+        loginError: (state, action) => ({ ...state, loading: false, loggedIn: false, error: action.error }),
         logout: state => ({ ...state, ...initialState, loggedIn: false  }),
     }
 });

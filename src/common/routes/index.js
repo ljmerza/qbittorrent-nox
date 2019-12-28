@@ -4,23 +4,37 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import { Redirect, Switch, Route } from 'react-router-dom';
 
 import LoginRoutes from './login.routes';
 import LoggedInRoutes from './loggedIn.routes';
+import InitLoaderComponent from '../../containers';
+import { getLoginLoggedIn } from '../../containers/login/login.selectors';
 
 function Routes({ loggedIn }) {
-    if (loggedIn) return <LoggedInRoutes />;
-    return <LoginRoutes />;
+    if (loggedIn === true) return <LoggedInRoutes />;
+    else if (loggedIn === false) return <LoginRoutes />;
+
+    /**
+     * loggedIn starts off as null - we call apiVersion to see if we are logged
+     * in and set the loggedIn boolean to redirect to login or torrents page from there
+     */
+    return (
+        <Switch>
+            <Route exact path="/" component={InitLoaderComponent} />
+            <Redirect from="*" to="/" />
+        </Switch>
+    );
 }
 
 Routes.propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.any,
 };
 
 const mapStateToProps = state => {
     return {
-        loggedIn: state.login.loggedIn,
+        loggedIn: getLoginLoggedIn(state),
     }
 };
 

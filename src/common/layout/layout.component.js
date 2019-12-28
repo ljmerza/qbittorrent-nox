@@ -1,16 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
+import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 
-// import Header from './header.container';
-// import Toast from './toast.container';
+import { configActions } from '../../containers/config/config.reducer';
 import Routes from '../routes';
 
+// import Header from './header.container';
+// import Toast from './toast.container';
+
 class MainContainer extends PureComponent {
+    componentDidMount() {
+        this.props.getApiVersion();
+    }
+
     render() {
         const { classes } = this.props;
+
         return (
             <>
                 <main className={classes.mainContent}>
@@ -34,7 +42,17 @@ const styles = theme => ({
 });
 
 MainContainer.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    getApiVersion: PropTypes.func.isRequired,
 };
 
-export default compose(withStyles(styles))(MainContainer);
+function mapDispatchToProps(dispatch) {
+    return {
+        getApiVersion: () => dispatch(configActions.getApiVersion())
+    };
+}
+
+export default compose(
+    withStyles(styles),
+    connect(null, mapDispatchToProps)
+)(MainContainer);

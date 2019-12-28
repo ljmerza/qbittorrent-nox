@@ -3,7 +3,6 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import request from '../../utilities/request';
 import { selectGlobalApi } from '../../common/global/global.selectors';
 import { initialState, torrentsActions } from './torrents.reducer';
-import { loginActions } from '../login/login.reducer';
 
 function* getTorrents() {
     try {
@@ -15,12 +14,7 @@ function* getTorrents() {
         }
 
         const response = yield call(request, options);
-
-        if (response){
-            yield put({ type: `${torrentsActions.torrentsSuccess}`, response });
-        } else {
-            yield put({ type: `${loginActions.loginError}`, error: '' });
-        }
+        yield put({ type: `${torrentsActions.torrentsSuccess}`, response });
 
     } catch (e) {
         yield put({ type: `${torrentsActions.torrentsError}`, error: e.message });

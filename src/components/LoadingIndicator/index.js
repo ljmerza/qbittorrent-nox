@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-function LoadingIndicator({ classes }) {
+function LoadingIndicator({ noOverlay, classes }) {
 
     return (
-        <div className={classes.screenOverlay}>
+        <div className={noOverlay ? classes.centerLoading : classes.screenOverlay}>
             <div className={classes.progressIndicator}>
                 <CircularProgress size={100} />
             </div>
@@ -30,6 +30,11 @@ const styles = theme => ({
         backgroundColor: 'rgba(255,255,255,0.75)',
         zIndex: 100,
         color: theme.palette.primary.main
+    },
+    centerLoading:{
+        display: 'flex',
+        alignItems: 'center',
+        alignContent: 'center',
     },
     progressIndicator: {
         position: 'absolute',

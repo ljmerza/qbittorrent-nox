@@ -1,5 +1,16 @@
 import { createSelector } from 'reselect';
 
+import {
+    getSelectedState,
+    getSelectedCategory,
+    getSelectedTag,
+    getSelectedSort,
+    getIsSortDescending,
+ } from '../filters/filters.selectors'
+
+import { generateSortFunction } from '../../utilities/torrent.tools';
+import { DEFAULT_UI_STATE } from '../../utilities/torrent-states';
+
 export const getTorrents = state => state.torrents;
 
 export const getTorrentsTorrents = createSelector(getTorrents, torrents => torrents.torrents);
@@ -16,3 +27,34 @@ export const getTimeFormat = createSelector(getTorrents, torrents => torrents.ti
 export const getServerState = createSelector(getTorrents, torrents => torrents.serverState);
 export const getServerStateDown = createSelector(getServerState, torrents => torrents.dlSpeed || '');
 export const getServerStateUp = createSelector(getServerState, torrents => torrents.upSpeed || '');
+
+export const getFilteredTorrents = createSelector(
+    [
+        getTorrentsTorrents, 
+        getSelectedState,
+        getSelectedCategory,
+        getSelectedTag,
+        getSelectedSort,
+        getIsSortDescending,
+    ],
+    (torrents, selectedState, selectedCategory, selectedTag, selectedSort, isSortDescending) => {
+        if (!torrents) return [];
+        let filteredTorrents = [...torrents];
+
+        if (selectedState !== DEFAULT_UI_STATE) {
+            filteredTorrents = filteredTorrents.filter(torrent => torrent.states.includes(selectedState));
+        }
+
+        if (selectedCategory) {
+            filteredTorrents = filteredTorrents.filter(torrent => torrent.category === selectedCategory);
+        }
+
+        if (selectedTag) {
+            filteredTorrents = filteredTorrents.filter(torrent => torrent.tags.includes(selectedTag));
+        }
+
+        const sortFunction = generateSortFunction(selectedSort, isSortDescending);
+        filteredTorrents.sort(sortFunction);
+        return filteredTorrents;
+    }
+);

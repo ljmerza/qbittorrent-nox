@@ -133,13 +133,11 @@ LoginContainer.propTypes = {
     classes: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => {
     return {
         loading: state.login.loading,
-        error: state.login.error,
         username: state.login.username,
         password: state.login.password,
     }

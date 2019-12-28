@@ -10,7 +10,7 @@ import TorrentTable from '../../components/torrentTable';
 import TorrentDetails from '../torrentDetails';
 
 import { torrentsActions } from './torrents.reducer';
-import { getLoading, getTorrentsTorrents } from './torrents.selectors';
+import { getLoading, getTorrentsTorrents, getFilteredTorrents } from './torrents.selectors';
 
 import FiltersContainer from '../filters/filters.container';
 import {
@@ -22,62 +22,51 @@ import {
 } from '../filters/filters.selectors';
 
 import { torrentDetailsActions } from '../torrentDetails/torrentDetails.reducer';
-
-import { DEFAULT_UI_STATE } from '../../utilities/torrent-states';
-import { generateSortFunction } from '../../utilities/torrent.tools';
+import { getConfigInternalRefreshInterval } from '../config/config.selectors';
 
 class TorrentsContainer extends PureComponent {
     componentDidMount(){
+        this.startUpdate();
+    }
+
+    componentWillUnmount() {
+        this.stopUpdate();
+    }
+
+    /**
+     * if refreshInterval has updated then reset update 
+     * torrent interval to that new interval value
+     */
+    componentDidUpdate(prevProps){
+        if (prevProps.refreshInterval !== this.props.refreshInterval){
+            this.stopUpdate();
+            this.startUpdate();
+        }
+    }
+
+    startUpdate = () => {
         this.props.getTorrents();
 
         // load every set interval unless currently loading
         this._interval = setInterval(() => {
-            if(this.props.loading) return;
+            if (this.props.loading) return;
             this.props.getTorrents();
         }, this.props.refreshInterval);
     }
 
-    componentWillUnmount() {
+    stopUpdate = () => {
         if (this._interval) clearInterval(this._interval);
     }
 
-    getFilteredTorrents = () => {
-        let { torrents, selectedSort, isSortDescending } = this.props;
-        torrents = [...torrents];
-        
-        const { selectedState, selectedCategory, selectedTag } = this.props;
-
-        if (selectedState !== DEFAULT_UI_STATE) {
-            torrents = torrents.filter(torrent => torrent.states.includes(selectedState));
-        }
-
-        if (selectedCategory) {
-            torrents = torrents.filter(torrent => torrent.category === selectedCategory);
-        }
-
-        if (selectedTag) {
-            torrents = torrents.filter(torrent => torrent.tags.includes(selectedTag));
-        }
-
-        // now sort and return
-        const sortFunction = generateSortFunction(selectedSort, isSortDescending);
-        torrents.sort(sortFunction);
-
-        return torrents;
-    }
-
     render() {
-        const { torrents, loading, selectTorrent } = this.props;
-        const filteredTorrents = this.getFilteredTorrents();
-
         return (
             <PageContainer>
                 {/* only show loading indicator if this is the first load of torrents */}
-                {(torrents.length === 0 && loading) ? <LoadingIndicator /> : 
+                {(this.props.torrents.length === 0 && this.props.loading) ? <LoadingIndicator /> : 
                     <>
                         <FiltersContainer />
                         <TorrentDetails />
-                        <TorrentTable filteredTorrents={filteredTorrents} selectTorrent={selectTorrent} />
+                        <TorrentTable filteredTorrents={this.props.filteredTorrents} selectTorrent={this.props.selectTorrent} />
                         <BottomNav />
                     </>
                 }
@@ -88,6 +77,7 @@ class TorrentsContainer extends PureComponent {
 
 TorrentsContainer.propTypes = {
     torrents: PropTypes.array.isRequired,
+    filteredTorrents: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     selectedState: PropTypes.string.isRequired,
     selectedCategory: PropTypes.string.isRequired,
@@ -104,10 +94,11 @@ const mapStateToProps = state => {
         selectedCategory: getSelectedCategory(state),
         selectedTag: getSelectedTag(state),
         torrents: getTorrentsTorrents(state),
+        filteredTorrents: getFilteredTorrents(state),
         loading: getLoading(state),
         selectedSort: getSelectedSort(state),
         isSortDescending: getIsSortDescending(state),
-        refreshInterval: 5000,
+        refreshInterval: getConfigInternalRefreshInterval(state),
     }
 };
 
