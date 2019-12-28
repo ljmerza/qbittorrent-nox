@@ -34,15 +34,24 @@ const TrackerCard = ({ peer, classes }) => {
                 </Typography>
                 <Container>
                     <Item>
+                        <Text label='Tier' disabled value={peer.tier} />
+                    </Item>
+                    <Item>
                         <Text label='Seeds' disabled value={peer.num_seeds} />
                     </Item>
                     <Item>
                         <Text label='Peers' disabled value={peer.num_peers} />
                     </Item>
                     <Item>
+                        <Text label='Leeches' disabled value={peer.num_leeches} />
+                    </Item>
+                    <Item>
                         <Text label='Downloaded' disabled value={peer.num_downloaded} />
                     </Item>
-                    <Item xs={12} sm={12}>
+                    <Item xs={12} sm={12} md={12}>
+                        <Text label='Status' disabled value={peer.statusUi} />
+                    </Item>
+                    <Item xs={12} sm={12} md={12}>
                         <Text label='Message' disabled value={peer.msg} />
                     </Item>
                 </Container>

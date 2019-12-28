@@ -4,6 +4,14 @@ import { formatGeneralInfo } from './tools';
 import prettysize from '../../utilities/pretty-sizes';
 import { computePercentDone } from '../../utilities/formatters';
 
+const TRACKER_STATUS_MAP = {
+    0: 'Tracker is disabled',
+    1: 'Tracker has not been contacted yet',
+    2: 'Tracker has been contacted and is working',
+    3: 'Tracker is updating',
+    4: 'Tracker has been contacted, but it is not working',
+};
+
 export const initialState = {
     isOpen: false,
     selectedTorrent: null,
@@ -38,7 +46,14 @@ export const torrentDetailsSlice = createSlice({
         getGeneralInfoSuccess: (state, action) => ({ ...state, isLoadingGeneral: false, selectedTorrentGeneral: formatGeneralInfo(state, action.response) }),
 
         getTrackersInfo: state => ({ ...state, isLoadingTrackers: true }),
-        getTrackersInfoSuccess: (state, action) => ({ ...state, isLoadingTrackers: false, selectedTorrentTrackers: action.response }),
+        getTrackersInfoSuccess: (state, action) => {
+
+            const selectedTorrentTrackers = action.response.map(tracker => {
+                tracker.statusUi = TRACKER_STATUS_MAP[tracker.status] || '';
+                return tracker;
+            })
+            return { ...state, isLoadingTrackers: false, selectedTorrentTrackers };
+        },
 
         getPeersInfo: state => ({ ...state, isLoadingPeers: true }),
         getPeersInfoSuccess: (state, action) => {

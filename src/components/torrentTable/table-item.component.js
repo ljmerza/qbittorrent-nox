@@ -50,10 +50,14 @@ const useStyles = makeStyles(theme => ({
         wordBreak: 'break-word',
         textAlign: 'left',
     },
-    speeds: {
-        width: '100%',
+    speedContainer: {
         display: 'flex',
-        justifyContent: 'flex-end',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    speeds: {
+        display: 'flex',
+        alignContent: 'center',
     }
 }));
 
@@ -80,11 +84,27 @@ function TableItem({ torrent, selectTorrent, isSelected }) {
 
     let speeds = '';
     if (torrent.dlspeed && torrent.upspeed) {
-        speeds = <>{`${torrent.dlspeedUi}/s`} <SpeedIcon /> {`${torrent.upspeedUi}/s`}</>;
+        speeds = (
+            <>
+                <div>{`${torrent.dlspeedUi}/s`}</div>
+                <SpeedIcon />
+                <div>{`${torrent.upspeedUi}/s`}</div>
+            </>
+        );
     } else if (torrent.dlspeed && !torrent.upspeed) {
-        speeds = <><SpeedIcon Icon={ArrowDownwardIcon} />{`${torrent.dlspeedUi}/s`}</>;
+        speeds = (
+            <>
+                <div>{`${torrent.dlspeedUi}/s`}</div>
+                <SpeedIcon Icon={ArrowDownwardIcon} />
+            </>
+        );
     } else if (!torrent.dlspeed && torrent.upspeed){
-        speeds = <><SpeedIcon Icon={ArrowUpwardIcon} /> {`${torrent.upspeedUi}/s`}</>;
+        speeds = (
+            <>
+                <div>{`${torrent.upspeedUi}/s`}</div>
+                <SpeedIcon Icon={ArrowUpwardIcon} />
+            </>
+        );
     }
 
     return (
@@ -113,16 +133,14 @@ function TableItem({ torrent, selectTorrent, isSelected }) {
                                 value={torrent.progress * 100}
                             />
                         </div>
+                        
+                        <div className={clsx(classes.speedContainer, classes.seperated)}>
+                            <div>
+                                <SubText text={torrent.stateUi} />
+                                {<InfoChip label={peersRatio} />}
+                            </div>
 
-
-                        <div className={clsx(classes.row, classes.seperated)}>
-                            <SubText text={torrent.stateUi} />
-                            {<InfoChip label={peersRatio} />}
-
-                            {(torrent.dlspeed || torrent.upspeed) ? (
-                                <div className={classes.speeds}>{speeds}</div>
-                            ) : null}
-
+                            {(torrent.dlspeed || torrent.upspeed) ? (<div className={classes.speeds}>{speeds}</div>) : null}
                         </div>
                     </div>
                 </CardContent>

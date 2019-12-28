@@ -80,8 +80,8 @@ const PeerCard = ({ peer, classes }) => {
                         <Text label='Flags' disabled value={peer.flags} />
                     </Item>
 
-                    <Item xs={12} sm={12}>
-                        <Text label='Files' disabled value={peer.filesfiles} />
+                    <Item xs={12} sm={12} md={12}>
+                        <Text label='Files' disabled value={peer.files} />
                     </Item>
                 </Container>
             </CardContent>
