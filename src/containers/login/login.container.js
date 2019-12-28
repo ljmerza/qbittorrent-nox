@@ -49,6 +49,7 @@ class LoginContainer extends Component {
                             label="username"
                             value={username}
                             onChange={this.onChange}
+                            emptyValue
                             fullWidth
                             validators={['required']}
                             errorMessages={['Username is required']}
@@ -69,6 +70,7 @@ class LoginContainer extends Component {
                             label="Password"
                             value={password}
                             onChange={this.onChange}
+                            emptyValue
                             fullWidth
                             validators={['required']}
                             errorMessages={['Password is required']}
@@ -97,7 +99,8 @@ class LoginContainer extends Component {
                         <Text
                             type="text"
                             name="apiRoot"
-                            label="API URL"
+                            label="API Root"
+                            emptyValue
                             value={apiRoot}
                             onChange={this.onChange}
                             fullWidth

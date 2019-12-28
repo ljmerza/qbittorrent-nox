@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { initialState as loginInitialState } from '../containers/login/login.reducer';
+import { initialState as configInitialState } from '../containers/config/config.reducer';
 
 /**
  * Parses the JSON returned by a network request
@@ -11,12 +12,29 @@ function parseJSON(response) {
         return null;
     }
 
+    // if we have no return data then just fail
+    if (!response.data) throw Error(`no data returned`);
+
+    // if we have JSON data then it's a good return so return that
+    if (typeof response.data === "object") return response.data;
+
     // if we are the login url handle the text response
-    if (response.config.url.includes(loginInitialState.path)) {
-        return response.data === 'Ok.' ? true : false;
+    if (response.config.url.includes(loginInitialState.path) && response.data !== 'Ok.') {
+        throw Error(`Could not login`);
+
+    } else if (response.data === 'Ok.'){
+        // else it might be some success string
+        return true;
     }
 
-    return response.data;
+    // if we are at checking if we logged in and fails 
+    // then dont return error - just redirect to login page
+    if (response.config.url.includes(configInitialState.pathVersion)) {
+        throw Error(null);
+    }
+
+    // if we got this far then it's some error or bad data so throw error
+    throw Error(response.data);
 }
 
 /**
@@ -25,6 +43,7 @@ function parseJSON(response) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 function checkStatus(response) {
+    console.log({ response })
     if (response.status >= 200 && response.status < 300) {
         return response;
     }

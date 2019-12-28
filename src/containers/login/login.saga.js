@@ -27,6 +27,7 @@ function* login(action) {
         }
 
     } catch (e) {
+        console.log({ e })
         yield put({ type: `${loginActions.loginError}`, error: e.message });
     }
 }
