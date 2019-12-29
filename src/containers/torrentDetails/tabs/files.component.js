@@ -2,17 +2,15 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Virtuoso } from 'react-virtuoso';
 
-import Card from '../../../components/card.component';
-import Text from '../../../components/fields/text.component';
-import { Item } from '../../../components/grid.component';
-import LoadingIndicator from '../../../components/LoadingIndicator';
+import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import Card from 'components/card.component';
+import Text from 'components/fields/text.component';
+import { Item } from 'components/grid.component';
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
-import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
-
-const SIDEBAR_TAB_HEIGHT = 100;
 
 const FileCard = ({ file }) => {
     return (
@@ -47,13 +45,7 @@ function FilesTab({ refreshInterval, getFilesInfo, loading, data }) {
         return null;
     }
 
-    return (
-        <Virtuoso
-            style={{ height: `calc(100vh - ${SIDEBAR_TAB_HEIGHT}px)` }}
-            totalCount={data.length}
-            item={index => <FileCard file={data[index]} />}
-        />
-    )
+    return data.map(file => <FileCard key={file.name} file={file} />);
 }
 
 

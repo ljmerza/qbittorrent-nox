@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Card from '../../../../components/card.component';
-import Text from '../../../../components/fields/text.component';
-import { Item } from '../../../../components/grid.component';
+import Card from 'components/card.component';
+import Text from 'components/fields/text.component';
+import { Item } from 'components/grid.component';
 
 
 function GeneralTabTransfer({ onChange, data, changedFields, setChangedFields }) {

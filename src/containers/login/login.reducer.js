@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
-import { storeSave, storeGet } from '../../utilities/persistant-storage';
+import { storeSave, storeGet } from 'utilities/persistant-storage';
 
 export const initialState = {
     username: '',

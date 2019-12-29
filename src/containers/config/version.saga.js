@@ -1,9 +1,9 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
-import request from '../../utilities/request';
-import { getLoginApiUrl } from '../login/login.selectors';
+import request from 'utilities/request';
+import { getLoginApiUrl } from 'containers/login/login.selectors';
+import { loginActions } from 'containers/login/login.reducer';
 import { initialState, configActions } from './config.reducer';
-import { loginActions } from '../login/login.reducer';
 
 /**
  * gets version but also is used to check if user is logged in

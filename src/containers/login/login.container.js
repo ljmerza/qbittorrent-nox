@@ -7,11 +7,11 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import { FormControl, InputAdornment, IconButton, withStyles } from '@material-ui/core';
 import { PermIdentity, Lock, VisibilityOff, Visibility } from '@material-ui/icons';
 
-import PrimaryButton from '../../components/buttons/primary.component';
-import TextValidator from '../../components/fields/textValidator.component';
-import Text from '../../components/fields/text.component';
-import PageContainer from '../../components/pageContainer';
-import LoadingIndicator from '../../components/LoadingIndicator';
+import PrimaryButton from 'components/buttons/primary.component';
+import TextValidator from 'components/fields/textValidator.component';
+import Text from 'components/fields/text.component';
+import PageContainer from 'components/pageContainer';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import { loginActions } from './login.reducer';
 import { getLoginUsername, getLoginPassword, getLoginApiRoot, getLoginLoading } from './login.selectors';

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { DEFAULT_UI_STATE, DEFAULT_UI_SORT, DEFAULT_UI_TAG, DEFAULT_UI_CATEGORY } from '../../utilities/torrent-states';
-import { storeGetSlice, storeSaveSlice } from '../../utilities/persistant-storage';
+import { DEFAULT_UI_STATE, DEFAULT_UI_SORT, DEFAULT_UI_TAG, DEFAULT_UI_CATEGORY } from 'utilities/torrent-states';
+import { storeGetSlice, storeSaveSlice } from 'utilities/persistant-storage';
 
 const SLICE_NAME = 'filters';
 const savedState = storeGetSlice(SLICE_NAME);

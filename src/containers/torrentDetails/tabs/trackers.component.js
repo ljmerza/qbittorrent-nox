@@ -2,41 +2,39 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Virtuoso } from 'react-virtuoso';
 
-import Card from '../../../components/card.component';
-import Text from '../../../components/fields/text.component';
-import { Item } from '../../../components/grid.component';
-import LoadingIndicator from '../../../components/LoadingIndicator';
+import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import Card from 'components/card.component';
+import Text from 'components/fields/text.component';
+import { Item } from 'components/grid.component';
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getTrackersInfoLoading, getTrackersInfo } from '../torrentDetails.selectors';
-import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
-const SIDEBAR_TAB_HEIGHT = 100;
-
-const TrackerCard = ({ peer }) => {
+const TrackerCard = ({ tracker }) => {
     return (
-        <Card key={peer.url} title={peer.url}>
+        <Card key={tracker.url} title={tracker.url}>
             <Item>
-                <Text label='Tier' disabled value={peer.tier} />
+                <Text label='Tier' disabled value={tracker.tier} />
             </Item>
             <Item>
-                <Text label='Seeds' disabled value={peer.num_seeds} />
+                <Text label='Seeds' disabled value={tracker.num_seeds} />
             </Item>
             <Item>
-                <Text label='Peers' disabled value={peer.num_peers} />
+                <Text label='Peers' disabled value={tracker.num_trackers} />
             </Item>
             <Item>
-                <Text label='Leeches' disabled value={peer.num_leeches} />
+                <Text label='Leeches' disabled value={tracker.num_leeches} />
             </Item>
             <Item>
-                <Text label='Downloaded' disabled value={peer.num_downloaded} />
+                <Text label='Downloaded' disabled value={tracker.num_downloaded} />
             </Item>
             <Item xs={12} sm={12} md={12}>
-                <Text label='Status' disabled value={peer.statusUi} />
+                <Text label='Status' disabled value={tracker.statusUi} />
             </Item>
             <Item xs={12} sm={12} md={12}>
-                <Text label='Message' disabled value={peer.msg} />
+                <Text label='Message' disabled value={tracker.msg} />
             </Item>
         </Card>
     )
@@ -56,13 +54,7 @@ function TrackersTab({ refreshInterval, getTrackersInfo, loading, data }) {
         return null;
     }
 
-    return (
-        <Virtuoso
-            style={{ height: `calc(100vh - ${SIDEBAR_TAB_HEIGHT}px)` }}
-            totalCount={data.length}
-            item={index => <TrackerCard peer={data[index]} />}
-        />
-    )
+    return data.map(tracker => <TrackerCard key={tracker.url} tracker={tracker} />);
 }
 
 

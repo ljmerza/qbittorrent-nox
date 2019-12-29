@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { formatGeneralInfo } from './tools';
-import prettysize from '../../utilities/pretty-sizes';
-import { computePercentDone } from '../../utilities/formatters';
+import { prettySize, prettySizeTime } from 'utilities/pretty-sizes';
+import { computePercentDone } from 'utilities/formatters';
 
 const TRACKER_STATUS_MAP = {
     0: 'Tracker is disabled',
@@ -72,11 +72,11 @@ export const torrentDetailsSlice = createSlice({
             const formattedPeers = Object.values((action.response.peers || {})).reduce((acc, peer, idx) => {
                 const oldPeer = state.selectedTorrentPeers[idx] || {};
 
-                peer.dlspeedUi = (oldPeer.dlspeed === peer.dl_speed) ? oldPeer.dlspeedUi : prettysize(peer.dl_speed);
-                peer.upspeedUi = (oldPeer.dlspeed === peer.up_speed) ? oldPeer.upspeedUi : prettysize(peer.up_speed);
+                peer.dlspeedUi = (oldPeer.dlspeed === peer.dl_speed) ? oldPeer.dlspeedUi : prettySizeTime(peer.dl_speed);
+                peer.upspeedUi = (oldPeer.dlspeed === peer.up_speed) ? oldPeer.upspeedUi : prettySizeTime(peer.up_speed);
 
-                peer.downloadedUi = (oldPeer.downloaded === peer.downloaded) ? oldPeer.downloadedUi : prettysize(peer.downloaded);
-                peer.uploadedUi = (oldPeer.uploaded === peer.uploaded) ? oldPeer.uploadedUi : prettysize(peer.uploaded);
+                peer.downloadedUi = (oldPeer.downloaded === peer.downloaded) ? oldPeer.downloadedUi : prettySizeTime(peer.downloaded);
+                peer.uploadedUi = (oldPeer.uploaded === peer.uploaded) ? oldPeer.uploadedUi : prettySizeTime(peer.uploaded);
 
                 peer.progressUi = computePercentDone(peer.progress);
                 peer.relevanceUi = computePercentDone(peer.relevance);
@@ -93,7 +93,7 @@ export const torrentDetailsSlice = createSlice({
             const selectedTorrentFiles = action.response.map((file, idx) => {
                 const oldFile = state.selectedTorrentFiles[idx] || {};
 
-                file.sizeUi = (oldFile.size === file.size) ? oldFile.sizeUi : prettysize(file.size);
+                file.sizeUi = (oldFile.size === file.size) ? oldFile.sizeUi : prettySize(file.size);
                 file.progressUi = computePercentDone(file.progress);
                 file.availabilityUi = computePercentDone(file.availability);
                 file.priorityUi = FILE_PRIORITY_MAP[file.priority] || '';

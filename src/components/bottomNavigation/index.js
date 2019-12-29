@@ -11,8 +11,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import SpeedIcon from '../speedIcon.component';
-import { filtersActions } from '../../containers/filters/filters.reducer';
-import { getServerStateDown, getServerStateUp } from '../../containers/torrents/torrents.selectors';
+import { filtersActions } from 'containers/filters/filters.reducer';
+import { getServerStateDown, getServerStateUp } from 'containers/torrents/torrents.selectors';
 
 export const BOTTOM_NAV_HEIGHT = 56;
 
@@ -37,13 +37,11 @@ function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const down = `${dlSpeed || 0}/s`;
-    const up = `${upSpeed || 0}/s`;
-    const title = (dlSpeed && upSpeed) ? `D: ${down}, U: ${up}` : ``;
+    const title = (dlSpeed && upSpeed) ? `D: ${ dlSpeed }, U: ${upSpeed}` : ``;
 
     const SpeedUi = (
         <div className={classes.speeds}>
-            {down} <SpeedIcon /> {up}
+            {dlSpeed} <SpeedIcon /> {upSpeed}
         </div>
     );
     

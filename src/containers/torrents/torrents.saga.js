@@ -1,7 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
-import request from '../../utilities/request';
-import { getLoginApiUrl } from '../login/login.selectors';
+import request from 'utilities/request';
+import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentsActions } from './torrents.reducer';
 
 function* getTorrents() {

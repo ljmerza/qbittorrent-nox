@@ -8,8 +8,8 @@ import {
     getIsSortDescending,
  } from '../filters/filters.selectors'
 
-import { generateSortFunction } from '../../utilities/torrent.tools';
-import { DEFAULT_UI_STATE } from '../../utilities/torrent-states';
+import { generateSortFunction } from 'utilities/torrent.tools';
+import { DEFAULT_UI_STATE } from 'utilities/torrent-states';
 
 export const getTorrents = state => state.torrents;
 

@@ -11,7 +11,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import DescriptionIcon from '@material-ui/icons/Description';
 import PublicIcon from '@material-ui/icons/Public';
 
-import SpeedIcon from '../../components/speedIcon.component';
+import SpeedIcon from 'components/speedIcon.component';
+
 import { torrentDetailsActions } from './torrentDetails.reducer';
 import { getIsOpen, getSelectedTorrent } from './torrentDetails.selectors';
 

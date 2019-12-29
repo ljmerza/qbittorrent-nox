@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UNCATEGORIZED, ALL_CATEGORY, UNTAGGED } from '../../utilities/torrent-states';
-import { formatTorrent, formatServerStats } from '../../utilities/torrent.tools';
+import { UNCATEGORIZED, ALL_CATEGORY, UNTAGGED } from 'utilities/torrent-states';
+import { formatTorrent, formatServerStats } from 'utilities/torrent.tools';
 
 export const initialState = {
     torrents: [],

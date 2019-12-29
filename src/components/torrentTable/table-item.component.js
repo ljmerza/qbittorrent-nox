@@ -12,8 +12,6 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import InfoIcon from '@material-ui/icons/Info';
 
-import useLongPress from '../../utilities/useLongPress.hook';
-
 const useStyles = makeStyles(theme => ({
     card: {
         display: 'flex',
@@ -64,10 +62,6 @@ const useStyles = makeStyles(theme => ({
 function TableItem({ torrent, selectTorrent, isSelected }) {
     const classes = useStyles();
 
-    const onLongPress = useLongPress(event => {
-        console.log("onLongPress has just happened!", event);
-    }, 500);
-
     const onClick = event => {
         event.stopPropagation();
 
@@ -86,35 +80,37 @@ function TableItem({ torrent, selectTorrent, isSelected }) {
     if (torrent.dlspeed && torrent.upspeed) {
         speeds = (
             <>
-                <div>{`${torrent.dlspeedUi}/s`}</div>
+                <div>{torrent.dlspeedUi}</div>
                 <SpeedIcon />
-                <div>{`${torrent.upspeedUi}/s`}</div>
+                <div>{torrent.upspeedUi}</div>
             </>
         );
     } else if (torrent.dlspeed && !torrent.upspeed) {
         speeds = (
             <>
-                <div>{`${torrent.dlspeedUi}/s`}</div>
+                <div>{torrent.dlspeedUi}</div>
                 <SpeedIcon Icon={ArrowDownwardIcon} />
             </>
         );
     } else if (!torrent.dlspeed && torrent.upspeed){
         speeds = (
             <>
-                <div>{`${torrent.upspeedUi}/s`}</div>
+                <div>{torrent.upspeedUi}</div>
                 <SpeedIcon Icon={ArrowUpwardIcon} />
             </>
         );
     }
 
     return (
-        <Card key={torrent.hash} className={classes.card} {...onLongPress}>
+        <Card key={torrent.hash} className={classes.card}>
             <div className={classes.details}>
                 <CardContent className={classes.content}>
                     <Typography component="h6" variant="h6" className={classes.title}>
                         <div>{torrent.name}</div>
                         <div className={classes.rowEnd}>
-                            <div onClick={onClick} className={classes.infoButton}><SpeedIcon Icon={InfoIcon} /></div>
+                            <div className={classes.infoButton}>
+                                <div onClick={onClick}><SpeedIcon Icon={InfoIcon} /></div>
+                            </div>
                         </div>
                     </Typography>
 

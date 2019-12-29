@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import LoadingIndicator from '../../../components/LoadingIndicator';
+import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getGeneralInfoLoading, getGeneralInfo, getSelectedTorrent } from '../torrentDetails.selectors';
-import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
 import GeneralTabActions from './general/actions.component';
 import GeneralTabInformation from './general/information.component';
@@ -49,7 +50,7 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
 
     return ( 
         <>
-            <GeneralTabActions classes={classes} selectedTorrent={selectedTorrent} />
+            <GeneralTabActions selectedTorrent={selectedTorrent} />
 
             <GeneralTabInformation 
                 classes={classes} 

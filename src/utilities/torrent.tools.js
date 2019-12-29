@@ -1,4 +1,4 @@
-import prettysize from './pretty-sizes';
+import { prettySize, prettySizeTime } from './pretty-sizes';
 
 import { mapTorrentState, computeStates, UNCATEGORIZED } from './torrent-states';
 import { computedDateTime, computeTimeLeft, computePercentDone } from './formatters';
@@ -13,12 +13,12 @@ import { computedDateTime, computeTimeLeft, computePercentDone } from './formatt
 export const formatTorrent = (torrent, oldTorrent, dateTimeFormat) => {
 
     // format sizes
-    torrent.sizeUi = (oldTorrent.size === torrent.size) ? oldTorrent.sizeUi : prettysize(torrent.size);
-    torrent.downloadedUi = (oldTorrent.downloaded === torrent.downloaded) ? oldTorrent.downloadedUi : prettysize(torrent.downloaded);
-    torrent.completedUi = (oldTorrent.completed === torrent.completed) ? oldTorrent.completedUi : prettysize(torrent.completed);
-    torrent.totalSizeUi = (oldTorrent.total_size === torrent.total_size) ? oldTorrent.totalSizeUi : prettysize(torrent.total_size);
-    torrent.uploadedUi = (oldTorrent.uploaded === torrent.uploaded) ? oldTorrent.uploadedUi : prettysize(torrent.uploaded);
-    torrent.amountLeftUi = (oldTorrent.amount_left === torrent.amount_left) ? oldTorrent.amountLeftUi : prettysize(torrent.amount_left);
+    torrent.sizeUi = (oldTorrent.size === torrent.size) ? oldTorrent.sizeUi : prettySize(torrent.size);
+    torrent.downloadedUi = (oldTorrent.downloaded === torrent.downloaded) ? oldTorrent.downloadedUi : prettySize(torrent.downloaded);
+    torrent.completedUi = (oldTorrent.completed === torrent.completed) ? oldTorrent.completedUi : prettySize(torrent.completed);
+    torrent.totalSizeUi = (oldTorrent.total_size === torrent.total_size) ? oldTorrent.totalSizeUi : prettySize(torrent.total_size);
+    torrent.uploadedUi = (oldTorrent.uploaded === torrent.uploaded) ? oldTorrent.uploadedUi : prettySize(torrent.uploaded);
+    torrent.amountLeftUi = (oldTorrent.amount_left === torrent.amount_left) ? oldTorrent.amountLeftUi : prettySize(torrent.amount_left);
 
     // format date times
     torrent.addedOnUi = (oldTorrent.added_on === torrent.added_on) ? oldTorrent.addedOnUi : computedDateTime(torrent.added_on, dateTimeFormat);
@@ -35,8 +35,8 @@ export const formatTorrent = (torrent, oldTorrent, dateTimeFormat) => {
     torrent.category = torrent.category || UNCATEGORIZED.id;
 
     // format speeds and get total speeds
-    torrent.dlspeedUi = (oldTorrent.dlspeed === torrent.dlspeed) ? oldTorrent.dlspeedUi : prettysize(torrent.dlspeed);
-    torrent.upspeedUi = (oldTorrent.upspeed === torrent.upspeed) ? oldTorrent.upspeedUi : prettysize(torrent.upspeed);
+    torrent.dlspeedUi = (oldTorrent.dlspeed === torrent.dlspeed) ? oldTorrent.dlspeedUi : prettySizeTime(torrent.dlspeed);
+    torrent.upspeedUi = (oldTorrent.upspeed === torrent.upspeed) ? oldTorrent.upspeedUi : prettySizeTime(torrent.upspeed);
 
     return torrent;
 };
@@ -45,13 +45,13 @@ export const formatServerStats = serverState => {
     if (serverState._formatted) return serverState;
     serverState = { ...serverState };
 
-    serverState.dlTotal = prettysize(serverState.dl_info_data);
-    serverState.dlSpeed = prettysize(serverState.dl_info_speed);
-    serverState.dlLimit = prettysize(serverState.dl_rate_limit);
+    serverState.dlTotal = prettySize(serverState.dl_info_data);
+    serverState.dlSpeed = prettySizeTime(serverState.dl_info_speed);
+    serverState.dlLimit = prettySizeTime(serverState.dl_rate_limit);
     
-    serverState.upTotal = prettysize(serverState.up_info_data);
-    serverState.upSpeed = prettysize(serverState.up_info_speed);
-    serverState.upLimit = prettysize(serverState.up_rate_limit);
+    serverState.upTotal = prettySize(serverState.up_info_data);
+    serverState.upSpeed = prettySizeTime(serverState.up_info_speed);
+    serverState.upLimit = prettySizeTime(serverState.up_rate_limit);
 
     serverState._formatted = true;
     return serverState;
@@ -61,5 +61,15 @@ export const formatServerStats = serverState => {
 export const generateSortFunction = (selectedSort, isSortDescending) => {
     const first = isSortDescending ? 1 : -1;
     const second = first * -1;
-    return (a, b) => (a[selectedSort] > b[selectedSort]) ? first : second;
+
+    return (a, b) => {
+        let aVal = a[selectedSort];
+        let bVal = b[selectedSort];
+
+        // if strings then compare by lower cased values
+        if (aVal && aVal.toLowerCase) aVal = aVal.toLowerCase();
+        if (bVal && bVal.toLowerCase) bVal = bVal.toLowerCase();
+
+        return (aVal > bVal) ? first : second;
+    }
 }

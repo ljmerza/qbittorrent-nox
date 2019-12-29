@@ -1,9 +1,11 @@
 // copied and modified from https://github.com/davglass/prettysize/blob/master/index.js
 
 var sizes = [
-    'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'
+    'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'
 ];
-
+export function prettySizeTime(size) {
+    return prettySize(size, { timeUnit: true });
+}
 
 /**
     Pretty print a size from bytes
@@ -13,15 +15,19 @@ var sizes = [
     @param {Boolean} [one=false] Only print one character
     @param {Number} [places=1] Number of decimal places to return
     @param {Boolen} [numOnly] Return only the converted number and not size string
+    @param {Boolean} [timeUnit] add seconds time unit
 */
 
-module.exports = function (size, nospace=true, one, places=1, numOnly) {
+
+export function prettySize(size, nospace = true, one, places = 1, numOnly, timeUnit) {
     if (typeof nospace === 'object') {
         var opts = nospace;
         nospace = opts.nospace;
         one = opts.one;
         places = opts.places || 1;
         numOnly = opts.numOnly;
+        numOnly = opts.numOnly;
+        timeUnit = opts.timeUnit;
     }
 
     var mysize;
@@ -55,5 +61,6 @@ module.exports = function (size, nospace=true, one, places=1, numOnly) {
         mysize = Number.parseFloat(mysize);
     }
 
+    if (timeUnit) return `${mysize}/s`;
     return mysize;
 };

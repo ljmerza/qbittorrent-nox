@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import { ButtonGroup, Button } from '@material-ui/core';
 
-import Card from '../../../../components/card.component';
-import { ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, DOWNLOADING_STATES } from '../../../../utilities/torrent-states';
+import Card from 'components/card.component';
+import { ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, DOWNLOADING_STATES } from 'utilities/torrent-states';
 
-function GeneralTabActions({ classes, selectedTorrent }) {
+function GeneralTabActions({ selectedTorrent }) {
     const onActionClick = useCallback(action => {
         console.log({ action })
     }, []);
@@ -22,15 +22,12 @@ function GeneralTabActions({ classes, selectedTorrent }) {
                 <Button key={ACTION_F_RESUME.id} onClick={() => onActionClick(ACTION_F_RESUME)}><ACTION_F_RESUME.icon /></Button>
                 <Button key={ACTION_CHECK.id} onClick={() => onActionClick(ACTION_CHECK)}><ACTION_CHECK.icon /></Button>
             </ButtonGroup>
-
-            <Button variant="contained" color="primary" onClick={(e) => console.log(e)}>Save Changes</Button>
         </Card>
     )
 }
 
 
 GeneralTabActions.propTypes = {
-    classes: PropTypes.object,
     selectedTorrent: PropTypes.any,
 };
 

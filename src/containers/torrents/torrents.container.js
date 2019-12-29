@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import PageContainer from '../../components/pageContainer';
-import LoadingIndicator from '../../components/LoadingIndicator';
-import BottomNav from '../../components/bottomNavigation';
-import TorrentTable from '../../components/torrentTable';
-import TorrentDetails from '../torrentDetails';
+import FiltersContainer from 'containers/filters/filters.container';
+import TorrentDetails from 'containers/torrentDetails';
+
+import PageContainer from 'components/pageContainer';
+import LoadingIndicator from 'components/LoadingIndicator';
+import BottomNav from 'components/bottomNavigation';
+import TorrentTable from 'components/torrentTable';
+
 
 import { torrentsActions } from './torrents.reducer';
 import { getLoading, getTorrentsTorrents, getFilteredTorrents } from './torrents.selectors';
 
-import FiltersContainer from '../filters/filters.container';
 import {
     getSelectedState,
     getSelectedCategory,
@@ -58,11 +60,13 @@ class TorrentsContainer extends PureComponent {
         if (this._interval) clearInterval(this._interval);
     }
 
+    callback = (...args) => console.log({ args })
+
     render() {
         return (
             <PageContainer>
                 {/* only show loading indicator if this is the first load of torrents */}
-                {(this.props.torrents.length === 0 && this.props.loading) ? <LoadingIndicator /> : 
+                {(this.props.torrents.length === 0 && this.props.loading) ? <LoadingIndicator /> :
                     <>
                         <FiltersContainer />
                         <TorrentDetails />

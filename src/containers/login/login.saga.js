@@ -1,7 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
-import request from '../../utilities/request';
-import { getLoginApiUrl } from '../login/login.selectors';
+import request from 'utilities/request';
+import { getLoginApiUrl } from './login.selectors';
 import { initialState, loginActions } from './login.reducer';
 
 function* login(action) {
@@ -20,14 +20,13 @@ function* login(action) {
 
         const loggedIn = yield call(request, options);
         
-        if (loggedIn) {
+        if (loggedIn === 'ok') {
             yield put({ type: `${loginActions.loginSuccess}`, loggedIn });
         } else {
             yield put({ type: `${loginActions.loginError}`, error: null });
         }
 
     } catch (e) {
-        console.log({ e })
         yield put({ type: `${loginActions.loginError}`, error: e.message });
     }
 }

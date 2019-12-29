@@ -2,19 +2,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Virtuoso } from 'react-virtuoso';
 
-import Text from '../../../components/fields/text.component';
-import { Item } from '../../../components/grid.component';
-import LoadingIndicator from '../../../components/LoadingIndicator';
+import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import Text from 'components/fields/text.component';
+import { Item } from 'components/grid.component';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getPeersInfoLoading, getPeersInfo } from '../torrentDetails.selectors';
-import { getConfigInternalRefreshInterval } from '../../config/config.selectors';
 
-import Card from '../../../components/card.component';
-
-const SIDEBAR_TAB_HEIGHT = 100;
+import Card from 'components/card.component';
 
 const PeerCard = ({ peer }) => {
     let country = peer.country;
@@ -25,10 +22,10 @@ const PeerCard = ({ peer }) => {
     return (
         <Card key={peer.ip} title={`${peer.ip}:${peer.port}`}>
             <Item>
-                <Text label='Down Speed' disabled value={`${peer.dlspeedUi}/s`} />
+                <Text label='Down Speed' disabled value={peer.dlspeedUi} />
             </Item>
             <Item>
-                <Text label='Up Speed' disabled value={`${peer.upspeedUi}/s`} />
+                <Text label='Up Speed' disabled value={peer.upspeedUi} />
             </Item>
 
             <Item>
@@ -88,13 +85,7 @@ function PeersTab({ refreshInterval, getPeersInfo, loading, data }) {
         return null;
     }
 
-    return (
-        <Virtuoso
-            style={{ height: `calc(100vh - ${SIDEBAR_TAB_HEIGHT}px)` }}
-            totalCount={data.length}
-            item={index => <PeerCard peer={data[index]} />}
-        />
-    )
+    return data.map(peer => <PeerCard key={peer.ip} peer={peer} />);
 }
 
 

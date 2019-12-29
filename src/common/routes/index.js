@@ -8,8 +8,8 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 
 import LoginRoutes from './login.routes';
 import LoggedInRoutes from './loggedIn.routes';
-import InitLoaderComponent from '../../containers';
-import { getLoginLoggedIn } from '../../containers/login/login.selectors';
+import InitLoaderComponent from 'containers';
+import { getLoginLoggedIn } from 'containers/login/login.selectors';
 
 function Routes({ loggedIn }) {
     if (loggedIn === true) return <LoggedInRoutes />;

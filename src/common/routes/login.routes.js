@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Switch, Route } from 'react-router-dom';
-import LoginComponent from '../../containers/login';
+import LoginComponent from 'containers/login';
 
 function LoginRoutes() {
     return (

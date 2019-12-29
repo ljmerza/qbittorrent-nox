@@ -4,9 +4,9 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Redirect, Switch, Route } from 'react-router-dom';
 
-import { configActions } from '../../containers/config/config.reducer';
-import TorrentsComponent from '../../containers/torrents';
-import FiltersComponent from '../../containers/filters';
+import { configActions } from 'containers/config/config.reducer';
+import TorrentsComponent from 'containers/torrents';
+import FiltersComponent from 'containers/filters';
 
 
 function LoggedInRoutes({ getConfig }) {
