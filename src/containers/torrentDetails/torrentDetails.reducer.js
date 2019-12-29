@@ -44,6 +44,12 @@ export const initialState = {
     trackersPath: 'torrents/trackers',
     peersPath: 'sync/torrentPeers',
     filesPath: 'torrents/files',
+
+    resumePath: 'torrents/resume',
+    pausePath: 'torrents/pause',
+    forceResumePath: 'torrents/setForceStart',
+    recheckPath: 'torrents/recheck',
+    deletePath: 'torrents/delete',
 }
 
 export const torrentDetailsSlice = createSlice({
@@ -103,6 +109,12 @@ export const torrentDetailsSlice = createSlice({
 
             return { ...state, isLoadingPeers: false, selectedTorrentFiles };
         },
+
+        resumeSelectedTorrent: state => state,
+        pauseSelectedTorrent: state => state,
+        forceResumeSelectedTorrent: state => state,
+        checkSelectedTorrent: state => state,
+        deleteSelectedTorrent: state => state,
     }
 });
 

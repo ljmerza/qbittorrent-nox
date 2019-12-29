@@ -50,7 +50,10 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
 
     return ( 
         <>
-            <GeneralTabActions selectedTorrent={selectedTorrent} />
+            <GeneralTabActions 
+                selectedTorrent={selectedTorrent} 
+                data={data} 
+            />
 
             <GeneralTabInformation 
                 classes={classes} 

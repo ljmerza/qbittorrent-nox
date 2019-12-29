@@ -1,17 +1,46 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
 
 import { ButtonGroup, Button } from '@material-ui/core';
 
 import Card from 'components/card.component';
-import { ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, DOWNLOADING_STATES } from 'utilities/torrent-states';
+import { ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, PAUSED_STATES } from 'utilities/torrent-states';
+import { torrentDetailsActions } from '../../torrentDetails.reducer';
 
-function GeneralTabActions({ selectedTorrent }) {
+function GeneralTabActions({ 
+    selectedTorrent,
+    data,
+    resumeSelectedTorrent,
+    pauseSelectedTorrent,
+    forceResumeSelectedTorrent,
+    checkSelectedTorrent,
+    deleteSelectedTorrent,
+ }) {
+
     const onActionClick = useCallback(action => {
-        console.log({ action })
-    }, []);
+        switch (action.id){
+            case ACTION_RESUME.id: 
+                resumeSelectedTorrent();
+                break;
+            case ACTION_PAUSE.id: 
+                pauseSelectedTorrent();
+                break;
+            case ACTION_F_RESUME.id: 
+                forceResumeSelectedTorrent();
+                break;
+            case ACTION_CHECK.id: 
+                checkSelectedTorrent();
+                break;
+            // case ACTION_DELETE.id:
+            //     deleteSelectedTorrent();
+            //     break;
+            default: return;
+        }
+    }, [resumeSelectedTorrent, pauseSelectedTorrent, forceResumeSelectedTorrent, checkSelectedTorrent, /*deleteSelectedTorrent*/]);
 
-    const isPaused = DOWNLOADING_STATES.includes(selectedTorrent.state);
+    const isPaused = PAUSED_STATES.includes(selectedTorrent.state);
 
     return (
         <Card title='Actions'>
@@ -26,9 +55,29 @@ function GeneralTabActions({ selectedTorrent }) {
     )
 }
 
-
 GeneralTabActions.propTypes = {
     selectedTorrent: PropTypes.any,
+    resumeSelectedTorrent: PropTypes.func.isRequired,
+    pauseSelectedTorrent: PropTypes.func.isRequired,
+    forceResumeSelectedTorrent: PropTypes.func.isRequired,
+    checkSelectedTorrent: PropTypes.func.isRequired,
+    deleteSelectedTorrent: PropTypes.func.isRequired,
 };
 
-export default GeneralTabActions;
+function mapDispatchToProps(dispatch) {
+    return {
+        resumeSelectedTorrent: () => dispatch(torrentDetailsActions.resumeSelectedTorrent()),
+        pauseSelectedTorrent: () => dispatch(torrentDetailsActions.pauseSelectedTorrent()),
+        forceResumeSelectedTorrent: () => dispatch(torrentDetailsActions.forceResumeSelectedTorrent()),
+        checkSelectedTorrent: () => dispatch(torrentDetailsActions.checkSelectedTorrent()),
+        deleteSelectedTorrent: () => dispatch(torrentDetailsActions.deleteSelectedTorrent()),
+    };
+}
+
+export default compose(
+    connect(
+        null,
+        mapDispatchToProps
+    )
+)(GeneralTabActions);
+

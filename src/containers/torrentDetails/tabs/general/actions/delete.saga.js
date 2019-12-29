@@ -5,8 +5,8 @@ import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
-export default function* forceResumeTorrent() {
-    yield takeLatest(`${torrentDetailsActions.forceResumeSelectedTorrent}`, function* () {
+export default function* deleteTorrent() {
+    yield takeLatest(`${torrentDetailsActions.deleteSelectedTorrent}`, function* () {
         try {
             const apiUrl = yield select(getLoginApiUrl);
             const selectedTorrent = yield select(getSelectedTorrent);
@@ -14,7 +14,7 @@ export default function* forceResumeTorrent() {
 
             const options = {
                 method: 'GET',
-                url: `${apiUrl}/${initialState.forceResumePath}?hashes=${selectedTorrent.hash}`,
+                url: `${apiUrl}/${initialState.deletePath}?hashes=${selectedTorrent.hash}`,
             }
 
             yield call(request, options);

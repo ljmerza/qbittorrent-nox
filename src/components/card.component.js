@@ -20,7 +20,7 @@ function CardComponent({ title, children }) {
     return (
         <Card className={classes.card}>
             <CardContent>
-                <Typography component="h6" variant="h6" className={classes.title}>{title}</Typography>
+                { title ? <Typography component="h6" variant="h6" className={classes.title}>{title}</Typography> : null }
                 <Container>
                     {children}
                 </Container>
@@ -30,7 +30,7 @@ function CardComponent({ title, children }) {
 }
 
 CardComponent.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     children: PropTypes.any.isRequired,
 };
 
