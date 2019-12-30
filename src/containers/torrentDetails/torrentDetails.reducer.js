@@ -50,6 +50,8 @@ export const initialState = {
     forceResumePath: 'torrents/setForceStart',
     recheckPath: 'torrents/recheck',
     deletePath: 'torrents/delete',
+
+    setCategory: 'torrents/setCategory',
 }
 
 export const torrentDetailsSlice = createSlice({
@@ -115,6 +117,7 @@ export const torrentDetailsSlice = createSlice({
         forceResumeSelectedTorrent: state => state,
         checkSelectedTorrent: state => state,
         deleteSelectedTorrent: state => state,
+        changeTorrentCategory: state => state,
     }
 });
 

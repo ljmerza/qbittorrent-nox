@@ -20,7 +20,7 @@ function* login(action) {
 
         const loggedIn = yield call(request, options);
         
-        if (loggedIn === 'ok') {
+        if (/ok/i.test(loggedIn)) {
             yield put({ type: `${loginActions.loginSuccess}`, loggedIn });
         } else {
             yield put({ type: `${loginActions.loginError}`, error: null });

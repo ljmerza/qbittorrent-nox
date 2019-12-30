@@ -8,6 +8,7 @@ import ReplayIcon from '@material-ui/icons/Replay';
  */
 export const ALL_CATEGORY = { id: '', name: 'All', uneditable: true };
 export const UNCATEGORIZED = { id: 'uncategorized', name: 'Uncategorized', uneditable: true };
+export const REST_CATEGORY = { id: '', name: 'Reset Category', uneditable: true };
 export const UNTAGGED = { id: '', name: 'Untagged', uneditable: true };
 
 export const DEFAULT_UI_STATE = 'all';

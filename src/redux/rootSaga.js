@@ -10,7 +10,10 @@ import getTrackersInfo from 'containers/torrentDetails/tabs/trackers.saga';
 import getPeersInformation from 'containers/torrentDetails/tabs/peers.saga';
 import getFilesInfo from 'containers/torrentDetails/tabs/files.saga';
 
-import { resumeTorrent, pauseTorrent, forceTorrent, checkTorrent, deleteTorrent } from 'containers/torrentDetails/tabs/general/actions';
+import { 
+    resumeTorrent, pauseTorrent, forceTorrent, 
+    checkTorrent, deleteTorrent, changeTorrentCategory 
+} from 'containers/torrentDetails/tabs/general/actions';
 
 export function* rootSaga() {
     yield all([
@@ -30,5 +33,7 @@ export function* rootSaga() {
         forceTorrent(),
         checkTorrent(),
         deleteTorrent(),
+        
+        changeTorrentCategory(),
     ])
 }
