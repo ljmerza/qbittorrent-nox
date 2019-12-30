@@ -1,9 +1,15 @@
 import { createSelector } from 'reselect';
+import { getTorrentsTorrents } from 'containers/torrents/torrents.selectors';
 
 export const getTorrentDetails = state => state.torrentDetails;
 
 export const getIsOpen = createSelector(getTorrentDetails, torrentDetails => torrentDetails.isOpen);
-export const getSelectedTorrent = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrent);
+
+export const getSelectedTorrent = createSelector(
+    [getTorrentsTorrents, getTorrentDetails], 
+    (torrents, torrentDetails) => {
+        return torrents.find(torrent => torrent.hash === torrentDetails.selectedTorrent)
+    });
 
 export const getGeneralInfoLoading = createSelector(getTorrentDetails, torrentDetails => torrentDetails.isLoadingGeneral);
 export const getGeneralInfo = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrentGeneral);

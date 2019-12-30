@@ -48,6 +48,7 @@ export const TORRENT_STATES_MAP = {
     resumed: 'resumed',
     active: 'active',
     inactive: 'inactive',
+    checking: 'checking',
     errored: 'errored',
 };
 
@@ -79,6 +80,7 @@ export const TORRENT_FILTER_STATES_MAP = [
     { id: TORRENT_STATES_MAP.paused, label: 'Paused' },
     { id: TORRENT_STATES_MAP.active, label: 'Active' },
     { id: TORRENT_STATES_MAP.inactive, label: 'Inactive' },
+    { id: TORRENT_STATES_MAP.checking, label: 'Checking' },
     { id: TORRENT_STATES_MAP.errored, label: 'Errored' },
 ];
 
@@ -140,6 +142,11 @@ export const PAUSED_STATES = [
     TORRENT_STATES_MAP.pausedUP,
 ];
 
+export const CHECKING_STATES = [
+    TORRENT_STATES_MAP.checkingDL,
+    TORRENT_STATES_MAP.checkingUP,
+]
+
 
 export const mapTorrentState = state => UI_STATE_MAP[state] || state;
 
@@ -170,6 +177,10 @@ export const computeStates = torrent => {
 
     if (PAUSED_STATES.includes(torrent.state)){
         states.push(TORRENT_STATES_MAP.paused);
+    }
+
+    if (CHECKING_STATES.includes(torrent.state)) {
+        states.push(TORRENT_STATES_MAP.checking);
     }
 
     if (hasSpeed){

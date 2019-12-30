@@ -70,7 +70,7 @@ function TableItem({ torrent, selectTorrent, isSelected }) {
             return;
         }
 
-        selectTorrent(torrent);
+        selectTorrent(torrent.hash);
     }
 
     const sizes = `${torrent.completedUi} / ${torrent.totalSizeUi}`;
