@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -27,20 +27,12 @@ const useStyles = makeStyles(theme => ({
 
 function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTorrent }){
     const classes = useStyles();
-    const [changedFields, setChangedFields] = useState({})
 
     useEffect(() => {
         getGeneralInfo();
         let timerId = setInterval(getGeneralInfo, refreshInterval);
         return () => clearInterval(timerId);
     }, [getGeneralInfo, refreshInterval]);
-
-    const onChange = useCallback(({ target: { name, value } }) => {
-        const numbersOnly = ['dl_limit', 'up_limit'].includes(name);
-        if(numbersOnly) value = value.replace(/\D/g, '');
-
-        setChangedFields({ ...changedFields, [name]: value });
-    }, [changedFields]);
 
     if (!data && loading){
         return <LoadingIndicator noOverlay />
@@ -57,19 +49,13 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
 
             <GeneralTabInformation 
                 classes={classes} 
-                setChangedFields={setChangedFields} 
-                changedFields={changedFields} 
-                onChange={onChange} 
                 data={data} 
                 selectedTorrent={selectedTorrent} 
             />
 
             <GeneralTabTransfer
                 classes={classes}
-                onChange={onChange}
                 data={data}
-                changedFields={changedFields}
-                setChangedFields={setChangedFields}
             />
         </>
     )

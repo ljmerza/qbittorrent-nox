@@ -20,7 +20,7 @@ export default function* changeTorrentCategory() {
 
             const options = {
                 method: 'POST',
-                url: `${apiUrl}/${initialState.setCategory}`,
+                url: `${apiUrl}/${initialState.setCategoryPath}`,
                 data: formData,
             }
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import Card from 'components/card.component';
 import Text from 'components/fields/text.component';
+import TextSave from 'components/fields/textSave.component';
 import Select from 'components/fields/select.component';
 import { Item } from 'components/grid.component';
 import { getCategories } from 'containers/torrents/torrents.selectors';
@@ -12,23 +13,25 @@ import { getCategories } from 'containers/torrents/torrents.selectors';
 import { torrentDetailsActions } from '../../torrentDetails.reducer';
 import { REST_CATEGORY } from 'utilities/torrent-states';
 
-function GeneralTabInformation({ setChangedFields, changedFields, onChange, data, selectedTorrent, categories, changeTorrentCategory }) {
-
-    // editable values
-    const name = changedFields.name === undefined ? selectedTorrent.name : changedFields.name;
-    const savePath = changedFields.save_path === undefined ? data.save_path : changedFields.save_path;
+function GeneralTabInformation({ 
+    data, selectedTorrent, categories,
+    changeTorrentCategory, changeTorrentName, changeTorrentLocation
+}) {
 
     // remove all and uncategorized then add 'reset cat' to beginning
     let [, ...selectableCategories] = categories;
     selectableCategories.unshift(REST_CATEGORY);
 
+    const onSaveName = ({ target: { value } }) => changeTorrentName(value);
+    const onSavePath = ({ target: { value } }) => changeTorrentLocation(value);
+
     return (
         <Card title='Information'>
             <Item xs={12} sm={12} md={12}>
-                <Text label='Name' name='name' onChange={onChange} value={name} />
+                <TextSave label='Name' name='name' onSave={onSaveName} value={selectedTorrent.name} />
             </Item>
             <Item xs={12} sm={12} md={12}>
-                <Text label='Save Path' name='save_path' onChange={onChange} value={savePath} />
+                <TextSave label='Save Path' name='save_path' onSave={onSavePath} value={data.save_path} />
             </Item>
             <Item>
                 <Select label='Category' value={selectedTorrent.category} options={selectableCategories} onChange={changeTorrentCategory} />
@@ -66,12 +69,11 @@ function GeneralTabInformation({ setChangedFields, changedFields, onChange, data
 
 
 GeneralTabInformation.propTypes = {
-    setChangedFields: PropTypes.func.isRequired,
-    changedFields: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
     data: PropTypes.any,
     selectedTorrent: PropTypes.any,
     categories: PropTypes.array.isRequired,
+    changeTorrentName: PropTypes.func.isRequired,
+    changeTorrentLocation: PropTypes.func.isRequired,
     changeTorrentCategory: PropTypes.func.isRequired,
 };
 
@@ -84,6 +86,8 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
     return {
+        changeTorrentName: name => dispatch(torrentDetailsActions.changeTorrentName(name)),
+        changeTorrentLocation: location => dispatch(torrentDetailsActions.changeTorrentLocation(location)),
         changeTorrentCategory: hashes => dispatch(torrentDetailsActions.changeTorrentCategory(hashes)),
     };
 }

@@ -65,7 +65,7 @@ const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, ...pr
 TextSave.propTypes = {
     classes: PropTypes.object.isRequired, 
     name: PropTypes.string, 
-    value: PropTypes.string,
+    value: PropTypes.any,
     startAdorment: PropTypes.any, 
     disabled: PropTypes.bool, 
     onSave: PropTypes.func.isRequired

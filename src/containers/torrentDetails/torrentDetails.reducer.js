@@ -48,9 +48,15 @@ export const initialState = {
     recheckPath: 'torrents/recheck',
     deletePath: 'torrents/delete',
 
-    setCategory: 'torrents/setCategory',
+    renameTorrentPath: 'torrents/rename',
+    moveTorrentPath: 'torrents/setLocation',
+    setCategoryPath: 'torrents/rename ',
+
     changePriorityPath: 'torrents/filePrio',
     fileRenamePath: 'torrents/renameFile',
+
+    limitDownloadPath: 'torrents/setDownloadLimit',
+    limitUploadPath: 'torrents/setUploadLimit',
 
     trackerEditPath: 'torrents/editTracker',
     trackerAddPath: 'torrents/addTrackers',
@@ -119,7 +125,13 @@ export const torrentDetailsSlice = createSlice({
         forceResumeSelectedTorrent: state => state,
         checkSelectedTorrent: state => state,
         deleteSelectedTorrent: state => state,
+
+        changeTorrentName: state => state,
+        changeTorrentLocation: state => state,
         changeTorrentCategory: state => state,
+
+        changeUploadLimit: state => state,
+        changeDownloadLimit: state => state,
 
         setFilePriority: state => state,
         setFileRename: state => state,

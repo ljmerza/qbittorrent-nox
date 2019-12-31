@@ -4,11 +4,12 @@ import Text from 'components/fields/text.component';
 /**
  * if value is -1 show infinity
  */
-const InfinityText = ({ value, ...props }) => {
+const InfinityText = ({ value, Component, ...props }) => {
     const _value = value === -1 ? '∞' : value;
+    Component = Component || Text;
 
     return (
-        <Text value={_value} {...props} />
+        <Component value={_value} {...props} />
     )
 }
 

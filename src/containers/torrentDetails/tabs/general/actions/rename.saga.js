@@ -6,8 +6,8 @@ import { initialState, torrentDetailsActions } from '../../../torrentDetails.red
 import { getSelectedTorrent } from '../../../torrentDetails.selectors';
 
 
-export default function* moveTorrent() {
-    yield takeLatest(`${torrentDetailsActions.changeTorrentLocation}`, function* ({ payload }) {
+export default function* renameTorrent() {
+    yield takeLatest(`${torrentDetailsActions.changeTorrentName}`, function* ({ payload }) {
 
         try {
             const apiUrl = yield select(getLoginApiUrl);
@@ -15,12 +15,12 @@ export default function* moveTorrent() {
             if (!selectedTorrent) return;
 
             const formData = new FormData();
-            formData.append("hashes", selectedTorrent.hash);
-            formData.append("location", payload);
-
+            formData.append("hash", selectedTorrent.hash);
+            formData.append("name", payload);
+        
             const options = {
                 method: 'POST',
-                url: `${apiUrl}/${initialState.moveTorrentPath}?hash=${selectedTorrent.hash}`,
+                url: `${apiUrl}/${initialState.renameTorrentPath}?hash=${selectedTorrent.hash}`,
                 data: formData,
                 allowNoResponse: true
             };
