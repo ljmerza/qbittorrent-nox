@@ -118,7 +118,7 @@ export const torrentDetailsSlice = createSlice({
         changeTorrentCategory: state => state,
 
         setFilePriority: state => state,
-        setFileName: state => state,
+        setFileRename: state => state,
     }
 });
 

@@ -17,11 +17,18 @@ const styles = theme => ({
 
 const TextSave = ({ classes, name, value, disabled, onSave, ...props }) => {
 
-    const [val, setVal] = useState(value);
+    // some files have folders in the file name - we want the whole folder path as
+    // start adorment and the file name itself as the actual input value
+    let folders = value.split('/');
+    const fileName = folders.shift();
+    const startAdorment = folders.join('/');
+
+    const [val, setVal] = useState(fileName);
     const onChangeVal = ({ target: { value } }) => setVal(value);
 
     const onClick = () => onSave({ target: { name, value: val } });
     const showButton = val.length && val !== value && !disabled;
+
 
     return (
         <Text
@@ -41,7 +48,12 @@ const TextSave = ({ classes, name, value, disabled, onSave, ...props }) => {
                             <span className={classes.iconPlaceholder} />
                         )}
                     </InputAdornment>
-                )
+                ),
+                startAdornment: !startAdorment ? null : (
+                    <InputAdornment position="start">
+                        {`${startAdorment}/`}
+                    </InputAdornment>
+                ),
             }}
 
             {...props}

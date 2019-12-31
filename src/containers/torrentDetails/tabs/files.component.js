@@ -14,12 +14,11 @@ import Select from 'components/fields/select.component';
 import { torrentDetailsActions, FILE_PRIORITY_UI } from '../torrentDetails.reducer';
 import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
 
-const FileCard = ({ file, setFilePriority, setFileName, fileId }) => {
+const FileCard = ({ file, setFilePriority, setFileRename, fileId }) => {
 
-    const onFileNameSave = ({ target: { value }}) => {
-        console.log(fileId, value)
-        // setFileName(fileId, value)
-    };
+    console.log({ setFileRename })
+
+    const onFileNameSave = ({ target: { value } }) => setFileRename(fileId, value);
 
     // need file 'id' (index in list of files) AND priority value
     const onSetPriority = priority => setFilePriority(fileId, priority);
@@ -44,7 +43,7 @@ const FileCard = ({ file, setFilePriority, setFileName, fileId }) => {
         </Card>
     )
 }
-function FilesTab({ refreshInterval, getFilesInfo, loading, data, setFilePriority }) {
+function FilesTab({ refreshInterval, getFilesInfo, loading, data, setFilePriority, setFileRename }) {
 
     useEffect(() => {
         getFilesInfo();
@@ -59,7 +58,15 @@ function FilesTab({ refreshInterval, getFilesInfo, loading, data, setFilePriorit
         return null;
     }
 
-    return data.map((file, idx) => <FileCard key={file.name} file={file} setFilePriority={setFilePriority} fileId={idx} />);
+    return data.map((file, idx) => (
+        <FileCard
+            key={file.name} 
+            file={file} 
+            setFilePriority={setFilePriority} 
+            setFileRename={setFileRename} 
+            fileId={idx} 
+        />
+    ));
 }
 
 
@@ -67,7 +74,7 @@ FilesTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
     getFilesInfo: PropTypes.func.isRequired,
     setFilePriority: PropTypes.func.isRequired,
-    setFileName: PropTypes.func.isRequired,
+    setFileRename: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     data: PropTypes.any,
 };
@@ -84,7 +91,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getFilesInfo: () => dispatch(torrentDetailsActions.getFilesInfo()),
         setFilePriority: (fileId, priority) => dispatch(torrentDetailsActions.setFilePriority({ fileId, priority })),
-        setFileName: (fileId, name) => dispatch(torrentDetailsActions.setFileName({ fileId, name })),
+        setFileRename: (fileId, name) => dispatch(torrentDetailsActions.setFileRename({ fileId, name })),
     };
 }
 
