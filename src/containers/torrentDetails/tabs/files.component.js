@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
 import Card from 'components/card.component';
 import Text from 'components/fields/text.component';
+import TextSave from 'components/fields/textSave.component';
 import { Item } from 'components/grid.component';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Select from 'components/fields/select.component';
@@ -13,15 +14,23 @@ import Select from 'components/fields/select.component';
 import { torrentDetailsActions, FILE_PRIORITY_UI } from '../torrentDetails.reducer';
 import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
 
-const FileCard = ({ file, setFilePriority, fileId }) => {
+const FileCard = ({ file, setFilePriority, setFileName, fileId }) => {
+
+    const onFileNameSave = ({ target: { value }}) => {
+        console.log(fileId, value)
+        // setFileName(fileId, value)
+    };
 
     // need file 'id' (index in list of files) AND priority value
     const onSetPriority = priority => setFilePriority(fileId, priority);
 
     return (
-        <Card key={file.url} title={file.name}>
+        <Card>
+            <Item xs={12} md={12} lg={12}>
+                <TextSave label='Name' value={file.name} onSave={onFileNameSave} />
+            </Item>
             <Item>
-                <Text label='Size' disabled value={file.sizeUi} />
+                <Text label='Size' disabled value={file.sizeUi}/>
             </Item>
             <Item>
                 <Text label='Progress' disabled value={file.progressUi} />
@@ -58,6 +67,7 @@ FilesTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
     getFilesInfo: PropTypes.func.isRequired,
     setFilePriority: PropTypes.func.isRequired,
+    setFileName: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     data: PropTypes.any,
 };
@@ -74,6 +84,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getFilesInfo: () => dispatch(torrentDetailsActions.getFilesInfo()),
         setFilePriority: (fileId, priority) => dispatch(torrentDetailsActions.setFilePriority({ fileId, priority })),
+        setFileName: (fileId, name) => dispatch(torrentDetailsActions.setFileName({ fileId, name })),
     };
 }
 

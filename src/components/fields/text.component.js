@@ -19,6 +19,8 @@ function Text({
     ...restProps
 }) {
 
+    const showButton = value.length && !disabled;
+
     return (
         <TextField
             variant="outlined"
@@ -38,7 +40,7 @@ function Text({
                 className: classes.input,
                 endAdornment: hideAdorment ? null : (
                     <InputAdornment position="end">
-                        {value.length && !disabled ? (
+                        {showButton ? (
                             <IconButton
                                 aria-label="clear input"
                                 onClick={() => onChange({ target: { name, value: '' } })}

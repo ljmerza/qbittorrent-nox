@@ -5,8 +5,8 @@ import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
-export default function* setFilePriority() {
-    yield takeLatest(`${torrentDetailsActions.setFilePriority}`, function* ({ payload: { fileId, priority } }) {
+export default function* setFileRename() {
+    yield takeLatest(`${torrentDetailsActions.setFileRename}`, function* ({ payload: { fileId, name } }) {
 
         try {
             const apiUrl = yield select(getLoginApiUrl);
@@ -16,11 +16,11 @@ export default function* setFilePriority() {
             const formData = new FormData();
             formData.append("hash", selectedTorrent.hash);
             formData.append("id", fileId);
-            formData.append("priority", priority);
+            formData.append("name", name);
 
             const options = {
                 method: 'POST',
-                url: `${apiUrl}/${initialState.changePriorityPath}?hashes=${selectedTorrent.hash}`,
+                url: `${apiUrl}/${initialState.fileRenamePath}?hashes=${selectedTorrent.hash}`,
                 data: formData,
                 allowNoResponse: true
             }

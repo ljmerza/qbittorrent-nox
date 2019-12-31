@@ -49,7 +49,8 @@ export const initialState = {
     deletePath: 'torrents/delete',
 
     setCategory: 'torrents/setCategory',
-    changePriorityPath: 'torrents/filePrio'
+    changePriorityPath: 'torrents/filePrio',
+    fileRenamePath: 'torrents/renameFile',
 }
 
 export const torrentDetailsSlice = createSlice({
@@ -117,6 +118,7 @@ export const torrentDetailsSlice = createSlice({
         changeTorrentCategory: state => state,
 
         setFilePriority: state => state,
+        setFileName: state => state,
     }
 });
 
