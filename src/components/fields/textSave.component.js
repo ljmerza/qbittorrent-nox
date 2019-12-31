@@ -26,9 +26,10 @@ const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, ...pr
     }, [value, setVal]);
 
     const onChangeVal = ({ target: { value } }) => setVal(value);
-
     const onClick = () => onSave({ target: { name, value: val } });
-    const showButton = val.length && val !== value && !disabled;
+
+    const isUndef = val === undefined || val === null;
+    const showButton = !isUndef && val.length && val !== value && !disabled;
 
     return (
         <Text

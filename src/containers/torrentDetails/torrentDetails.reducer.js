@@ -50,7 +50,7 @@ export const initialState = {
 
     renameTorrentPath: 'torrents/rename',
     moveTorrentPath: 'torrents/setLocation',
-    setCategoryPath: 'torrents/rename ',
+    setCategoryPath: 'torrents/setCategory',
 
     changePriorityPath: 'torrents/filePrio',
     fileRenamePath: 'torrents/renameFile',
