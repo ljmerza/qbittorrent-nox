@@ -56,13 +56,6 @@ const PeerCard = ({ peer }) => {
                 <Text label='Relevance' disabled value={peer.relevanceUi} />
             </Item>
 
-            <Item>
-                <Text label='Flags' disabled value={peer.flags} />
-            </Item>
-            <Item>
-                <Text label='Flags' disabled value={peer.flags} />
-            </Item>
-
             <Item xs={12} sm={12} md={12}>
                 <Text label='Files' disabled value={peer.files} />
             </Item>

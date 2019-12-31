@@ -9,7 +9,6 @@ function SelectField({
     value,
     options,
     onChange,
-    removeEmpty,
     label,
     classes,
     ...restProps
@@ -23,7 +22,6 @@ function SelectField({
                 onChange={onChange}
                 {...restProps}
         >
-                {removeEmpty ? null : <MenuItem value=''></MenuItem>}
                 {options.map(opt => <MenuItem key={opt.id} value={opt.id}>{opt.name}</MenuItem>)}
             </Select>
         </FormControl>

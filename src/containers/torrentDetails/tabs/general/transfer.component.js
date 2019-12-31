@@ -36,13 +36,13 @@ function GeneralTabTransfer({ onChange, data, changedFields, setChangedFields })
                 <Text label='Download Speed (Avg)' disabled value={`${data.dlSpeedUi} (${data.dlSpeedAvgUi})`} />
             </Item>
             <Item>
-                <Text label={`Download Limit (${data.dlLimitUi}/s)`} name='dl_limit' onChange={onChange} value={downLimit} />
+                <Text label={`Download Limit (${data.dlLimitUi})`} name='dl_limit' onChange={onChange} value={downLimit} />
             </Item>
             <Item>
                 <Text label='Upload Speed (Avg)' disabled value={`${data.upSpeedUi} (${data.upSpeedAvgUi})`} />
             </Item>
             <Item>
-                <Text label={`Upload Limit (${data.upLimitUi}/s)`} name='up_limit' onChange={onChange} value={upLimit} />
+                <Text label={`Upload Limit (${data.upLimitUi})`} name='up_limit' onChange={onChange} value={upLimit} />
             </Item>
         </Card>
     )

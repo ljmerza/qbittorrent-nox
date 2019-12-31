@@ -6,7 +6,8 @@ import { initialState, torrentDetailsActions } from 'containers/torrentDetails/t
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
 export default function* deleteTorrent() {
-    yield takeLatest(`${torrentDetailsActions.deleteSelectedTorrent}`, function* () {
+    yield takeLatest(`${torrentDetailsActions.deleteSelectedTorrent}`, function* ({ payload }) {
+        
         try {
             const apiUrl = yield select(getLoginApiUrl);
             const selectedTorrent = yield select(getSelectedTorrent);
@@ -16,6 +17,9 @@ export default function* deleteTorrent() {
                 method: 'GET',
                 url: `${apiUrl}/${initialState.deletePath}?hashes=${selectedTorrent.hash}`,
             }
+
+            // delete files if given flag
+            if (payload) options.url = `${options.url}&deleteFiles=true`;
 
             yield call(request, options);
 

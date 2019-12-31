@@ -21,18 +21,18 @@ function GeneralTabInformation({ setChangedFields, changedFields, onChange, data
     // use internal state so we can update this in the UI immediately even though the torrent's value hasnt changed
     // yet - use effect so when the torrent's value DOES change everything is updated accordingly
     const [selectedCategory, setSelectCategory] = useState(selectedTorrent.category);
-
+    
     useEffect(() => {
         setSelectCategory(selectedTorrent.category);
-    }, [selectedTorrent.category]);
-
+    }, [selectedTorrent.category, setSelectCategory]);
+    
     const onCategoryChange = ({ target: { value }}) => {
         setSelectCategory(value);
         changeTorrentCategory(value);
-    }
-
-    // remove all and uncategorized then add 'reset cat to beginning
-    let [, , ...selectableCategories] = categories;
+    };
+    
+    // remove all and uncategorized then add 'reset cat' to beginning
+    let [, ...selectableCategories] = categories;
     selectableCategories.unshift(REST_CATEGORY);
 
     return (
