@@ -8,11 +8,16 @@ import Card from 'components/card.component';
 import Text from 'components/fields/text.component';
 import { Item } from 'components/grid.component';
 import LoadingIndicator from 'components/LoadingIndicator';
+import Select from 'components/fields/select.component';
 
-import { torrentDetailsActions } from '../torrentDetails.reducer';
+import { torrentDetailsActions, FILE_PRIORITY_UI } from '../torrentDetails.reducer';
 import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
 
-const FileCard = ({ file }) => {
+const FileCard = ({ file, setFilePriority, fileId }) => {
+
+    // need file 'id' (index in list of files) AND priority value
+    const onSetPriority = priority => setFilePriority(fileId, priority);
+
     return (
         <Card key={file.url} title={file.name}>
             <Item>
@@ -22,7 +27,7 @@ const FileCard = ({ file }) => {
                 <Text label='Progress' disabled value={file.progressUi} />
             </Item>
             <Item>
-                <Text label='Priority' disabled value={file.priorityUi} />
+                <Select label='Priority' value={file.priority} options={FILE_PRIORITY_UI} onChange={onSetPriority} />
             </Item>
             <Item>
                 <Text label='Availability' disabled value={file.availabilityUi} />
@@ -30,7 +35,7 @@ const FileCard = ({ file }) => {
         </Card>
     )
 }
-function FilesTab({ refreshInterval, getFilesInfo, loading, data }) {
+function FilesTab({ refreshInterval, getFilesInfo, loading, data, setFilePriority }) {
 
     useEffect(() => {
         getFilesInfo();
@@ -45,13 +50,14 @@ function FilesTab({ refreshInterval, getFilesInfo, loading, data }) {
         return null;
     }
 
-    return data.map(file => <FileCard key={file.name} file={file} />);
+    return data.map((file, idx) => <FileCard key={file.name} file={file} setFilePriority={setFilePriority} fileId={idx} />);
 }
 
 
 FilesTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
     getFilesInfo: PropTypes.func.isRequired,
+    setFilePriority: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     data: PropTypes.any,
 };
@@ -67,6 +73,7 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
     return {
         getFilesInfo: () => dispatch(torrentDetailsActions.getFilesInfo()),
+        setFilePriority: (fileId, priority) => dispatch(torrentDetailsActions.setFilePriority({ fileId, priority })),
     };
 }
 

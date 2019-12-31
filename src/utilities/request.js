@@ -3,12 +3,14 @@ import axios from 'axios';
 /**
  * Checks if a network request came back fine, and throws an error if not
  * @param  {object} response A response from a network request
+ * @param  {object} options Original options passed to request
  * @return {object|undefined} Returns either the response, or throws an error
  */
-function checkStatus(response) {
+function checkStatus(response, options) {
     if (response.status >= 200 && response.status < 300) {
-        if (!response.data) throw Error(`no data returned`);
-        return response.data;
+        // post requests dont return data sometimes but will 200
+        if (options.allowNoResponse) return;
+        if (response.data) return response.data;
     }
 
     const error = new Error(response.data);
@@ -23,5 +25,5 @@ function checkStatus(response) {
  */
 export default function request(options) {
     options.withCredentials = true;
-    return axios(options).then(checkStatus)
+    return axios(options).then(response => checkStatus(response, options))
 }

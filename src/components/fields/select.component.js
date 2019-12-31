@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -14,12 +14,25 @@ function SelectField({
     ...restProps
 }) {
 
+    // use internal state so we can update this in the UI immediately even though the  value hasnt changed
+    // yet (it's async) - use effect so when the value DOES change everything is updated accordingly
+    const [selectedValue, setSelectValue] = useState(value)
+
+    useEffect(() => {
+        setSelectValue(selectedValue);
+    }, [selectedValue, setSelectValue]);
+
+    const onValueChange = ({ target: { value } }) => {
+        setSelectValue(value);
+        onChange(value);
+    };
+
     return (
         <FormControl variant="outlined" margin='dense' className={classes.formControl} fullWidth>
             <InputLabel>{label}</InputLabel>
             <Select
-                value={value}
-                onChange={onChange}
+                value={selectedValue}
+                onChange={onValueChange}
                 {...restProps}
         >
                 {options.map(opt => <MenuItem key={opt.id} value={opt.id}>{opt.name}</MenuItem>)}

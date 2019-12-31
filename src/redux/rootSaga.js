@@ -9,6 +9,7 @@ import getGeneralInfo from 'containers/torrentDetails/tabs/general.saga';
 import getTrackersInfo from 'containers/torrentDetails/tabs/trackers.saga';
 import getPeersInformation from 'containers/torrentDetails/tabs/peers.saga';
 import getFilesInfo from 'containers/torrentDetails/tabs/files.saga';
+import { setFilePriority } from 'containers/torrentDetails/tabs/files';
 
 import { 
     resumeTorrent, pauseTorrent, forceTorrent, 
@@ -35,5 +36,6 @@ export function* rootSaga() {
         deleteTorrent(),
         
         changeTorrentCategory(),
+        setFilePriority(),
     ])
 }

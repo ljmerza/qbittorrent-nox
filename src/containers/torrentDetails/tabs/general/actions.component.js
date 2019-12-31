@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import { ButtonGroup, Button, Modal, Checkbox } from '@material-ui/core';
+import { ButtonGroup, Button, Checkbox, FormControlLabel, Box } from '@material-ui/core';
 
 import Card from 'components/card.component';
+import ConfirmDialog from 'components/confirmDialog.component';
 import { ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, PAUSED_STATES } from 'utilities/torrent-states';
 import { torrentDetailsActions } from '../../torrentDetails.reducer';
 
@@ -21,22 +22,22 @@ function GeneralTabActions({
     
     // handle checkbox
     const [deleteFiles, setDeleteFiles] = React.useState(false);
-    const onCheckToggle = useCallback(() => {
+    const onCheckToggle = () => {
         setDeleteFiles(!deleteFiles);
-    }, [setDeleteFiles, deleteFiles]);
+    }
 
     // handle confirm delete
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    const onConfirmDelete = useCallback(() => {
+
+    const onConfirmDelete = () => {
         setOpenDeleteModal(false);
         deleteSelectedTorrent(deleteFiles);
-    }, [setOpenDeleteModal, deleteSelectedTorrent, deleteFiles]);
-    const onCancelDelete = useCallback(() => {
-        setOpenDeleteModal(false);
-    }, [setOpenDeleteModal]);
+    };
+
+    const onCancelDelete = () => setOpenDeleteModal(false);
 
     // button actions except delete
-    const onActionClick = useCallback(action => {
+    const onActionClick = action => {
         switch (action.id){
             case ACTION_RESUME.id: 
                 resumeSelectedTorrent();
@@ -52,7 +53,7 @@ function GeneralTabActions({
                 break;
             default: return;
         }
-    }, [resumeSelectedTorrent, pauseSelectedTorrent, forceResumeSelectedTorrent, checkSelectedTorrent]);
+    };
 
     const isPaused = PAUSED_STATES.includes(selectedTorrent.state);
 
@@ -66,20 +67,16 @@ function GeneralTabActions({
                 <Button key={ACTION_CHECK.id} onClick={() => onActionClick(ACTION_CHECK)}><ACTION_CHECK.icon /></Button>
             </ButtonGroup>
 
-            <Modal open={openDeleteModal}>
-                <Card title='Are you sure you want to delete?'>
-                    <Checkbox
-                        checked={deleteFiles}
-                        onChange={onCheckToggle}
-                        value="primary"
-                    />
-
-                    <ButtonGroup color="primary">
-                        <Button onClick={onConfirmDelete}>Delete</Button>
-                        <Button onClick={onCancelDelete}>Cancel</Button>
-                    </ButtonGroup>
-                </Card>
-            </Modal>
+            <ConfirmDialog 
+                open={openDeleteModal}
+                onClose={onCancelDelete} 
+                onConfirm={onConfirmDelete} 
+                confirmText='Delete'
+                title='Delete Torrent'
+            >
+                <Box>Are you sure you want to delete torrent?</Box>
+                <Box><FormControlLabel control={<Checkbox value={deleteFiles} onClick={onCheckToggle} />} label="Delete File" /></Box>
+            </ConfirmDialog>
         </Card>
     )
 }

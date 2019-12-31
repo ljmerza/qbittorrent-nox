@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -18,19 +18,6 @@ function GeneralTabInformation({ setChangedFields, changedFields, onChange, data
     const name = changedFields.name === undefined ? selectedTorrent.name : changedFields.name;
     const savePath = changedFields.save_path === undefined ? data.save_path : changedFields.save_path;
 
-    // use internal state so we can update this in the UI immediately even though the torrent's value hasnt changed
-    // yet - use effect so when the torrent's value DOES change everything is updated accordingly
-    const [selectedCategory, setSelectCategory] = useState(selectedTorrent.category);
-    
-    useEffect(() => {
-        setSelectCategory(selectedTorrent.category);
-    }, [selectedTorrent.category, setSelectCategory]);
-    
-    const onCategoryChange = ({ target: { value }}) => {
-        setSelectCategory(value);
-        changeTorrentCategory(value);
-    };
-    
     // remove all and uncategorized then add 'reset cat' to beginning
     let [, ...selectableCategories] = categories;
     selectableCategories.unshift(REST_CATEGORY);
@@ -44,7 +31,7 @@ function GeneralTabInformation({ setChangedFields, changedFields, onChange, data
                 <Text label='Save Path' name='save_path' onChange={onChange} value={savePath} />
             </Item>
             <Item>
-                <Select label='Category' value={selectedCategory} options={selectableCategories} onChange={onCategoryChange} />
+                <Select label='Category' value={selectedTorrent.category} options={selectableCategories} onChange={changeTorrentCategory} />
             </Item>
             <Item>
                 <Text label='Time Active' disabled value={data.timeElapsedUi} />

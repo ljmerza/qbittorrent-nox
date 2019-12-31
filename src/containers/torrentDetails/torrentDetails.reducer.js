@@ -12,15 +12,12 @@ const TRACKER_STATUS_MAP = {
     4: 'Tracker has been contacted, but it is not working',
 };
 
-const FILE_PRIORITY_MAP = {
-    0: 'Do not download',
-    1: 'Normal priority',
-    2: 'Normal priority',
-    3: 'Normal priority',
-    4: 'Normal priority',
-    6: 'High priority',
-    7: 'Maximal priority',
-};
+export const FILE_PRIORITY_UI = [
+    { id: 0, name: 'Do Not Download' },
+    { id: 1, name: 'Normal' },
+    { id: 6, name: 'High' },
+    { id: 7, name: 'Maximal' },
+];
 
 export const initialState = {
     isOpen: false,
@@ -52,6 +49,7 @@ export const initialState = {
     deletePath: 'torrents/delete',
 
     setCategory: 'torrents/setCategory',
+    changePriorityPath: 'torrents/filePrio'
 }
 
 export const torrentDetailsSlice = createSlice({
@@ -104,7 +102,6 @@ export const torrentDetailsSlice = createSlice({
                 file.sizeUi = (oldFile.size === file.size) ? oldFile.sizeUi : prettySize(file.size);
                 file.progressUi = computePercentDone(file.progress);
                 file.availabilityUi = computePercentDone(file.availability);
-                file.priorityUi = FILE_PRIORITY_MAP[file.priority] || '';
 
                 return file;
             });
@@ -118,6 +115,8 @@ export const torrentDetailsSlice = createSlice({
         checkSelectedTorrent: state => state,
         deleteSelectedTorrent: state => state,
         changeTorrentCategory: state => state,
+
+        setFilePriority: state => state,
     }
 });
 
