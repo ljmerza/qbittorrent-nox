@@ -29,7 +29,7 @@ const FileCard = ({ file, setFilePriority, setFileRename, fileId }) => {
 
     return (
         <Card>
-            <Item xs={12} md={12} lg={12}>
+            <Item xs={12} sm={12} md={12}>
                 <TextSave label='Name' value={fileName} startAdorment={startAdorment} onSave={onFileNameSave} />
             </Item>
             <Item>

@@ -3,6 +3,8 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import ReplayIcon from '@material-ui/icons/Replay';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
 /**
  * extra uncategorized category
  */
@@ -208,3 +210,4 @@ export const ACTION_PAUSE = { id: 'pause', name: 'Pause', icon: PauseIcon };
 export const ACTION_DELETE = { id: 'delete', name: 'Delete', icon: HighlightOffIcon };
 export const ACTION_F_RESUME = { id: 'fResume', name: 'FResume', icon: SkipNextIcon };
 export const ACTION_CHECK = { id: 'check', name: 'Recheck', icon: ReplayIcon };
+export const ACTION_ADD = { id: 'add', name: 'Add', icon: AddCircleOutlineIcon };

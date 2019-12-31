@@ -5,9 +5,9 @@ import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
-export default function* setFileRename() {
-    yield takeLatest(`${torrentDetailsActions.setFileRename}`, function* ({ payload: { fileId, name } }) {
-        
+export default function* trackerAdd() {
+    yield takeLatest(`${torrentDetailsActions.trackerAdd}`, function* ({ payload: { urls } }) {
+
         try {
             const apiUrl = yield select(getLoginApiUrl);
             const selectedTorrent = yield select(getSelectedTorrent);
@@ -15,14 +15,12 @@ export default function* setFileRename() {
 
             const formData = new FormData();
             formData.append("hash", selectedTorrent.hash);
-            formData.append("id", fileId);
-            formData.append("name", name);
+            formData.append("urls", urls);
 
             const options = {
                 method: 'POST',
-                url: `${apiUrl}/${initialState.fileRenamePath}?hashes=${selectedTorrent.hash}`,
-                data: formData,
-                allowNoResponse: true
+                url: `${apiUrl}/${initialState.trackerAddPath}`,
+                data: formData
             }
 
             yield call(request, options);

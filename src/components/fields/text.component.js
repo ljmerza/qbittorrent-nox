@@ -15,9 +15,14 @@ function Text({
     validatorRef,
     hasValidation,
     emptyValue,
+    useOnNegitiveOne,
+    defaultValue = '-',
     inputProps={},
     ...restProps
 }) {
+    
+    const valueIsEmpty = value === undefined || value === null || value === '';
+    const _value = valueIsEmpty ? (emptyValue ? '' : defaultValue) : value;
 
     const showButton = value.length && !disabled;
 
@@ -33,7 +38,7 @@ function Text({
                 root: hasValidation ? classes.formControlNoMargin : classes.formControl
             }}
             ref={validatorRef}
-            value={value || (emptyValue ? '' : '-')}
+            value={_value}
             disabled={disabled}
             onChange={onChange}
             InputProps={{

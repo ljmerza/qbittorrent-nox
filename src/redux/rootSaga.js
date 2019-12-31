@@ -10,6 +10,7 @@ import getTrackersInfo from 'containers/torrentDetails/tabs/trackers.saga';
 import getPeersInformation from 'containers/torrentDetails/tabs/peers.saga';
 import getFilesInfo from 'containers/torrentDetails/tabs/files.saga';
 import { setFilePriority, setFileRename } from 'containers/torrentDetails/tabs/files';
+import { trackerEditUrl, trackerAdd, trackerDelete } from 'containers/torrentDetails/tabs/trackers';
 
 import { 
     resumeTorrent, pauseTorrent, forceTorrent, 
@@ -38,5 +39,9 @@ export function* rootSaga() {
         changeTorrentCategory(),
         setFilePriority(),
         setFileRename(),
+
+        trackerEditUrl(),
+        trackerAdd(),
+        trackerDelete(),
     ])
 }

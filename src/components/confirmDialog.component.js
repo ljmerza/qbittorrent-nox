@@ -13,14 +13,10 @@ function PaperComponent(props) {
 }
 
 function ConfirmDialog({
-    onClose,
-    open,
-    title,
-    children,
-    onCancel,
-    onConfirm,
-    cancelText='Cancel',
-    confirmText='Confirm',
+    onClose, open, title, children,
+    onCancel, onConfirm,
+    cancelText='Cancel', confirmText='Confirm',
+    ...props
 }) {
 
     return (
@@ -28,6 +24,7 @@ function ConfirmDialog({
             open={open}
             onClose={onClose}
             PaperComponent={PaperComponent}
+            {...props}
         >
             <DialogTitle style={{ cursor: 'move' }}>
                 {title}

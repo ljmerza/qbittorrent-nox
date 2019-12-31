@@ -51,6 +51,10 @@ export const initialState = {
     setCategory: 'torrents/setCategory',
     changePriorityPath: 'torrents/filePrio',
     fileRenamePath: 'torrents/renameFile',
+
+    trackerEditPath: 'torrents/editTracker',
+    trackerAddPath: 'torrents/addTrackers',
+    trackerDeletePath: 'torrents/removeTrackers',
 }
 
 export const torrentDetailsSlice = createSlice({
@@ -119,6 +123,10 @@ export const torrentDetailsSlice = createSlice({
 
         setFilePriority: state => state,
         setFileRename: state => state,
+        
+        trackerEditUrl: state => state,
+        trackerAdd: state => state,
+        trackerDelete: state => state,
     }
 });
 
