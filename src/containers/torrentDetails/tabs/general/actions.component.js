@@ -7,12 +7,15 @@ import { ButtonGroup, Button, Checkbox, FormControlLabel, Box } from '@material-
 
 import Card from 'components/card.component';
 import ConfirmDialog from 'components/confirmDialog.component';
-import { ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, PAUSED_STATES } from 'utilities/torrent-states';
+
+import { 
+    ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_F_RESUME, ACTION_CHECK, 
+    PAUSED_STATES, FORCED_STATES 
+} from 'utilities/torrent-states';
 import { torrentDetailsActions } from '../../torrentDetails.reducer';
 
 function GeneralTabActions({ 
     selectedTorrent,
-    data,
     resumeSelectedTorrent,
     pauseSelectedTorrent,
     forceResumeSelectedTorrent,
@@ -55,7 +58,7 @@ function GeneralTabActions({
         }
     };
 
-    const isPaused = PAUSED_STATES.includes(selectedTorrent.state);
+    const isPaused = PAUSED_STATES.includes(selectedTorrent.state) || FORCED_STATES.includes(selectedTorrent.state);
 
     return (
         <Card title='Actions'>

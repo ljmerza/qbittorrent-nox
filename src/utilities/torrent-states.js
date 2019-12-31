@@ -148,8 +148,12 @@ export const PAUSED_STATES = [
 export const CHECKING_STATES = [
     TORRENT_STATES_MAP.checkingDL,
     TORRENT_STATES_MAP.checkingUP,
-]
+];
 
+export const FORCED_STATES = [
+    TORRENT_STATES_MAP.forcedDL,
+    TORRENT_STATES_MAP.forcedUP,
+];
 
 export const mapTorrentState = state => UI_STATE_MAP[state] || state;
 

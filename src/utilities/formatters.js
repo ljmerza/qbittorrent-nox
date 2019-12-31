@@ -31,7 +31,7 @@ export const computePercentDone = progress => {
 };
 
 export const computedDateTime = (datetime, dateTimeFormat) => {
-    if (datetime === -1) return '∞';
+    if (datetime === -1) return '';
     return moment(new Date(datetime * 1000)).format(dateTimeFormat);
 }
 

@@ -12,10 +12,16 @@ export default function* forceResumeTorrent() {
             const selectedTorrent = yield select(getSelectedTorrent);
             if (!selectedTorrent) return;
 
+            const formData = new FormData();
+            formData.append("hashes", selectedTorrent.hash);
+            formData.append("value", true);
+
             const options = {
-                method: 'GET',
-                url: `${apiUrl}/${initialState.forceResumePath}?hashes=${selectedTorrent.hash}`,
-            }
+                method: 'POST',
+                url: `${apiUrl}/${initialState.forceResumePath}`,
+                data: formData,
+                allowNoResponse: true
+            };
 
             yield call(request, options);
 

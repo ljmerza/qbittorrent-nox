@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-
 import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
 import LoadingIndicator from 'components/LoadingIndicator';
 
@@ -15,18 +13,8 @@ import GeneralTabActions from './general/actions.component';
 import GeneralTabInformation from './general/information.component';
 import GeneralTabTransfer from './general/transfer.component';
 
-const useStyles = makeStyles(theme => ({
-    card: {
-        margin: theme.spacing(1),
-    },
-    actionsBar: {
-        display: 'flex',
-        justifyContent: 'space-between',
-    }
-}));
 
 function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTorrent }){
-    const classes = useStyles();
 
     useEffect(() => {
         getGeneralInfo();
@@ -42,21 +30,9 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
 
     return ( 
         <>
-            <GeneralTabActions 
-                selectedTorrent={selectedTorrent} 
-                data={data} 
-            />
-
-            <GeneralTabInformation 
-                classes={classes} 
-                data={data} 
-                selectedTorrent={selectedTorrent} 
-            />
-
-            <GeneralTabTransfer
-                classes={classes}
-                data={data}
-            />
+            <GeneralTabActions selectedTorrent={selectedTorrent} />
+            <GeneralTabInformation data={data} selectedTorrent={selectedTorrent} />
+            <GeneralTabTransfer data={data}/>
         </>
     )
 }
