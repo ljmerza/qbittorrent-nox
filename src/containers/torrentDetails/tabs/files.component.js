@@ -16,17 +16,21 @@ import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
 
 const FileCard = ({ file, setFilePriority, setFileRename, fileId }) => {
 
-    console.log({ setFileRename })
-
     const onFileNameSave = ({ target: { value } }) => setFileRename(fileId, value);
 
     // need file 'id' (index in list of files) AND priority value
     const onSetPriority = priority => setFilePriority(fileId, priority);
 
+    // some files have folders in the file name - we want the whole folder path as
+    // start adorment and the file name itself as the actual input value
+    let folders = file.name.split('/');
+    const fileName = folders.pop();
+    const startAdorment = folders.join('/');
+
     return (
         <Card>
             <Item xs={12} md={12} lg={12}>
-                <TextSave label='Name' value={file.name} onSave={onFileNameSave} />
+                <TextSave label='Name' value={fileName} startAdorment={startAdorment} onSave={onFileNameSave} />
             </Item>
             <Item>
                 <Text label='Size' disabled value={file.sizeUi}/>

@@ -14,7 +14,7 @@ function SelectField({
     ...restProps
 }) {
 
-    // use internal state so we can update this in the UI immediately even though the  value hasnt changed
+    // use internal state so we can update this in the UI immediately even though the value hasnt changed
     // yet (it's async) - use effect so when the value DOES change everything is updated accordingly
     const [selectedValue, setSelectValue] = useState(value)
 

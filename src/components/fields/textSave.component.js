@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -15,20 +15,20 @@ const styles = theme => ({
 
 });
 
-const TextSave = ({ classes, name, value, disabled, onSave, ...props }) => {
+const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, ...props }) => {
 
-    // some files have folders in the file name - we want the whole folder path as
-    // start adorment and the file name itself as the actual input value
-    let folders = value.split('/');
-    const fileName = folders.shift();
-    const startAdorment = folders.join('/');
+    // use internal state so we can update this in the UI immediately even though the value hasnt changed
+    // yet (it's async) - use effect so when the value DOES change everything is updated accordingly
+    const [val, setVal] = useState(value);
 
-    const [val, setVal] = useState(fileName);
+    useEffect(() => {
+        setVal(value);
+    }, [value, setVal]);
+
     const onChangeVal = ({ target: { value } }) => setVal(value);
 
     const onClick = () => onSave({ target: { name, value: val } });
     const showButton = val.length && val !== value && !disabled;
-
 
     return (
         <Text
@@ -65,7 +65,8 @@ const TextSave = ({ classes, name, value, disabled, onSave, ...props }) => {
 TextSave.propTypes = {
     classes: PropTypes.object.isRequired, 
     name: PropTypes.string, 
-    value: PropTypes.string, 
+    value: PropTypes.string,
+    startAdorment: PropTypes.any, 
     disabled: PropTypes.bool, 
     onSave: PropTypes.func.isRequired
 };
