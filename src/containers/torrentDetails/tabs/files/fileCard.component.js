@@ -8,12 +8,15 @@ import TextSave from 'components/fields/textSave.component';
 import { Container, Item } from 'components/grid.component';
 import Select from 'components/fields/select.component';
 
-import { torrentDetailsActions, FILE_PRIORITY_UI } from '../../torrentDetails.reducer';
+import { torrentDetailsActions, FILE_PRIORITY_UI, VALID_FILE_PRIORITIES } from '../../torrentDetails.reducer';
 
 
 const FileCard = ({ file, setFilePriority, setFileRename }) => {
     const onFileNameSave = ({ target: { value } }) => setFileRename(file.fileId, value);
     const onSetPriority = priority => setFilePriority(file.fileId, priority);
+
+    // file priority 1-4 is normal but to simplify - all normal priorities will be '4'
+    const priority = VALID_FILE_PRIORITIES.includes(file.priority) ? file.priority : 4;
 
     return (
         <Container>
@@ -27,7 +30,7 @@ const FileCard = ({ file, setFilePriority, setFileRename }) => {
                 <Text label='Progress' disabled value={file.progressUi} />
             </Item>
             <Item>
-                <Select label='Priority' value={file.priority} options={FILE_PRIORITY_UI} onChange={onSetPriority} />
+                <Select label='Priority' value={priority} options={FILE_PRIORITY_UI} onChange={onSetPriority} />
             </Item>
             <Item>
                 <Text label='Availability' disabled value={file.availabilityUi} />

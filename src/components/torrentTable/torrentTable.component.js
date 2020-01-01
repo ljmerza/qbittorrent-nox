@@ -7,12 +7,6 @@ import { BOTTOM_NAV_HEIGHT } from '../bottomNavigation';
 
 function TorrentTable({ filteredTorrents, selectTorrent }){
 
-    // return (
-    //     <>
-    //         {filteredTorrents.map(torrent => <TableItem torrent={torrent} selectTorrent={selectTorrent} />)}
-    //     </>
-    // );
-
     return (
         <Virtuoso
             style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}

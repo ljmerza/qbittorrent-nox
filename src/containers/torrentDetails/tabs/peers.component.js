@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import { Virtuoso } from 'react-virtuoso';
 
 import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
 import Text from 'components/fields/text.component';
 import { Item } from 'components/grid.component';
 import LoadingIndicator from 'components/LoadingIndicator';
+import { BOTTOM_NAV_HEIGHT } from 'components/bottomNavigation';
 
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getPeersInfoLoading, getPeersInfo } from '../torrentDetails.selectors';
@@ -78,7 +80,22 @@ function PeersTab({ refreshInterval, getPeersInfo, loading, data }) {
         return null;
     }
 
-    return data.map(peer => <PeerCard key={peer.ip} peer={peer} />);
+    return (
+        <>
+            {/* if more than 25 peers then use virtual list */}
+            {data.length > 25 ? (
+                <Virtuoso
+                    style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
+                    totalCount={data.length}
+                    item={idx => <PeerCard peer={data[idx]} />}
+                />
+            ) : (
+                    <>
+                        {data.map(peer => <PeerCard key={peer.ip} peer={peer} />)}
+                    </>
+                )}
+        </>
+    );
 }
 
 

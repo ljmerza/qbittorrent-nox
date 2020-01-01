@@ -12,7 +12,7 @@ import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
 import FileGroup from './files/fileGroup.component';
 import { groupByFolderPath } from './files/tools';
 
-function FilesTab({ refreshInterval, getFilesInfo, data, loading, setFilePriority, setFileRename }) {
+function FilesTab({ refreshInterval, getFilesInfo, data, loading }) {
 
     useEffect(() => {
         getFilesInfo();

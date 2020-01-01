@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { Virtuoso } from 'react-virtuoso';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Typography } from '@material-ui/core';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
+import { BOTTOM_NAV_HEIGHT } from 'components/bottomNavigation';
 import Card from 'components/card.component';
 import FileCard from './fileCard.component';
 
@@ -32,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 const FileGroup = ({ group }) => {
     const classes = useStyles();
-    const isRootFolder = !group.folder
+    const isRootFolder = !group.folder;
 
     return (
         <Card>
@@ -46,15 +48,34 @@ const FileGroup = ({ group }) => {
             <Box className={clsx(classes.fullWidth, {
                 [classes.spacer]: !!group.folder
             })}>
-                {group.files.map((file, idx) => {
-                    return (
-                        <>
-                            {idx === 0 ? null : <Divider className={classes.divider}/>}
-                            <FileCard key={file.fileId} file={file} />
-                        </>
-                    );
-                    
-                })}
+                {/* if more than 50 files then use virtual list */}
+                {group.files.length > 25 ? (
+                    <Virtuoso
+                        style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
+                        totalCount={group.files.length}
+                        item={idx => {
+                            const file = group.files[idx];
+                            return (
+                                <>
+                                    {idx === 0 ? null : <Divider className={classes.divider} />}
+                                    <FileCard file={file} />
+                                </>
+                            )
+                        }}
+                    />
+                ) : (
+                    <>
+                        {group.files.map((file, idx) => {
+                            return (
+                                <div key={file.fileId}>
+                                    {idx === 0 ? null : <Divider className={classes.divider} />}
+                                    <FileCard file={file} />
+                                </div>
+                            );
+
+                        })}
+                    </>
+                )}
             </Box>
         </Card>
     );

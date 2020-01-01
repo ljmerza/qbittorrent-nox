@@ -12,9 +12,10 @@ const TRACKER_STATUS_MAP = {
     4: 'Tracker has been contacted, but it is not working',
 };
 
+export const VALID_FILE_PRIORITIES = [0, 4, 6, 7];
 export const FILE_PRIORITY_UI = [
     { id: 0, name: 'Do Not Download' },
-    { id: 1, name: 'Normal' },
+    { id: 4, name: 'Normal' },
     { id: 6, name: 'High' },
     { id: 7, name: 'Maximal' },
 ];
