@@ -6,6 +6,8 @@ import {
     getSelectedTag,
     getSelectedSort,
     getIsSortDescending,
+    getSearch,
+    getSearchBy,
  } from '../filters/filters.selectors'
 
 import { generateSortFunction } from 'utilities/torrent.tools';
@@ -36,8 +38,10 @@ export const getFilteredTorrents = createSelector(
         getSelectedTag,
         getSelectedSort,
         getIsSortDescending,
+        getSearch,
+        getSearchBy,
     ],
-    (torrents, selectedState, selectedCategory, selectedTag, selectedSort, isSortDescending) => {
+    (torrents, selectedState, selectedCategory, selectedTag, selectedSort, isSortDescending, search, searchBy) => {
         if (!torrents) return [];
         let filteredTorrents = [...torrents];
 
@@ -51,6 +55,13 @@ export const getFilteredTorrents = createSelector(
 
         if (selectedTag) {
             filteredTorrents = filteredTorrents.filter(torrent => torrent.tags.includes(selectedTag));
+        }
+
+        if (search){
+            filteredTorrents = filteredTorrents.filter(torrent => {
+                const torrentSearch = `${(torrent[searchBy] || '')}`.toLowerCase();
+                return torrentSearch.includes(search);
+            });
         }
 
         const sortFunction = generateSortFunction(selectedSort, isSortDescending);

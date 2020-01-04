@@ -70,7 +70,8 @@ function TorrentDetails({ isOpen, clearTorrent }) {
 
 const useStyles = makeStyles(theme => ({
     drawerWidth: {
-        width: '80%'
+        width: '80%',
+        maxWidth: 700,
     },
     root: {
         flexGrow: 1,

@@ -8,9 +8,9 @@ import { Collapse, List, ListItem, ListItemText } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-import { filtersActions } from './filters.reducer';
-import { TORRENT_FILTER_STATES_MAP } from '../../utilities/torrent-states';
-import { getSelectedState, getOpenState } from './filters.selectors';
+import { TORRENT_FILTER_STATES_MAP } from 'utilities/torrent-states';
+import { filtersActions } from '../filters.reducer';
+import { getSelectedState, getOpenState } from '../filters.selectors';
 
 function FiltersState({ openState, selectedState, changeSelectedState, toggleCollapsedState, classes }) {
 

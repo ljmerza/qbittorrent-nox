@@ -8,9 +8,9 @@ import { Collapse, List, ListItem, ListItemText } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-import { filtersActions } from './filters.reducer';
-import { getSelectedTag, getOpenTags } from './filters.selectors';
-import { getTags } from '../torrents/torrents.selectors';
+import { getTags } from 'containers/torrents/torrents.selectors';
+import { filtersActions } from '../filters.reducer';
+import { getSelectedTag, getOpenTags } from '../filters.selectors';
 
 function FiltersContainer({ classes, tags, selectedTag, openTags, changeSelectedTag, toggleCollapsedTag }) {
     return (

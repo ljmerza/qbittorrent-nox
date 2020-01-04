@@ -36,6 +36,7 @@
     "recompose": "^0.30.0",
     "redux-saga": "^1.1.3",
     "store": "^2.0.12",
+    "throttle-debounce": "^2.1.0",
     "typeface-roboto": "0.0.75",
     "whatwg-fetch": "^3.0.0"
   },

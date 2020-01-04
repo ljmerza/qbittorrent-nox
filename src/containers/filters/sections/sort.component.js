@@ -10,9 +10,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-import { filtersActions } from './filters.reducer';
-import { TORRENT_FILTER_SORT_MAP } from '../../utilities/torrent-states';
-import { getSelectedSort, getOpenSort, getIsSortDescending } from './filters.selectors';
+import { TORRENT_FILTER_SORT_MAP } from 'utilities/torrent-states';
+import { filtersActions } from '../filters.reducer';
+import { getSelectedSort, getOpenSort, getIsSortDescending } from '../filters.selectors';
 
 function FiltersSort({ openSort, selectedSort, changeSelectedSort, toggleCollapsedSort, isSortDescending, classes }) {
 

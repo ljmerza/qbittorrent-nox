@@ -60,20 +60,20 @@ class TorrentsContainer extends PureComponent {
         if (this._interval) clearInterval(this._interval);
     }
 
-    callback = (...args) => console.log({ args })
-
     render() {
+        const isLoading = this.props.torrents.length === 0 && this.props.loading;
+        
         return (
             <PageContainer>
                 {/* only show loading indicator if this is the first load of torrents */}
-                {(this.props.torrents.length === 0 && this.props.loading) ? <LoadingIndicator /> :
+                {isLoading ? <LoadingIndicator /> : (
                     <>
                         <FiltersContainer />
                         <TorrentDetails />
                         <TorrentTable filteredTorrents={this.props.filteredTorrents} selectTorrent={this.props.selectTorrent} />
                         <BottomNav />
                     </>
-                }
+                )}
             </PageContainer>
         );
     }

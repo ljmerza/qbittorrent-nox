@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { DEFAULT_UI_STATE, DEFAULT_UI_SORT, DEFAULT_UI_TAG, DEFAULT_UI_CATEGORY } from 'utilities/torrent-states';
 import { storeGetSlice, storeSaveSlice } from 'utilities/persistant-storage';
+import { DEFAULT_SEARCH_BY_ID } from './filter.tools';
 
 const SLICE_NAME = 'filters';
 const savedState = storeGetSlice(SLICE_NAME);
@@ -10,17 +11,22 @@ export const initialState = {
     openDrawer: false,
 
     openState: true,
-    openCategories: true,
-    openTags: true,
-    openSort: true,
-
     selectedState: DEFAULT_UI_STATE,
-    selectedCategory: DEFAULT_UI_CATEGORY,
-    selectedTag: DEFAULT_UI_TAG,
-    selectedSort: DEFAULT_UI_SORT,
 
+    openCategories: true,
+    selectedCategory: DEFAULT_UI_CATEGORY,
+    
+    openTags: true,
+    selectedTag: DEFAULT_UI_TAG,
+
+    openSort: true,
+    selectedSort: DEFAULT_UI_SORT,
     isSortDescending: true,
-}
+
+    openSearch: true,
+    search: '',
+    searchBy: DEFAULT_SEARCH_BY_ID,
+};
 
 export const filtersSlice = createSlice({
     name: SLICE_NAME,
@@ -42,6 +48,7 @@ export const filtersSlice = createSlice({
             storeSaveSlice(SLICE_NAME, newState);
             return newState;    
         },
+
         changeSelectedCategory: (state, action) => {
             const newState = { ...state, selectedCategory: action.payload };
             storeSaveSlice(SLICE_NAME, newState);
@@ -52,6 +59,7 @@ export const filtersSlice = createSlice({
             storeSaveSlice(SLICE_NAME, newState);
             return newState;    
         },
+
         changeSelectedTag: (state, action) => {
             const newState = { ...state, selectedTag: action.payload };
             storeSaveSlice(SLICE_NAME, newState);
@@ -62,6 +70,7 @@ export const filtersSlice = createSlice({
             storeSaveSlice(SLICE_NAME, newState);
             return newState;    
         },
+
         changeSelectedSort: (state, action) => {
             // if selected same state then we are toggling direction
             const isSortDescending = action.payload === state.selectedSort ? !state.isSortDescending : true;
@@ -71,6 +80,22 @@ export const filtersSlice = createSlice({
         },
         toggleCollapsedSort: state => {
             const newState = { ...state, openSort: !state.openSort };
+            storeSaveSlice(SLICE_NAME, newState);
+            return newState;
+        },
+
+        changeSearch: (state, action) => {
+            const newState = { ...state, search: action.payload };
+            storeSaveSlice(SLICE_NAME, newState);
+            return newState;
+        },
+        changeSearchBy: (state, action) => {
+            const newState = { ...state, searchBy: action.payload, search: '' };
+            storeSaveSlice(SLICE_NAME, newState);
+            return newState;
+        },
+        toggleCollapsedSearch: state => {
+            const newState = { ...state, openSearch: !state.openSearch };
             storeSaveSlice(SLICE_NAME, newState);
             return newState;
         },

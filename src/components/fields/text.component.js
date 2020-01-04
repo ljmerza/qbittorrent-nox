@@ -18,6 +18,7 @@ function Text({
     useOnNegitiveOne,
     defaultValue = '-',
     inputProps={},
+    className,
     ...restProps
 }) {
     
@@ -37,6 +38,7 @@ function Text({
                 // margin includes any error messages
                 root: hasValidation ? classes.formControlNoMargin : classes.formControl
             }}
+            className={className}
             ref={validatorRef}
             value={_value}
             disabled={disabled}
@@ -46,15 +48,12 @@ function Text({
                 endAdornment: hideAdorment ? null : (
                     <InputAdornment position="end">
                         {showButton ? (
-                            <IconButton
-                                aria-label="clear input"
-                                onClick={() => onChange({ target: { name, value: '' } })}
-                            >
+                            <IconButton onClick={() => onChange({ target: { name, value: '' } })}>
                                 <HighlightOff />
                             </IconButton>
                         ) : (
-                                <span className={classes.iconPlaceholder} />
-                            )}
+                            <span className={classes.iconPlaceholder} />
+                        )}
                     </InputAdornment>
                 ),
                 ...inputProps
@@ -66,6 +65,7 @@ function Text({
 
 Text.propTypes = {
     classes: PropTypes.object.isRequired,
+    className: PropTypes.any,
     disabled: PropTypes.bool,
     hideAdorment: PropTypes.bool,
     name: PropTypes.string,
