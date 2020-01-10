@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import clsx from 'clsx';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Collapse, List, ListItem, ListItemText } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import { Container, Item } from 'components/grid.component';
+import Collapsible from 'components/collapsible.component';
+import ListComponent from 'components/fields/list.component';
 import Text from 'components/fields/text.component';
+
 import { filtersActions } from '../filters.reducer';
 import { getOpenSearch, getSearch, getSearchBy } from '../filters.selectors';
 import { SEARCH_BY_OPTIONS } from '../filter.tools';
@@ -40,20 +39,19 @@ class FiltersSearch extends Component {
     }
 
     render(){
-        const { openSearch, selectedSearchBy, toggleCollapsedSearch, classes } = this.props;
+        const { openSearch, selectedSearchBy, toggleCollapsedSearch, classes={} } = this.props;
         const { search } = this.state;
 
         const searchedBy = SEARCH_BY_OPTIONS.find(search => search.id === selectedSearchBy);
         const searchLabel = `Search By ${searchedBy ? searchedBy.label : ''}`;
 
         return (
-            <List component="nav">
-                <ListItem button onClick={toggleCollapsedSearch}>
-                    <ListItemText primary="Search" />
-                    {openSearch ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={openSearch} timeout="auto" unmountOnExit>
-
+            <Collapsible
+                open={openSearch}
+                onToggleCollapsed={toggleCollapsedSearch}
+                title="Search"
+            >
+                <>
                     <Container>
                         <Item xs={12} md={12} lg={12} className={classes.searchInput}>
                             <Text
@@ -67,32 +65,18 @@ class FiltersSearch extends Component {
                         </Item>
                     </Container>
 
-                    <List component="div">
-                        {SEARCH_BY_OPTIONS.map(searchBy => {
-                            return (
-                                <ListItem
-                                    key={searchBy.id}
-                                    dense
-                                    button
-                                    className={clsx(classes.nested, {
-                                        [classes.selected]: searchBy.id === selectedSearchBy
-                                    })}
-                                    onClick={() => this.onSearchByChange(searchBy.id)}
-                                >
-                                    <ListItemText primary={searchBy.label} />
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                </Collapse>
-            </List>
+                    <ListComponent
+                        selected={selectedSearchBy}
+                        items={SEARCH_BY_OPTIONS}
+                        onChangeSelected={this.onSearchByChange}
+                    />
+                </>
+            </Collapsible>
         );
     }
 }
 
 FiltersSearch.propTypes = {
-    classes: PropTypes.object.isRequired,
-
     openSearch: PropTypes.bool.isRequired,
     search: PropTypes.string.isRequired,
     selectedSearchBy: PropTypes.string.isRequired,

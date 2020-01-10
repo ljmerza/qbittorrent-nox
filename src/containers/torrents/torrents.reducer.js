@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UNCATEGORIZED, ALL_CATEGORY, UNTAGGED } from 'utilities/torrent-states';
+import { UNCATEGORIZED, ALL_CATEGORY, UNTAGGED, ALL_TAGGED } from 'utilities/torrent-states';
 import { formatTorrent, formatServerStats } from 'utilities/torrent.tools';
 
 export const initialState = {
@@ -42,7 +42,7 @@ export const torrentsSlice = createSlice({
             const formattedTags = tags.reduce((acc, tag) => {
                 acc.push({ id: tag, name: tag });
                 return acc;
-            }, [UNTAGGED]);
+            }, [ALL_TAGGED, UNTAGGED]);
 
             const formattedServerState = formatServerStats(serverState);
 

@@ -15,39 +15,25 @@ import FiltersTags from './sections/tags.component';
 import FiltersSort from './sections/sort.component';
 import FiltersSearch from './sections/search.component';
 
+const useStyles = makeStyles(() => ({
+    drawerWidth: {
+        minWidth: 230
+    }
+}));
+
 function FiltersContainer({ openDrawer, toggleFilterDrawer }) {
     const classes = useStyles();
 
     return (
         <Drawer open={openDrawer} ModalProps={{ onBackdropClick: toggleFilterDrawer }} classes={{ paper: classes.drawerWidth}}>
-            <FiltersState classes={classes} />
-            <FiltersCategories classes={classes} />
-            <FiltersTags classes={classes} />
-            <FiltersSort classes={classes} />
-            <FiltersSearch classes={classes} />
+            <FiltersState />
+            <FiltersCategories />
+            <FiltersTags />
+            <FiltersSort />
+            <FiltersSearch />
         </Drawer>
     );  
 }
-
-const useStyles = makeStyles(theme => ({
-    drawerWidth: {
-        minWidth: 230
-    },
-    nested: {
-        paddingLeft: theme.spacing(3),
-    },
-    selected: {
-        color: theme.palette.common.white,
-        backgroundColor: theme.palette.primary.main,
-    },
-    sortContainer: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-    sortDirection: {
-        marginLeft: theme.spacing(1)
-    }
-}));
 
 FiltersContainer.propTypes = {
     openDrawer: PropTypes.bool.isRequired,

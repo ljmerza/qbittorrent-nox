@@ -6,24 +6,38 @@ import { connect } from 'react-redux';
 import Card from 'components/card.component';
 import Text from 'components/fields/text.component';
 import TextSave from 'components/fields/textSave.component';
+import MultipleSelect from 'components/fields/multipleSelect.component';
 import Select from 'components/fields/select.component';
 import { Item } from 'components/grid.component';
 import { getCategories } from 'containers/torrents/torrents.selectors';
+import { getTags } from 'containers/torrents/torrents.selectors';
 
 import { torrentDetailsActions } from '../../torrentDetails.reducer';
-import { REST_CATEGORY } from 'utilities/torrent-states';
+import { RESET_CATEGORY, RESET_TAGGED } from 'utilities/torrent-states';
 
 function GeneralTabInformation({ 
-    data, selectedTorrent, categories,
-    changeTorrentCategory, changeTorrentName, changeTorrentLocation
+    data, selectedTorrent, categories, tags,
+    changeTorrentCategory, 
+    changeTorrentName, 
+    changeTorrentLocation
 }) {
+
+    console.log({ tags })
 
     // remove all and uncategorized then add 'reset cat' to beginning
     let [, ...selectableCategories] = categories;
-    selectableCategories.unshift(REST_CATEGORY);
+    selectableCategories.unshift(RESET_CATEGORY);
 
     const onSaveName = ({ target: { value } }) => changeTorrentName(value);
     const onSavePath = ({ target: { value } }) => changeTorrentLocation(value);
+
+    const changeTorrentTags = event => {
+        console.log(event);
+    }
+
+    // remove all then add 'reset tags' to beginning
+    let [, ...selectableTags] = tags;
+    selectableTags.unshift(RESET_TAGGED);
 
     return (
         <Card title='Information'>
@@ -35,6 +49,9 @@ function GeneralTabInformation({
             </Item>
             <Item>
                 <Select label='Category' value={selectedTorrent.category} options={selectableCategories} onChange={changeTorrentCategory} />
+            </Item>
+            <Item>
+                <MultipleSelect label='Tags' value={selectedTorrent.tagsUi} options={selectableTags} onChange={changeTorrentTags} />
             </Item>
             <Item>
                 <Text label='Time Active' disabled value={data.timeElapsedUi} />
@@ -72,6 +89,7 @@ GeneralTabInformation.propTypes = {
     data: PropTypes.any,
     selectedTorrent: PropTypes.any,
     categories: PropTypes.array.isRequired,
+    tags: PropTypes.array.isRequired,
     changeTorrentName: PropTypes.func.isRequired,
     changeTorrentLocation: PropTypes.func.isRequired,
     changeTorrentCategory: PropTypes.func.isRequired,
@@ -81,6 +99,7 @@ GeneralTabInformation.propTypes = {
 const mapStateToProps = state => {
     return {
         categories: getCategories(state),
+        tags: getTags(state),
     }
 };
 

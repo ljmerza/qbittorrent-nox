@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import clsx from 'clsx';
 
-import { Collapse, List, ListItem, ListItemText } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import { makeStyles } from '@material-ui/core/styles';
+import CollapsibleList from 'components/fields/collapsibleList.component';
+
+import { ListItemText } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
@@ -14,52 +14,48 @@ import { TORRENT_FILTER_SORT_MAP } from 'utilities/torrent-states';
 import { filtersActions } from '../filters.reducer';
 import { getSelectedSort, getOpenSort, getIsSortDescending } from '../filters.selectors';
 
-function FiltersSort({ openSort, selectedSort, changeSelectedSort, toggleCollapsedSort, isSortDescending, classes }) {
+const useStyles = makeStyles(theme => ({
+    sortContainer: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    sortDirection: {
+        marginLeft: theme.spacing(1)
+    }
+}));
+
+function FiltersSort({ openSort, selectedSort, changeSelectedSort, toggleCollapsedSort, isSortDescending }) {
+    const classes = useStyles();
 
     return (
-        <List component="nav">
-            <ListItem button onClick={toggleCollapsedSort}>
-                <ListItemText primary="Sort By" />
-                {openSort ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={openSort} timeout="auto" unmountOnExit>
-                <List component="div">
-                    {TORRENT_FILTER_SORT_MAP.map(sort => {
-                        const selected = sort.id === selectedSort;
+        <CollapsibleList
+            title='Sort'
+            open={openSort}
+            selected={selectedSort}
+            items={TORRENT_FILTER_SORT_MAP}
+            onChangeSelected={changeSelectedSort}
+            onToggleCollapsed={toggleCollapsedSort}
+        >
+            {(item, isSelected) => {
+                let icon = null;
+                if (isSelected){
+                    icon = isSortDescending ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />;
+                }
 
-                        let text = sort.label;
-                        if (selected){
-                            const icon = isSortDescending ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />;
-                            text = (
-                                <div className={classes.sortContainer}>
-                                    {sort.label}
-                                    <span className={classes.sortDirection}>{icon}</span>
-                                </div>
-                            );
-                        } 
-
-                        return (
-                            <ListItem
-                                key={sort.id}
-                                dense
-                                button
-                                className={clsx(classes.nested, {
-                                    [classes.selected]: selected
-                                })}
-                                onClick={() => changeSelectedSort(sort.id)}
-                            >
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        );
-                    })}
-                </List>
-            </Collapse>
-        </List>
+                return (
+                    <ListItemText primary={
+                        <div className={classes.sortContainer}>
+                            {item.label}
+                            <span className={classes.sortDirection}>{icon}</span>
+                        </div>
+                    } />
+                );
+            }}
+        </CollapsibleList>
     );
 }
 
 FiltersSort.propTypes = {
-    classes: PropTypes.object.isRequired,
     selectedSort: PropTypes.string.isRequired,
     openSort: PropTypes.bool.isRequired,
     changeSelectedSort: PropTypes.func.isRequired,

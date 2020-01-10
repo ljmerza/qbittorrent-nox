@@ -38,6 +38,9 @@ export const formatTorrent = (torrent, oldTorrent, dateTimeFormat) => {
     torrent.dlspeedUi = (oldTorrent.dlspeed === torrent.dlspeed) ? oldTorrent.dlspeedUi : prettySizeTime(torrent.dlspeed);
     torrent.upspeedUi = (oldTorrent.upspeed === torrent.upspeed) ? oldTorrent.upspeedUi : prettySizeTime(torrent.upspeed);
 
+    // seperate tags
+    torrent.tagsUi = (oldTorrent.tags === torrent.tags) ? oldTorrent.tagsUi : torrent.tags.split(',').map(tag => tag.trim());
+
     return torrent;
 };
 
