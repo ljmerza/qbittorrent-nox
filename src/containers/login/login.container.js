@@ -9,12 +9,11 @@ import { PermIdentity, Lock, VisibilityOff, Visibility } from '@material-ui/icon
 
 import PrimaryButton from 'components/buttons/primary.component';
 import TextValidator from 'components/fields/textValidator.component';
-import Text from 'components/fields/text.component';
 import PageContainer from 'components/pageContainer';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { loginActions } from './login.reducer';
-import { getLoginUsername, getLoginPassword, getLoginApiRoot, getLoginLoading } from './login.selectors';
+import { getLoginUsername, getLoginPassword, getLoginLoading } from './login.selectors';
 
 class LoginContainer extends Component {
     constructor(props){
@@ -23,7 +22,6 @@ class LoginContainer extends Component {
         this.state = {
             username: props.username,
             password: props.password,
-            apiRoot: props.apiRoot,
             showPassword: false,
         };
     }
@@ -36,7 +34,7 @@ class LoginContainer extends Component {
 
     render() {
         const { classes, theme, loading } = this.props;
-        const { username, password, apiRoot, showPassword } = this.state;
+        const { username, password, showPassword } = this.state;
 
         return (
             <PageContainer>
@@ -95,18 +93,6 @@ class LoginContainer extends Component {
                         />
                     </FormControl>
 
-                    <FormControl className={classes.fieldWrapper}>
-                        <Text
-                            type="text"
-                            name="apiRoot"
-                            label="API Root"
-                            emptyValue
-                            value={apiRoot}
-                            onChange={this.onChange}
-                            fullWidth
-                        />
-                    </FormControl>
-
                     <div className={classes.buttonsWrapper}>
                         <PrimaryButton fullWidth type="submit" size="large" color="primary" variant="contained">
                             Login
@@ -144,7 +130,6 @@ LoginContainer.propTypes = {
     login: PropTypes.func.isRequired,
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
-    apiRoot: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
 };
 
@@ -152,7 +137,6 @@ const mapStateToProps = state => {
     return {
         username: getLoginUsername(state),
         password: getLoginPassword(state),
-        apiRoot: getLoginApiRoot(state),
         loading: getLoginLoading(state),
     }
 };

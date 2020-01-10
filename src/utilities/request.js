@@ -25,5 +25,7 @@ function checkStatus(response, options) {
  */
 export default function request(options) {
     options.withCredentials = true;
-    return axios(options).then(response => checkStatus(response, options))
+    return axios(options)
+        .then(response => checkStatus(response, options))
+        .catch(response => checkStatus(response, options))
 }

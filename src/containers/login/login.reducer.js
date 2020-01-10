@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { storeSave, storeGet } from 'utilities/persistant-storage';
+import { storeGet } from 'utilities/persistant-storage';
 
 export const initialState = {
-    username: '',
-    password: '',
-    apiRoot: storeGet('apiRoot') || '',
+    username: storeGet('qbtNox-username') || '',
+    password: storeGet('qbtNox-password') || '',
+    apiRoot: storeGet('qbtNox-apiRoot') || '',
     loggedIn: null,
     loading: false,
 
@@ -17,10 +17,7 @@ export const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        login: (state, action) => {
-            storeSave('apiRoot', action.payload.apiRoot);
-            return { ...state, loading: true, ...action.payload };
-        },
+        login: (state, action) => ({ ...state, loading: true, ...action.payload }),
         loginSuccess: (state, action) => ({ ...state, loading: false, loggedIn: true }),
         loginError: (state, action) => ({ ...state, loading: false, loggedIn: false, error: action.error }),
         logout: state => ({ ...state, ...initialState, loggedIn: false  }),
