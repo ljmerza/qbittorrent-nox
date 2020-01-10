@@ -21,7 +21,8 @@ export default function* getApiVersion() {
             }
 
             const apiVersion = yield call(request, options);
-            if (apiVersion){
+
+            if (apiVersion && /^v2\./.test(apiVersion)){
                 yield put({ type: `${loginActions.loginSuccess}` });
                 yield put({ type: `${configActions.getApiVersionSuccess}`, apiVersion });
             } else {

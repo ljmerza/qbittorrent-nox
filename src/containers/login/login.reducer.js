@@ -19,7 +19,7 @@ export const loginSlice = createSlice({
     reducers: {
         login: (state, action) => ({ ...state, loading: true, ...action.payload }),
         loginSuccess: (state, action) => ({ ...state, loading: false, loggedIn: true }),
-        loginError: (state, action) => ({ ...state, loading: false, loggedIn: false, error: action.error }),
+        loginError: (state, action) => ({ ...state, loading: false, loggedIn: false, error: action }),
         logout: state => ({ ...state, ...initialState, loggedIn: false  }),
     }
 });
