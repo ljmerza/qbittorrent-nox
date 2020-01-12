@@ -11,7 +11,7 @@ import {
  } from '../filters/filters.selectors'
 
 import { generateSortFunction } from 'utilities/torrent.tools';
-import { DEFAULT_UI_STATE } from 'utilities/torrent-states';
+import { DEFAULT_UI_STATE, UNTAGGED } from 'utilities/torrent-states';
 
 export const getTorrents = state => state.torrents;
 
@@ -54,7 +54,11 @@ export const getFilteredTorrents = createSelector(
         }
 
         if (selectedTag) {
-            filteredTorrents = filteredTorrents.filter(torrent => torrent.tags.includes(selectedTag));
+            const wantAllUntagged = selectedTag === UNTAGGED.id;
+            filteredTorrents = filteredTorrents.filter(torrent => {
+                if (wantAllUntagged) return torrent.tags === '';
+                return torrent.tags.includes(selectedTag);
+            });
         }
 
         if (search){

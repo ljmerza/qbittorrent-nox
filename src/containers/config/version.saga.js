@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
+import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { loginActions } from 'containers/login/login.reducer';
 import { initialState, configActions } from './config.reducer';
@@ -10,7 +11,7 @@ import { initialState, configActions } from './config.reducer';
  * if not then set loggedIn to false so we reroute to the login page
  */
 export default function* getApiVersion() {
-    yield takeLatest(`${configActions.getApiVersion}`, function* getVersion() {
+    yield takeLatest(`${configActions.getApiVersion}`, function* () {
 
         try {
             const apiUrl = yield select(getLoginApiUrl);
@@ -22,15 +23,15 @@ export default function* getApiVersion() {
 
             const apiVersion = yield call(request, options);
 
-            if (apiVersion && /^v2\./.test(apiVersion)){
+            if (!isNaN(apiVersion)){
                 yield put({ type: `${loginActions.loginSuccess}` });
                 yield put({ type: `${configActions.getApiVersionSuccess}`, apiVersion });
             } else {
-                yield put({ type: `${loginActions.loginError}`, error: null });
+                yield put({ type: `${toastActions.showError}`, message: null, from: 'getApiVersion' });
             }
 
         } catch (e) {
-            yield put({ type: `${loginActions.loginError}`, error: null });
+            yield put({ type: `${toastActions.showError}`, message: e, from: 'getApiVersion' });
         }
     });
 }

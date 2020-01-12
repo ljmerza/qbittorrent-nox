@@ -13,9 +13,7 @@ function checkStatus(response, options) {
         if (response.data) return response.data;
     }
 
-    const error = new Error(response.data);
-    error.response = response;
-    throw error;
+    throw response.message;
 }
 
 /**

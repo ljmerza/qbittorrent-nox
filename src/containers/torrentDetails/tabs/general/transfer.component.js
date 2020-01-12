@@ -11,7 +11,7 @@ import { Item } from 'components/grid.component';
 
 import { torrentDetailsActions } from '../../torrentDetails.reducer';
 
-function GeneralTabTransfer({ data, changeUploadLimit, changeDownloadLimit }) {
+function GeneralTabTransfer({ generalInfo, changeUploadLimit, changeDownloadLimit }) {
 
     const onChangeDownloadLimit = ({ target: { value } }) => changeDownloadLimit(value);
     const onChangeUploadLimit = ({ target: { value } }) => changeUploadLimit(value);
@@ -19,45 +19,45 @@ function GeneralTabTransfer({ data, changeUploadLimit, changeDownloadLimit }) {
     return (
         <Card title='Transfer'>
             <Item>
-                <Text label='Seeds' disabled value={`${data.seeds} (${data.seeds_total})`} />
+                <Text label='Seeds' disabled value={`${generalInfo.seeds} (${generalInfo.seeds_total})`} />
             </Item>
             <Item>
-                <Text label='Peers' disabled value={`${data.peers} (${data.peers_total})`} />
+                <Text label='Peers' disabled value={`${generalInfo.peers} (${generalInfo.peers_total})`} />
             </Item>
             <Item>
-                <Text label='Downloaded' disabled value={`${data.totalDownloadedUi} (${data.totalDownloadedSessionUi} session)`} />
+                <Text label='Downloaded' disabled value={`${generalInfo.totalDownloadedUi} (${generalInfo.totalDownloadedSessionUi} session)`} />
             </Item>
             <Item>
-                <Text label='Uploaded' disabled value={`${data.totalDownloadedUi} (${data.totalUploadedSessionUi} session)`} />
+                <Text label='Uploaded' disabled value={`${generalInfo.totalDownloadedUi} (${generalInfo.totalUploadedSessionUi} session)`} />
             </Item>
             <Item>
-                <Text label='Wasted' disabled value={data.totalWastedUi} />
+                <Text label='Wasted' disabled value={generalInfo.totalWastedUi} />
             </Item>
             <Item>
-                <Text label='Ratio' disabled value={data.share_ratio.toFixed(2)} />
+                <Text label='Ratio' disabled value={generalInfo.share_ratio.toFixed(2)} />
             </Item>
             <Item>
-                <Text label='Download Speed (Avg)' disabled value={`${data.dlSpeedUi} (${data.dlSpeedAvgUi})`} />
+                <Text label='Download Speed (Avg)' disabled value={`${generalInfo.dlSpeedUi} (${generalInfo.dlSpeedAvgUi})`} />
             </Item>
             <Item>
                 <InfinityText 
                     Component={TextSave} 
-                    label={`Download Limit (${data.dlLimitUi})`} 
+                    label={`Download Limit (${generalInfo.dlLimitUi})`} 
                     name='dl_limit' 
-                    value={data.dl_limit} 
+                    value={generalInfo.dl_limit} 
                     emptyValue 
                     onSave={onChangeDownloadLimit}
                 />
             </Item>
             <Item>
-                <Text label='Upload Speed (Avg)' disabled value={`${data.upSpeedUi} (${data.upSpeedAvgUi})`} />
+                <Text label='Upload Speed (Avg)' disabled value={`${generalInfo.upSpeedUi} (${generalInfo.upSpeedAvgUi})`} />
             </Item>
             <Item>
                 <InfinityText 
                     Component={TextSave} 
-                    label={`Upload Limit (${data.upLimitUi})`} 
+                    label={`Upload Limit (${generalInfo.upLimitUi})`} 
                     name='up_limit' 
-                    value={data.up_limit} 
+                    value={generalInfo.up_limit} 
                     emptyValue 
                     onSave={onChangeUploadLimit}
                 />
@@ -68,7 +68,7 @@ function GeneralTabTransfer({ data, changeUploadLimit, changeDownloadLimit }) {
 
 
 GeneralTabTransfer.propTypes = {
-    data: PropTypes.any
+    generalInfo: PropTypes.any
 };
 
 function mapDispatchToProps(dispatch) {

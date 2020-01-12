@@ -9,7 +9,7 @@ import { configActions } from 'containers/config/config.reducer';
 import Routes from '../routes';
 
 // import Header from './header.container';
-// import Toast from './toast.container';
+import Toast from 'common/toast/toast.container';
 
 class MainContainer extends PureComponent {
     componentDidMount() {
@@ -25,7 +25,7 @@ class MainContainer extends PureComponent {
                     {/* <Header /> */}
                     <Routes />
                 </main>
-                {/* <Toast /> */}
+                <Toast />
             </>
         );
     }

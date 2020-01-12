@@ -1,13 +1,14 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
+import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from '../torrentDetails.reducer';
 import { getSelectedTorrent } from '../torrentDetails.selectors';
 
 
 export default function* getFilesInfo() {
-    yield takeLatest(`${torrentDetailsActions.getFilesInfo}`, function*() {
+    yield takeLatest(`${torrentDetailsActions.getFilesInfo}`, function* () {
         try {
             const apiUrl = yield select(getLoginApiUrl);
             const selectedTorrent = yield select(getSelectedTorrent);
@@ -23,11 +24,11 @@ export default function* getFilesInfo() {
             if (response) {
                 yield put({ type: `${torrentDetailsActions.getFilesInfoSuccess}`, response });
             } else {
-                yield put({ type: `${torrentDetailsActions.getGeneralInfoError}`, error: '' });
+                yield put({ type: `${toastActions.showError}`, message: null, from: 'getFilesInfo' });
             }
 
         } catch (e) {
-            yield put({ type: `${torrentDetailsActions.getGeneralInfoError}`, error: e.message });
+            yield put({ type: `${toastActions.showError}`, message: e, from: 'getFilesInfo' });
         }
     });
 }

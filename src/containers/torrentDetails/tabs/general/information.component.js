@@ -16,7 +16,8 @@ import { torrentDetailsActions } from '../../torrentDetails.reducer';
 import { RESET_CATEGORY, RESET_TAGGED } from 'utilities/torrent-states';
 
 function GeneralTabInformation({ 
-    data, selectedTorrent, categories, tags,
+    generalInfo, selectedTorrent, 
+    categories, tags,
     changeTorrentCategory, 
     changeTorrentName, 
     changeTorrentLocation
@@ -45,7 +46,7 @@ function GeneralTabInformation({
                 <TextSave label='Name' name='name' onSave={onSaveName} value={selectedTorrent.name} />
             </Item>
             <Item xs={12} sm={12} md={12}>
-                <TextSave label='Save Path' name='save_path' onSave={onSavePath} value={data.save_path} />
+                <TextSave label='Save Path' name='save_path' onSave={onSavePath} value={generalInfo.save_path} />
             </Item>
             <Item>
                 <Select label='Category' value={selectedTorrent.category} options={selectableCategories} onChange={changeTorrentCategory} />
@@ -54,31 +55,31 @@ function GeneralTabInformation({
                 <MultipleSelect label='Tags' value={selectedTorrent.tagsUi} options={selectableTags} onChange={changeTorrentTags} />
             </Item>
             <Item>
-                <Text label='Time Active' disabled value={data.timeElapsedUi} />
+                <Text label='Time Active' disabled value={generalInfo.timeElapsedUi} />
             </Item>
             <Item>
-                <Text label='ETA' disabled value={data.etaUi} />
+                <Text label='ETA' disabled value={generalInfo.etaUi} />
             </Item>
             <Item>
-                <Text label='Added On' disabled value={data.additionDateUi} />
+                <Text label='Added On' disabled value={generalInfo.additionDateUi} />
             </Item>
             <Item>
-                <Text label='Completed On' disabled value={data.completionDateUi} />
+                <Text label='Completed On' disabled value={generalInfo.completionDateUi} />
             </Item>
             <Item>
-                <Text label='Last Seen Complete' disabled value={data.lastSeenUi} />
+                <Text label='Last Seen Complete' disabled value={generalInfo.lastSeenUi} />
             </Item>
             <Item>
-                <Text label='Pieces' disabled value={`${data.pieces_num} x ${data.pieceSizeUi} (have ${data.pieces_have})`} />
+                <Text label='Pieces' disabled value={`${generalInfo.pieces_num} x ${generalInfo.pieceSizeUi} (have ${generalInfo.pieces_have})`} />
             </Item>
             <Item>
-                <Text label='Created By' disabled value={data.created_by} />
+                <Text label='Created By' disabled value={generalInfo.created_by} />
             </Item>
             <Item>
-                <Text label='Reannounce In' disabled value={data.reannounceUi} />
+                <Text label='Reannounce In' disabled value={generalInfo.reannounceUi} />
             </Item>
             <Item xs={12} md={12}>
-                <Text label='Comment' disabled value={data.comment} />
+                <Text label='Comment' disabled value={generalInfo.comment} />
             </Item>
         </Card>
     )
@@ -86,7 +87,7 @@ function GeneralTabInformation({
 
 
 GeneralTabInformation.propTypes = {
-    data: PropTypes.any,
+    generalInfo: PropTypes.any,
     selectedTorrent: PropTypes.any,
     categories: PropTypes.array.isRequired,
     tags: PropTypes.array.isRequired,

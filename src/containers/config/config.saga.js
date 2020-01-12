@@ -1,8 +1,8 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
+import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
-import { loginActions } from 'containers/login/login.reducer';
 import { initialState, configActions } from './config.reducer';
 
 export default function* getConfig() {
@@ -20,7 +20,7 @@ export default function* getConfig() {
             yield put({ type: `${configActions.getConfigSuccess}`, config });
 
         } catch (e) {
-            yield put({ type: `${loginActions.loginError}`, error: null });
+            yield put({ type: `${toastActions.showError}`, message: e, from: 'getConfig' });
         }
     });
 }

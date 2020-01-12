@@ -14,7 +14,7 @@ import GeneralTabInformation from './general/information.component';
 import GeneralTabTransfer from './general/transfer.component';
 
 
-function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTorrent }){
+function GeneralTab({ refreshInterval, getGeneralInfo, loading, generalInfo, selectedTorrent }){
 
     useEffect(() => {
         getGeneralInfo();
@@ -22,17 +22,15 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, data, selectedTo
         return () => clearInterval(timerId);
     }, [getGeneralInfo, refreshInterval]);
 
-    if (!data && loading){
-        return <LoadingIndicator noOverlay />
-    } else if (!data || !selectedTorrent){
-        return null;
-    }
-
     return ( 
         <>
-            <GeneralTabActions selectedTorrent={selectedTorrent} />
-            <GeneralTabInformation data={data} selectedTorrent={selectedTorrent} />
-            <GeneralTabTransfer data={data}/>
+            {selectedTorrent ? <GeneralTabActions selectedTorrent={selectedTorrent} /> : null}
+            {(loading || !generalInfo) ? <LoadingIndicator noOverlay /> : (
+                <>
+                    <GeneralTabInformation generalInfo={generalInfo} selectedTorrent={selectedTorrent} />
+                    <GeneralTabTransfer generalInfo={generalInfo} />
+                </>
+            )}
         </>
     )
 }
@@ -42,7 +40,7 @@ GeneralTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
     getGeneralInfo: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    data: PropTypes.any,
+    generalInfo: PropTypes.any,
     selectedTorrent: PropTypes.any,
 };
 
@@ -50,7 +48,7 @@ const mapStateToProps = state => {
     return {
         refreshInterval: getConfigInternalRefreshInterval(state),
         loading: getGeneralInfoLoading(state),
-        data: getGeneralInfo(state),
+        generalInfo: getGeneralInfo(state),
         selectedTorrent: getSelectedTorrent(state),
     }
 };

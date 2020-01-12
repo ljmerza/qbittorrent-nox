@@ -2,12 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const TOAST_TYPES = {
     SUCCESS: 'SUCCESS',
+    WARNING: 'WARNING',
     ERROR: 'ERROR',
 };
 
 const initialState = {
-    show: false,
-    type: TOAST_TYPES.SUCCESS,
+    toastType: TOAST_TYPES.SUCCESS,
+    showToast: false,
     message: '',
     position: 0,
 };
@@ -16,8 +17,13 @@ const toastSlice = createSlice({
     name: 'toast',
     initialState,
     reducers: {
-        showToast: (state, action) => ({ ...state, isShowToast: true, type: TOAST_TYPES.SUCCESS, ...action }),
-        hideToast: state => ({ ...state, isShowToast: false, message: '' }),
+        showSuccess: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.SUCCESS, ...action }),
+        showError: (state, action) => {
+            console.log({ action })
+            return { ...state, showToast: true, toastType: TOAST_TYPES.ERROR, ...action }
+        },
+        showWarning: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.ERROR, ...action }),
+        hideToast: state => ({ ...state, showToast: false, message: '' }),
         setPosition: (state, action) => ({ ...state, toastPosition: action.position }),
     }
 });

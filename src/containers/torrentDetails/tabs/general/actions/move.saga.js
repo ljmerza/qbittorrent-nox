@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
+import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from '../../../torrentDetails.reducer';
 import { getSelectedTorrent } from '../../../torrentDetails.selectors';
@@ -28,7 +29,7 @@ export default function* moveTorrent() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${torrentDetailsActions.getGeneralInfoError}`, error: e.message });
+            yield put({ type: `${toastActions.showError}`, message: e, from: 'moveTorrent' });
         }
     });
 }
