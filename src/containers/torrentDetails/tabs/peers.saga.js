@@ -22,7 +22,7 @@ export default function* getPeersInfo() {
             yield put({ type: `${torrentDetailsActions.getPeersInfoSuccess}`, response });
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'getPeersInfo' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getPeersInfo' });
         }
     });
 }

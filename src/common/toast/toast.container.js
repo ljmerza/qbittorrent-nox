@@ -17,7 +17,6 @@ class Toast extends PureComponent {
 
     render() {
         const { classes, toastType, toastMessage, showToast } = this.props;
-        console.log({ toastType, toastMessage, showToast })
         
         return (
             <Snackbar

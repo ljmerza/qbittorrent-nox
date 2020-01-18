@@ -27,7 +27,7 @@ export default function* changeTorrentCategory() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'changeTorrentCategory' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentCategory' });
         }
     });
 }

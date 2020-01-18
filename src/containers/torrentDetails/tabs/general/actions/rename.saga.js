@@ -29,7 +29,7 @@ export default function* renameTorrent() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'renameTorrent' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'renameTorrent' });
         }
     });
 }

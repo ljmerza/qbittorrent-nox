@@ -28,7 +28,7 @@ export default function* trackerEditUrl() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'trackerEditUrl' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'trackerEditUrl' });
         }
     });
 }

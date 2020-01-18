@@ -28,7 +28,7 @@ export default function* getFilesInfo() {
             }
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'getFilesInfo' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getFilesInfo' });
         }
     });
 }

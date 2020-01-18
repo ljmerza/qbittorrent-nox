@@ -29,7 +29,7 @@ export default function* setFileRename() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'setFileRename' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'setFileRename' });
         }
     });
 }

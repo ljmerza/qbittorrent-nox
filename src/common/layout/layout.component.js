@@ -13,6 +13,7 @@ import Toast from 'common/toast/toast.container';
 
 class MainContainer extends PureComponent {
     componentDidMount() {
+        // get api version to see if we are logged in and compatible
         this.props.getApiVersion();
     }
 

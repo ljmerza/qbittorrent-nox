@@ -20,7 +20,7 @@ export default function* getConfig() {
             yield put({ type: `${configActions.getConfigSuccess}`, config });
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'getConfig' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getConfig' });
         }
     });
 }

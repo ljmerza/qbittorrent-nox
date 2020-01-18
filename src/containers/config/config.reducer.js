@@ -10,7 +10,6 @@ export const initialState = {
     // config that belongs to the UI only (no backend)
     internal: {
         refreshInterval: 5000, // refresh for torrents and torrent details tabs
-
     },
 
     path: 'app/preferences'

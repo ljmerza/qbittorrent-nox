@@ -27,7 +27,7 @@ export default function* getGeneralInfo() {
             }
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'getGeneralInformation' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getGeneralInformation' });
         }
     }
 );

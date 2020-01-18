@@ -27,7 +27,7 @@ export default function* getTrackersInfo() {
             }
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'getTrackersInfo' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getTrackersInfo' });
         }
     });
 }

@@ -27,7 +27,7 @@ export default function* trackerAdd() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'trackerAdd' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'trackerAdd' });
         }
     });
 }

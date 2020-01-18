@@ -27,7 +27,7 @@ export default function* limitUpload() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'limitUpload' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'limitUpload' });
         }
     });
 }

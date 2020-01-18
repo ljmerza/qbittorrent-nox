@@ -1,7 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
-import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { loginActions } from 'containers/login/login.reducer';
 import { initialState, configActions } from './config.reducer';
@@ -19,19 +18,15 @@ export default function* getApiVersion() {
             const options = {
                 method: 'GET',
                 url: `${apiUrl}/${initialState.pathVersion}`,
+                allowTextResponse: true,
             }
 
             const apiVersion = yield call(request, options);
-
-            if (!isNaN(apiVersion)){
-                yield put({ type: `${loginActions.loginSuccess}` });
-                yield put({ type: `${configActions.getApiVersionSuccess}`, apiVersion });
-            } else {
-                yield put({ type: `${toastActions.showError}`, message: null, from: 'getApiVersion' });
-            }
-
+            yield put({ type: `${loginActions.loginSuccess}` });
+            yield put({ type: `${configActions.getApiVersionSuccess}`, apiVersion });
+                
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'getApiVersion' });
+            yield put({ type: `${loginActions.notLoggedIn}`, from: 'getApiVersion' });
         }
     });
 }

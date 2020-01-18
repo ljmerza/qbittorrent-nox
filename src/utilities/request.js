@@ -8,12 +8,18 @@ import axios from 'axios';
  */
 function checkStatus(response, options) {
     if (response.status >= 200 && response.status < 300) {
+
         // post requests dont return data sometimes but will 200
         if (options.allowNoResponse) return;
-        if (response.data) return response.data;
+
+        // some apis return text response and we always want that
+        if (options.allowTextResponse && response.data) return response.data;
+
+        // if no flags were provided then we only allow arrays and object responses
+        if (response.data && typeof response.data === 'object') return response.data;
     }
 
-    throw response.message;
+    throw new Error(response || {});
 }
 
 /**

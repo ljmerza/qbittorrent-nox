@@ -28,7 +28,7 @@ export default function* changeTorrentTag() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'changeTorrentTag' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentTag' });
         }
     });
 }

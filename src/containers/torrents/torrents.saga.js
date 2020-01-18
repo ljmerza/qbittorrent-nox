@@ -19,7 +19,7 @@ export default function* torrents() {
             yield put({ type: `${torrentsActions.torrentsSuccess}`, response });
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'torrents' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'torrents' });
         }
     });
 }

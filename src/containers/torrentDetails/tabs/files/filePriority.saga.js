@@ -29,7 +29,7 @@ export default function* setFilePriority() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'setFilePriority' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'setFilePriority' });
         }
     });
 }

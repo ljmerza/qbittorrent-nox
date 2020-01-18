@@ -29,7 +29,7 @@ export default function* moveTorrent() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'moveTorrent' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'moveTorrent' });
         }
     });
 }

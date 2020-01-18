@@ -27,7 +27,7 @@ export default function* trackerDelete() {
             yield call(request, options);
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e, from: 'trackerDelete' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'trackerDelete' });
         }
     });
 }
