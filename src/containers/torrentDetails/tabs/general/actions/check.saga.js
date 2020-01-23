@@ -15,10 +15,12 @@ export default function* recheckTorrent() {
 
             const options = {
                 method: 'GET',
+                allowNoResponse: true,
                 url: `${apiUrl}/${initialState.recheckPath}?hashes=${selectedTorrent.hash}`,
             }
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent rechecking', from: 'recheckTorrent' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'recheckTorrent' });

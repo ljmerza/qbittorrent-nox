@@ -23,9 +23,11 @@ export default function* changeTorrentTag() {
                 method: 'POST',
                 url: `${apiUrl}/${initialState.setTagPath}`,
                 data: formData,
+                allowNoResponse: true,
             }
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent tags chaged', from: 'changeTorrentTag' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentTag' });

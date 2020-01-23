@@ -9,14 +9,25 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import { amber } from '@material-ui/core/colors';
-
 import { toastActions, TOAST_TYPES } from './toast.reducer';
 
 class Toast extends PureComponent {
+
+    componentDidUpdate() {
+        if (this.props.toastMessage) {
+            clearTimeout(this.toastTimer);
+            this.toastTimer = setTimeout(() => {
+                this.props.hideToast();
+            }, 5000);
+        }
+    }
+
     hideToast = () => this.props.hideToast();
 
     render() {
         const { classes, toastType, toastMessage, showToast } = this.props;
+        console.log({ toastMessage }) // TODO: without this we see two toasts back to back???
+        if (!toastMessage) return null;
         
         return (
             <Snackbar

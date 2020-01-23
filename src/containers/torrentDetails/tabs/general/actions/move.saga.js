@@ -27,6 +27,7 @@ export default function* moveTorrent() {
             };
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent moving', from: 'moveTorrent' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'moveTorrent' });

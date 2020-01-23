@@ -19,7 +19,9 @@ function checkStatus(response, options) {
         if (response.data && typeof response.data === 'object') return response.data;
     }
 
-    throw new Error(response || {});
+    const error = new Error(response.data || 'Unknown Error');
+    error.response = response;
+    throw error;
 }
 
 /**

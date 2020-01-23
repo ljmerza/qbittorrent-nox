@@ -20,11 +20,14 @@ export default function* changeTorrentCategory() {
 
             const options = {
                 method: 'POST',
+                allowNoResponse: true,
                 url: `${apiUrl}/${initialState.setCategoryPath}`,
                 data: formData,
             }
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent category changed', from: 'changeTorrentCategory' });
+
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentCategory' });

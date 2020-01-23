@@ -25,16 +25,16 @@ export const initialState = {
     selectedTorrent: null,
 
     selectedTorrentGeneral: null,
-    isLoadingGeneral: false,
+    isLoadingGeneral: true,
 
     selectedTorrentTrackers: [],
-    isLoadingTrackers: false,
+    isLoadingTrackers: true,
 
     selectedTorrentPeers: [],
-    isLoadingPeers: false,
+    isLoadingPeers: true,
 
     selectedTorrentFiles: [],
-    isLoadingFiles: false,
+    isLoadingFiles: true,
 
     dateTimeFormat: 'MM/DD/YY LT',
 

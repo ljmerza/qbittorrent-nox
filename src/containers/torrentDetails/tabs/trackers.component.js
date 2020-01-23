@@ -62,28 +62,22 @@ function TrackersTab({ refreshInterval, getTrackersInfo, trackerEditUrl, loading
         return () => clearInterval(timerId);
     }, [getTrackersInfo, refreshInterval]);
 
-
-    if (!data.length && loading) {
-        return <LoadingIndicator noOverlay />
-    } else if (!data.length) {
-        return null;
-    }
-
     return (
         <>
             <TrackerActions trackers={data} />
-
-            {/* if more than 25 trackers then use virtual list */}
-            {data.length > 25 ? (
-                <Virtuoso
-                    style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
-                    totalCount={data.length}
-                    item={idx => <TrackerCard tracker={data[idx]} trackerEditUrl={trackerEditUrl} />}
-                />
-            ) : (
-                <>
+            {(!data.length && loading) ? <LoadingIndicator noOverlay /> : (
+                /* if more than 25 trackers then use virtual list */
+                data.length > 25 ? (
+                    <Virtuoso
+                        style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
+                        totalCount={data.length}
+                        item={idx => <TrackerCard tracker={data[idx]} trackerEditUrl={trackerEditUrl} />}
+                    />
+                ) : (
+                    <>
                         {data.map(tracker => <TrackerCard key={tracker.url} tracker={tracker} trackerEditUrl={trackerEditUrl} />)}
-                </>
+                    </>
+                )
             )}
         </>
     );

@@ -15,10 +15,12 @@ export default function* pauseTorrent() {
 
             const options = {
                 method: 'GET',
+                allowNoResponse: true,
                 url: `${apiUrl}/${initialState.pausePath}?hashes=${selectedTorrent.hash}`,
             }
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent paused', from: 'pauseTorrent' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'pauseTorrent' });

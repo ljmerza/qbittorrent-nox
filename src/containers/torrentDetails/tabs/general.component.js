@@ -22,10 +22,10 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, generalInfo, sel
         return () => clearInterval(timerId);
     }, [getGeneralInfo, refreshInterval]);
 
-    return ( 
+    return (
         <>
             {selectedTorrent ? <GeneralTabActions selectedTorrent={selectedTorrent} /> : null}
-            {(loading || !generalInfo) ? <LoadingIndicator noOverlay /> : (
+            {(loading && !generalInfo) ? <LoadingIndicator noOverlay /> : (
                 <>
                     <GeneralTabInformation generalInfo={generalInfo} selectedTorrent={selectedTorrent} />
                     <GeneralTabTransfer generalInfo={generalInfo} />
@@ -34,7 +34,6 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, generalInfo, sel
         </>
     )
 }
-
 
 GeneralTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,

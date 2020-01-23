@@ -15,10 +15,12 @@ export default function* resumeTorrent() {
 
             const options = {
                 method: 'GET',
+                allowNoResponse: true,
                 url: `${apiUrl}/${initialState.resumePath}?hashes=${selectedTorrent.hash}`,
             }
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent resumed', from: 'resumeTorrent' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'resumeTorrent' });

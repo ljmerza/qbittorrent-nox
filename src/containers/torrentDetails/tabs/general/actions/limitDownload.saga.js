@@ -25,6 +25,7 @@ export default function* limitDownload() {
             };
 
             yield call(request, options);
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent download limit changed', from: 'limitDownload' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'limitDownload' });
