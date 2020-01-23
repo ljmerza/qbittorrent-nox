@@ -17,23 +17,19 @@ class Toast extends PureComponent {
         if (this.props.toastMessage) {
             clearTimeout(this.toastTimer);
             this.toastTimer = setTimeout(() => {
-                this.props.hideToast();
+                if (this.props.toastMessage) this.props.hideToast();
             }, 5000);
         }
     }
 
-    hideToast = () => this.props.hideToast();
-
     render() {
-        const { classes, toastType, toastMessage, showToast } = this.props;
-        console.log({ toastMessage }) // TODO: without this we see two toasts back to back???
+        const { classes, toastType, toastMessage, showToast, hideToast } = this.props;
         if (!toastMessage) return null;
         
         return (
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                 open={showToast}
-                onClose={this.hideToast}
                 ContentProps={{
                     className: clsx(
                         { [classes.error]: toastType === TOAST_TYPES.ERROR },
@@ -47,7 +43,7 @@ class Toast extends PureComponent {
                         key="close"
                         aria-label="Close"
                         color="inherit"
-                        onClick={this.hideToast}
+                        onClick={hideToast}
                     >
                         <CloseIcon />
                     </IconButton>
