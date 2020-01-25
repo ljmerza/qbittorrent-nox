@@ -52,7 +52,8 @@ export const initialState = {
     renameTorrentPath: 'torrents/rename',
     moveTorrentPath: 'torrents/setLocation',
     setCategoryPath: 'torrents/setCategory',
-    setTagPath: 'torrents/seTag',
+    addTagPath: 'torrents/addTags',
+    removeTagPath: 'torrents/removeTags',
 
     changePriorityPath: 'torrents/filePrio',
     fileRenamePath: 'torrents/renameFile',
@@ -131,7 +132,7 @@ export const torrentDetailsSlice = createSlice({
         changeTorrentName: state => state,
         changeTorrentLocation: state => state,
         changeTorrentCategory: state => state,
-        changeTorrentTag: state => state,
+        changeTorrentTags: state => state,
 
         changeUploadLimit: state => state,
         changeDownloadLimit: state => state,

@@ -14,7 +14,7 @@ export const RESET_CATEGORY = { id: '', name: 'Reset Category', uneditable: true
 
 export const ALL_TAGGED = { id: '', name: 'All', uneditable: true };
 export const UNTAGGED = { id: 'untagged', name: 'Untagged', uneditable: true };
-export const RESET_TAGGED = { id: '', name: 'Reset Tags', uneditable: true };
+export const RESET_TAGGED = { id: 'RESET_TAGGED', name: 'Reset Tags', uneditable: true };
 
 export const DEFAULT_UI_STATE = 'all';
 export const DEFAULT_UI_CATEGORY = ALL_CATEGORY.id;

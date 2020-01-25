@@ -7,6 +7,7 @@ export { default as deleteTorrent } from './delete.saga';
 export { default as renameTorrent } from './rename.saga';
 export { default as moveTorrent } from './move.saga';
 export { default as changeTorrentCategory } from './categoryChange.saga';
+export { default as changeTorrentTags } from './tagChange.saga';
 
 export { default as limitDownload } from './limitDownload.saga';
 export { default as limitUpload } from './limitUpload.saga';

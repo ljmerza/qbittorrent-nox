@@ -18,12 +18,11 @@ import { RESET_CATEGORY, RESET_TAGGED } from 'utilities/torrent-states';
 function GeneralTabInformation({ 
     generalInfo, selectedTorrent, 
     categories, tags,
-    changeTorrentCategory, 
+    changeTorrentCategory,
+    changeTorrentTags,
     changeTorrentName, 
     changeTorrentLocation
 }) {
-
-    console.log({ tags })
 
     // remove all and uncategorized then add 'reset cat' to beginning
     let [, ...selectableCategories] = categories;
@@ -32,13 +31,9 @@ function GeneralTabInformation({
     const onSaveName = ({ target: { value } }) => changeTorrentName(value);
     const onSavePath = ({ target: { value } }) => changeTorrentLocation(value);
 
-    const changeTorrentTags = event => {
-        console.log(event);
-    }
-
-    // remove all then add 'reset tags' to beginning
-    let [, ...selectableTags] = tags;
-    selectableTags.unshift(RESET_TAGGED);
+    // remove all/untagged then add 'reset tags' to beginning
+    let [, , ...selectableTags] = tags;
+    selectableTags.unshift({ ...RESET_TAGGED, isReset: true });
 
     return (
         <Card title='Information'>
@@ -94,6 +89,7 @@ GeneralTabInformation.propTypes = {
     changeTorrentName: PropTypes.func.isRequired,
     changeTorrentLocation: PropTypes.func.isRequired,
     changeTorrentCategory: PropTypes.func.isRequired,
+    changeTorrentTags: PropTypes.func.isRequired,
 };
 
 
@@ -109,6 +105,7 @@ function mapDispatchToProps(dispatch) {
         changeTorrentName: name => dispatch(torrentDetailsActions.changeTorrentName(name)),
         changeTorrentLocation: location => dispatch(torrentDetailsActions.changeTorrentLocation(location)),
         changeTorrentCategory: hashes => dispatch(torrentDetailsActions.changeTorrentCategory(hashes)),
+        changeTorrentTags: hashes => dispatch(torrentDetailsActions.changeTorrentTags(hashes)),
     };
 }
 

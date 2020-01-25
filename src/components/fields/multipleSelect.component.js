@@ -13,6 +13,7 @@ import {
     Select,
 } from '@material-ui/core';
 
+
 const useStyles = makeStyles(theme => ({
     formControl: {
         marginRight: theme.spacing(1),
@@ -21,6 +22,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getStyles(currentSelected, selected, theme) {
+    if (currentSelected.noCheckbox) return;
+    
     return {
         fontWeight:
             selected.indexOf(currentSelected.id) === -1
@@ -29,30 +32,34 @@ function getStyles(currentSelected, selected, theme) {
     };
 }
 
-function MultipleSelect({ value,  label, options, onChange, ...restProps }) {
+function MultipleSelect({ value, name, label, options, onChange, ...restProps }) {
     const classes = useStyles();
     const theme = useTheme();
     
     // use internal state so we can update this in the UI immediately even though the value hasnt changed
     // yet (it's async) - use effect so when the value DOES change everything is updated accordingly
     const [selectedValue, setSelectValue] = useState(value);
+
+    // if new value has reset flag then we want to empty the selected values
+    const resetId = (options.find(opt => opt.isReset) || {}).id;
     
     useEffect(() => {
         setSelectValue(selectedValue);
     }, [selectedValue, setSelectValue]);
     
     const onValueChange = ({ target: { value } }) => {
-        // setSelectValue(value);
-        console.log({ value })
-        // onChange(value);
+        const isReset = value.includes(resetId);
+        const newValue = isReset ? [] : value;
+        setSelectValue(newValue);
+        onChange(newValue);
     };
-    
+
     return (
         <FormControl margin='dense' className={classes.formControl}>
             <InputLabel>{label}</InputLabel>
             <Select
                 multiple
-                value={value}
+                value={selectedValue}
                 onChange={onValueChange}
                 input={<OutlinedInput />}
                 renderValue={selected => selected.join(', ')}
@@ -60,8 +67,8 @@ function MultipleSelect({ value,  label, options, onChange, ...restProps }) {
             >
                 {options.map(opt => {
                     return (
-                        <MenuItem key={opt.id} value={opt.id} style={getStyles(opt, value, theme)}>
-                            <Checkbox checked={value.indexOf(opt.id) > -1} />
+                        <MenuItem key={opt.id} value={opt.id} style={getStyles(opt, selectedValue, theme)}>
+                            {opt.isReset ? null : <Checkbox checked={selectedValue.indexOf(opt.id) > -1} />}
                             <ListItemText primary={opt.name} />
                         </MenuItem>
                     );

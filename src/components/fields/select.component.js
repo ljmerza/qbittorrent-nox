@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
-import { InputLabel, FormControl, Select, MenuItem } from '@material-ui/core';
+import { TextField, MenuItem } from '@material-ui/core';
 
 function SelectField({
     name,
     value,
     options,
     onChange,
-    label,
     classes,
     ...restProps
 }) {
@@ -28,16 +27,17 @@ function SelectField({
     };
 
     return (
-        <FormControl variant="outlined" margin='dense' className={classes.formControl} fullWidth>
-            <InputLabel>{label}</InputLabel>
-            <Select
-                value={selectedValue}
-                onChange={onValueChange}
-                {...restProps}
+        <TextField
+            select
+            value={selectedValue}
+            onChange={onValueChange}
+            margin='dense'
+            variant="outlined"
+            className={classes.formControl}
+            {...restProps}
         >
-                {options.map(opt => <MenuItem key={opt.id} value={opt.id}>{opt.name}</MenuItem>)}
-            </Select>
-        </FormControl>
+            {options.map(opt => <MenuItem key={opt.id} value={opt.id}>{opt.name}</MenuItem>)}
+        </TextField>
     );
 }
 
@@ -59,7 +59,7 @@ const styles = theme => ({
     formControl: {
         marginRight: theme.spacing(1),
         width: `calc(100% - ${theme.spacing(1)}px)`,
-    },
+    }
 });
 
 export default withStyles(styles, { withTheme: true })(SelectField);

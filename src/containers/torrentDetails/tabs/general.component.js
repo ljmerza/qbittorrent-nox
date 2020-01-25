@@ -22,8 +22,6 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, generalInfo, sel
         return () => clearInterval(timerId);
     }, [getGeneralInfo, refreshInterval]);
 
-    console.log({ loading, generalInfo })
-
     return (
         <>
             {selectedTorrent ? <GeneralTabActions selectedTorrent={selectedTorrent} /> : null}

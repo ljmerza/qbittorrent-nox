@@ -11,7 +11,7 @@ import {
  } from '../filters/filters.selectors'
 
 import { generateSortFunction } from 'utilities/torrent.tools';
-import { DEFAULT_UI_STATE, UNTAGGED } from 'utilities/torrent-states';
+import { DEFAULT_UI_STATE, UNTAGGED, ALL_CATEGORY, UNCATEGORIZED } from 'utilities/torrent-states';
 
 export const getTorrents = state => state.torrents;
 
@@ -25,8 +25,11 @@ export const getCategories = createSelector(getTorrents, torrents => torrents.ca
 export const getCategoriesCount = createSelector(
     [getCategories, getTorrentsCount], 
     (categories, counts) => {
+
         return categories.map(category => {
-            const categoryCount = counts[category.name] || 0;
+            let categoryCount = counts[category.name] || 0;
+            if (category.id === ALL_CATEGORY.id) categoryCount = counts.all;
+            if (category.id === UNCATEGORIZED.id) categoryCount = counts[''];
             return { id: category.id, name: `${category.name} (${categoryCount})` };
         });
     });
