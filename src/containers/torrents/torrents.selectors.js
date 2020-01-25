@@ -11,30 +11,41 @@ import {
  } from '../filters/filters.selectors'
 
 import { generateSortFunction } from 'utilities/torrent.tools';
-import { DEFAULT_UI_STATE, UNTAGGED, ALL_CATEGORY, UNCATEGORIZED } from 'utilities/torrent-states';
+import { DEFAULT_UI_STATE, UNTAGGED, ALL_TAGGED, ALL_CATEGORY, UNCATEGORIZED } from 'utilities/torrent-states';
 
 export const getTorrents = state => state.torrents;
-
 export const getTorrentsTorrents = createSelector(getTorrents, torrents => torrents.torrents);
-export const getTorrentsCount = createSelector(getTorrents, torrents => torrents.count);
 
 export const getLoading = createSelector(getTorrents, torrents => torrents.loading);
 export const getError = createSelector(getTorrents, torrents => torrents.error);
 
 export const getCategories = createSelector(getTorrents, torrents => torrents.categories);
+export const getTorrentsCategoryCount = createSelector(getTorrents, torrents => torrents.categoryCount);
 export const getCategoriesCount = createSelector(
-    [getCategories, getTorrentsCount], 
-    (categories, counts) => {
-
+    [getCategories, getTorrentsCategoryCount], 
+    (categories, categoryCount) => {
         return categories.map(category => {
-            let categoryCount = counts[category.name] || 0;
-            if (category.id === ALL_CATEGORY.id) categoryCount = counts.all;
-            if (category.id === UNCATEGORIZED.id) categoryCount = counts[''];
-            return { id: category.id, name: `${category.name} (${categoryCount})` };
+            let count = categoryCount[category.name] || 0;
+            if (category.id === ALL_CATEGORY.id) count = categoryCount.all;
+            if (category.id === UNCATEGORIZED.id) count = categoryCount[UNCATEGORIZED.id];
+            return { id: category.id, name: `${category.name} (${count})` };
         });
-    });
+    }
+);
 
 export const getTags = createSelector(getTorrents, torrents => torrents.tags);
+export const getTorrentsTagsCount = createSelector(getTorrents, torrents => torrents.tagsCount);
+export const getTagsCount = createSelector(
+    [getTags, getTorrentsTagsCount],
+    (tags, tagsCount) => {
+        return tags.map(tag => {
+            let count = tagsCount[tag.name] || 0;
+            if (tag.id === ALL_TAGGED.id) count = tagsCount.all;
+            if (tag.id === UNTAGGED.id) count = tagsCount[''];
+            return { id: tag.id, name: `${tag.name} (${count})` };
+        });
+    }
+);
 
 export const getDateTimeFormat = createSelector(getTorrents, torrents => torrents.dateTimeFormat);
 export const getDateFormat = createSelector(getTorrents, torrents => torrents.dateFormat);

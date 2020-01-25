@@ -6,9 +6,10 @@ import { formatTorrent, formatServerStats } from 'utilities/torrent.tools';
 export const initialState = {
     torrents: [],
     categories: [],
+    categoryCount: {},
     tags: [],
+    tagsCount: [],
     serverState: {},
-    count: {},
     loading: false,
     error: '',
     path: 'sync/maindata',
@@ -24,21 +25,30 @@ export const torrentsSlice = createSlice({
         torrents: state => ({ ...state, error: '', loading: true }),
         torrentsSuccess: (state, action) => {
             const { torrents, categories, server_state: serverState, tags, ...rest } = action.response;
-            const count = { };
+            const categoryCount = {};
+            const tagsCount = {};
             
             const formattedTorrents = Object.entries(torrents).reduce((acc, [hash, torrent], idx) => {
-                const oldTorrent = state.torrents[idx] || {};
-
-                if (!count[torrent.category]) count[torrent.category] = 0;
-                count[torrent.category]++;
-
                 torrent.hash = hash;
+                const oldTorrent = state.torrents[idx] || {};
                 torrent = formatTorrent(torrent, oldTorrent, state.dateTimeFormat);
+
+                // sum up categories
+                if (!categoryCount[torrent.category]) categoryCount[torrent.category] = 0;
+                categoryCount[torrent.category]++;
+
+                // sum up tags
+                torrent.tagsUi.forEach(tag => {
+                    if (!tagsCount[tag]) tagsCount[tag] = 0;
+                    tagsCount[tag]++;
+                });
+
                 acc.push(torrent);
                 return acc;
             }, []);
 
-            count.all = formattedTorrents.length;
+            categoryCount.all = formattedTorrents.length;
+            tagsCount.all = formattedTorrents.length;
 
             // convert category objects to array with no category (Uncategorized)
             const formattedCategories = Object.values(categories).reduce((acc, category) => {
@@ -60,7 +70,8 @@ export const torrentsSlice = createSlice({
                 serverState: formattedServerState, 
                 categories: formattedCategories, 
                 tags: formattedTags,
-                count,
+                categoryCount,
+                tagsCount,
                 ...rest
             };
         },

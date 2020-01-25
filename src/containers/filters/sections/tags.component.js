@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 
 import CollapsibleList from 'components/fields/collapsibleList.component';
 
-import { getTags } from 'containers/torrents/torrents.selectors';
+import { getTagsCount } from 'containers/torrents/torrents.selectors';
 import { filtersActions } from '../filters.reducer';
 import { getSelectedTag, getOpenTags } from '../filters.selectors';
 
-function FiltersContainer({ tags, selectedTag, openTags, changeSelectedTag, toggleCollapsedTag }) {
+function FiltersContainer({ tagsCount, selectedTag, openTags, changeSelectedTag, toggleCollapsedTag }) {
 
     return (
         <CollapsibleList
             title='Tags'
             open={openTags}
             selected={selectedTag}
-            items={tags}
+            items={tagsCount}
             onChangeSelected={changeSelectedTag}
             onToggleCollapsed={toggleCollapsedTag}
         />
@@ -24,7 +24,7 @@ function FiltersContainer({ tags, selectedTag, openTags, changeSelectedTag, togg
 }
 
 FiltersContainer.propTypes = {
-    tags: PropTypes.array.isRequired,
+    tagsCount: PropTypes.array.isRequired,
     selectedTag: PropTypes.string.isRequired,
     openTags: PropTypes.bool.isRequired,
     changeSelectedTag: PropTypes.func.isRequired,
@@ -33,7 +33,7 @@ FiltersContainer.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        tags: getTags(state),
+        tagsCount: getTagsCount(state),
         selectedTag: getSelectedTag(state),
         openTags: getOpenTags(state)
     }

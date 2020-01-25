@@ -18,7 +18,7 @@ export const RESET_TAGGED = { id: 'RESET_TAGGED', name: 'Reset Tags', uneditable
 
 export const DEFAULT_UI_STATE = 'all';
 export const DEFAULT_UI_CATEGORY = ALL_CATEGORY.id;
-export const DEFAULT_UI_TAG = UNTAGGED.id;
+export const DEFAULT_UI_TAG = '';
 export const DEFAULT_UI_SORT = 'name';
 
 /**
