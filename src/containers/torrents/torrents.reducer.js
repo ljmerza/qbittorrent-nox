@@ -8,6 +8,7 @@ export const initialState = {
     categories: [],
     tags: [],
     serverState: {},
+    count: {},
     loading: false,
     error: '',
     path: 'sync/maindata',
@@ -23,15 +24,21 @@ export const torrentsSlice = createSlice({
         torrents: state => ({ ...state, error: '', loading: true }),
         torrentsSuccess: (state, action) => {
             const { torrents, categories, server_state: serverState, tags, ...rest } = action.response;
+            const count = { };
             
             const formattedTorrents = Object.entries(torrents).reduce((acc, [hash, torrent], idx) => {
                 const oldTorrent = state.torrents[idx] || {};
+
+                if (!count[torrent.category]) count[torrent.category] = 0;
+                count[torrent.category]++;
 
                 torrent.hash = hash;
                 torrent = formatTorrent(torrent, oldTorrent, state.dateTimeFormat);
                 acc.push(torrent);
                 return acc;
             }, []);
+
+            count.all = formattedTorrents.length;
 
             // convert category objects to array with no category (Uncategorized)
             const formattedCategories = Object.values(categories).reduce((acc, category) => {
@@ -53,6 +60,7 @@ export const torrentsSlice = createSlice({
                 serverState: formattedServerState, 
                 categories: formattedCategories, 
                 tags: formattedTags,
+                count,
                 ...rest
             };
         },

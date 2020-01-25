@@ -16,10 +16,21 @@ import { DEFAULT_UI_STATE, UNTAGGED } from 'utilities/torrent-states';
 export const getTorrents = state => state.torrents;
 
 export const getTorrentsTorrents = createSelector(getTorrents, torrents => torrents.torrents);
+export const getTorrentsCount = createSelector(getTorrents, torrents => torrents.count);
+
 export const getLoading = createSelector(getTorrents, torrents => torrents.loading);
 export const getError = createSelector(getTorrents, torrents => torrents.error);
 
 export const getCategories = createSelector(getTorrents, torrents => torrents.categories);
+export const getCategoriesCount = createSelector(
+    [getCategories, getTorrentsCount], 
+    (categories, counts) => {
+        return categories.map(category => {
+            const categoryCount = counts[category.name] || 0;
+            return { id: category.id, name: `${category.name} (${categoryCount})` };
+        });
+    });
+
 export const getTags = createSelector(getTorrents, torrents => torrents.tags);
 
 export const getDateTimeFormat = createSelector(getTorrents, torrents => torrents.dateTimeFormat);

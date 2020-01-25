@@ -5,17 +5,18 @@ import { connect } from 'react-redux';
 
 import CollapsibleList from 'components/fields/collapsibleList.component';
 
-import { getCategories } from 'containers/torrents/torrents.selectors';
+import { getCategoriesCount } from 'containers/torrents/torrents.selectors';
 import { filtersActions } from '../filters.reducer';
 import { getSelectedCategory, getOpenCategories } from '../filters.selectors';
 
-function FiltersContainer({ categories, openCategories, selectedCategory, changeSelectedCategory, toggleCollapsedCategory }) {
+function FiltersContainer({ categoriesCounted, openCategories, selectedCategory, changeSelectedCategory, toggleCollapsedCategory }) {
+
     return (
         <CollapsibleList
             title='Category'
             open={openCategories}
             selected={selectedCategory}
-            items={categories}
+            items={categoriesCounted}
             onChangeSelected={changeSelectedCategory}
             onToggleCollapsed={toggleCollapsedCategory}
         />
@@ -23,7 +24,7 @@ function FiltersContainer({ categories, openCategories, selectedCategory, change
 }
 
 FiltersContainer.propTypes = {
-    categories: PropTypes.array.isRequired,
+    categoriesCounted: PropTypes.array.isRequired,
     selectedCategory: PropTypes.string.isRequired,
     openCategories: PropTypes.bool.isRequired,
     changeSelectedCategory: PropTypes.func.isRequired,
@@ -32,7 +33,7 @@ FiltersContainer.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        categories: getCategories(state),
+        categoriesCounted: getCategoriesCount(state),
         selectedCategory: getSelectedCategory(state),
         openCategories: getOpenCategories(state),
     }
