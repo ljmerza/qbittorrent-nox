@@ -89,7 +89,6 @@ export const formatServerStats = (serverState, oldServerState) => {
     const newServerState = oldServerState ? { ...oldServerState } : {};
 
     Object.entries(serverState || {}).forEach(([key, value]) => {
-        newServerState[key] = value;
 
         switch (key) {
             case 'dl_info_data':
@@ -113,6 +112,9 @@ export const formatServerStats = (serverState, oldServerState) => {
             default:
                 break;
         }
+
+        // copy new value over to old AFTER we compare for new value in switch statements
+        newServerState[key] = value;
     });
 
     return newServerState;
