@@ -19,37 +19,37 @@ export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
 
         switch(key){
             case 'size': 
-                newTorrent.sizeUi = prettySize(torrent.size);
+                newTorrent.sizeUi = (newTorrent.size === torrent.size) ? newTorrent.sizeUi : prettySize(torrent.size);
                 break;
             case 'downloaded': 
-                newTorrent.downloadedUi = prettySize(torrent.downloaded);
+                newTorrent.downloadedUi = (newTorrent.downloaded === torrent.downloaded) ? newTorrent.downloadedUi : prettySize(torrent.downloaded);
                 break;
             case 'completed':
-                newTorrent.completedUi = prettySize(torrent.completed);
+                newTorrent.completedUi = (newTorrent.completed === torrent.completed) ? newTorrent.completedUi : prettySize(torrent.completed);
                 break;
             case 'total_size':
-                newTorrent.totalSizeUi = prettySize(torrent.total_size);
+                newTorrent.totalSizeUi = (newTorrent.total_size === torrent.total_size) ? newTorrent.totalSizeUi : prettySize(torrent.total_size);
                 break;
             case 'uploaded':
-                newTorrent.uploadedUi = prettySize(torrent.uploaded);
+                newTorrent.uploadedUi = (newTorrent.uploaded === torrent.uploaded) ? newTorrent.uploadedUi : prettySize(torrent.uploaded);
                 break;
             case 'amount_left':
-                newTorrent.amountLeftUi = prettySize(torrent.amount_left);
+                newTorrent.amountLeftUi = (newTorrent.amount_left === torrent.amount_left) ? newTorrent.amountLeftUi : prettySize(torrent.amount_left);
                 break;
             case 'added_on':
-                newTorrent.addedOnUi = computedDateTime(torrent.added_on, dateTimeFormat);
+                newTorrent.addedOnUi = (newTorrent.added_on === torrent.added_on) ? newTorrent.addedOnUi : computedDateTime(torrent.added_on, dateTimeFormat);
                 break;
             case 'eta':
-                newTorrent.etaUi = computeTimeLeft(torrent.eta);
+                newTorrent.etaUi = (newTorrent.eta === torrent.eta) ? newTorrent.etaUi : computeTimeLeft(torrent.eta);
                 break;
             case 'completion_on':
-                newTorrent.completedOnUi = computedDateTime(torrent.completion_on, dateTimeFormat);
+                newTorrent.completedOnUi = (newTorrent.completion_on === torrent.completion_on) ? newTorrent.completedOnUi : computedDateTime(torrent.completion_on, dateTimeFormat);
                 break;
             case 'seen_complete':
-                newTorrent.seenCompleteUi = computedDateTime(torrent.seen_complete, dateTimeFormat);
+                newTorrent.seenCompleteUi = (newTorrent.seen_complete === torrent.seen_complete) ? newTorrent.seenCompleteUi : computedDateTime(torrent.seen_complete, dateTimeFormat);
                 break;
             case 'time_active':
-                newTorrent.timeActiveUi = computedDateTime(torrent.time_active, dateTimeFormat);
+                newTorrent.timeActiveUi = (newTorrent.time_active === torrent.time_active) ? newTorrent.timeActiveUi : computedDateTime(torrent.time_active, dateTimeFormat);
                 break;
             case 'state':
                 newTorrent.stateUi = mapTorrentState(torrent.state);
@@ -60,17 +60,17 @@ export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
                 newTorrent.states = computeStates({dlspeed, upspeed, progress, state});
                 break;
             case 'progress':
-                newTorrent.percentDone = computePercentDone(torrent.progress);
+                newTorrent.percentDone = (newTorrent.progress === torrent.progress) ? newTorrent.percentDone : computePercentDone(torrent.progress);
                 newTorrent.isDone = torrent.progress === 1;
                 break;
             case 'category':
                 newTorrent.category = torrent.category || UNCATEGORIZED.id;
                 break;
             case 'dlspeed':
-                newTorrent.dlspeedUi = prettySizeTime(torrent.dlspeed);
+                newTorrent.dlspeedUi = (newTorrent.dlspeed === torrent.dlspeed) ? newTorrent.dlspeedUi : prettySizeTime(torrent.dlspeed);
                 break;
             case 'upspeed':
-                newTorrent.upspeedUi = prettySizeTime(torrent.upspeed);
+                newTorrent.upspeedUi = (newTorrent.upspeed === torrent.upspeed) ? newTorrent.upspeedUi : prettySizeTime(torrent.upspeed);
                 break;
             case 'tags':
                 newTorrent.tagsUi = torrent.tags.split(',').map(tag => tag.trim());
@@ -91,22 +91,22 @@ export const formatServerStats = (serverState, oldServerState) => {
 
         switch (key) {
             case 'dl_info_data':
-                newServerState.dlTotal = prettySize(serverState.dl_info_data);
+                newServerState.dlTotal = (newServerState.time_active === serverState.time_active) ? newServerState.timeActiveUi : prettySize(serverState.dl_info_data);
                 break;
             case 'dl_info_speed':
-                newServerState.dlSpeed = prettySizeTime(serverState.dl_info_speed);;
+                newServerState.dlSpeed = (newServerState.dl_info_speed === serverState.dl_info_speed) ? newServerState.dlSpeed : prettySizeTime(serverState.dl_info_speed);;
                 break;
             case 'dl_rate_limit':
-                newServerState.dlLimit = prettySizeTime(serverState.dl_rate_limit);;
+                newServerState.dlLimit = (newServerState.dl_rate_limit === serverState.dl_rate_limit) ? newServerState.dlLimit : prettySizeTime(serverState.dl_rate_limit);;
                 break;
             case 'up_info_data':
-                newServerState.upTotal = prettySize(serverState.up_info_data);;
+                newServerState.upTotal = (newServerState.up_info_data === serverState.up_info_data) ? newServerState.upTotal : prettySize(serverState.up_info_data);;
                 break;
             case 'up_info_speed':
-                newServerState.upSpeed = prettySizeTime(serverState.up_info_speed);;
+                newServerState.upSpeed = (newServerState.up_info_speed === serverState.up_info_speed) ? newServerState.upSpeed : prettySizeTime(serverState.up_info_speed);;
                 break;
             case 'up_rate_limit':
-                newServerState.upLimit = prettySizeTime(serverState.up_rate_limit);;
+                newServerState.upLimit = (newServerState.up_rate_limit === serverState.up_rate_limit) ? newServerState.upLimit : prettySizeTime(serverState.up_rate_limit);;
                 break;
             default:
                 break;
