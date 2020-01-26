@@ -45,7 +45,7 @@ function FiltersSort({ openSort, selectedSort, changeSelectedSort, toggleCollaps
                 return (
                     <ListItemText primary={
                         <div className={classes.sortContainer}>
-                            {item.label}
+                            {item.name}
                             <span className={classes.sortDirection}>{icon}</span>
                         </div>
                     } />

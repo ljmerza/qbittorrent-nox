@@ -55,39 +55,38 @@ export const TORRENT_STATES_MAP = {
     active: 'active',
     inactive: 'inactive',
     checking: 'checking',
-    errored: 'errored',
 };
 
 /**
  * sorting options
  */
 export const TORRENT_FILTER_SORT_MAP = [
-    { id: 'name', label: 'Name' },
-    { id: 'state', label: 'State' },
-    { id: 'progress', label: 'Progress' },
-    { id: 'dlspeed', label: 'Download Speed' },
-    { id: 'upspeed', label: 'Upload Speed' },
-    { id: 'size', label: 'Total Size' },
-    { id: 'ratio', label: 'Ratio' },
-    { id: 'added_on', label: 'Date Added' },
-    { id: 'amount_left', label: 'ETA' },
+    { id: 'name', name: 'Name' },
+    { id: 'state', name: 'State' },
+    { id: 'progress', name: 'Progress' },
+    { id: 'dlspeed', name: 'Download Speed' },
+    { id: 'upspeed', name: 'Upload Speed' },
+    { id: 'size', name: 'Total Size' },
+    { id: 'ratio', name: 'Ratio' },
+    { id: 'added_on', name: 'Date Added' },
+    { id: 'amount_left', name: 'ETA' },
 ];
 
 /**
  * map of UI states to show on filter sidebar
  */
 export const TORRENT_FILTER_STATES_MAP = [
-    { id: TORRENT_STATES_MAP.all, label: 'All' },
-    { id: TORRENT_STATES_MAP.downloading, label: 'Downloading' },
-    { id: TORRENT_STATES_MAP.seeding, label: 'Seeding' },
-    { id: TORRENT_STATES_MAP.completed, label: 'Completed' },
-    { id: TORRENT_STATES_MAP.resumed, label: 'Resumed' },
+    { id: TORRENT_STATES_MAP.all, name: 'All' },
+    { id: TORRENT_STATES_MAP.downloading, name: 'Downloading' },
+    { id: TORRENT_STATES_MAP.seeding, name: 'Seeding' },
+    { id: TORRENT_STATES_MAP.completed, name: 'Completed' },
+    { id: TORRENT_STATES_MAP.resumed, name: 'Resumed' },
 
-    { id: TORRENT_STATES_MAP.paused, label: 'Paused' },
-    { id: TORRENT_STATES_MAP.active, label: 'Active' },
-    { id: TORRENT_STATES_MAP.inactive, label: 'Inactive' },
-    { id: TORRENT_STATES_MAP.checking, label: 'Checking' },
-    { id: TORRENT_STATES_MAP.errored, label: 'Errored' },
+    { id: TORRENT_STATES_MAP.paused, name: 'Paused' },
+    { id: TORRENT_STATES_MAP.active, name: 'Active' },
+    { id: TORRENT_STATES_MAP.inactive, name: 'Inactive' },
+    { id: TORRENT_STATES_MAP.checking, name: 'Checking' },
+    { id: TORRENT_STATES_MAP.error, name: 'Errored' },
 ];
 
 /**
@@ -137,6 +136,10 @@ export const SEEDING_STATES = [
     TORRENT_STATES_MAP.checkingUP,
 ];
 
+export const ACTIVE_STATES = [
+    TORRENT_STATES_MAP.metaDownloading,
+]
+
 export const ERROR_STATES = [
     TORRENT_STATES_MAP.missingFiles,
     TORRENT_STATES_MAP.error,
@@ -163,17 +166,17 @@ export const mapTorrentState = state => UI_STATE_MAP[state] || state;
 /**
  * computes all UI filter states a torrent can be a part of
  */
-export const computeStates = torrent => {
+export const computeStates = ({dlspeed, upspeed, progress, state}) => {
     const states = [];
 
-    const hasSpeed = !!(torrent.dlspeed || torrent.upspeed);
-    const isCompleted = torrent.progress === 1;
+    const hasSpeed = !!(dlspeed || upspeed);
+    const isCompleted = progress === 1;
 
-    if (DOWNLOADING_STATES.includes(torrent.state)){
+    if (DOWNLOADING_STATES.includes(state)){
         states.push(TORRENT_STATES_MAP.downloading);
     }
         
-    if (SEEDING_STATES.includes(torrent.state) && hasSpeed){
+    if (SEEDING_STATES.includes(state)){
         states.push(TORRENT_STATES_MAP.seeding);
     }
         
@@ -181,19 +184,19 @@ export const computeStates = torrent => {
         states.push(TORRENT_STATES_MAP.completed);
     }
 
-    if (!PAUSED_STATES.includes(torrent.state)){
+    if (!PAUSED_STATES.includes(state)){
         states.push(TORRENT_STATES_MAP.resumed);
     }
 
-    if (PAUSED_STATES.includes(torrent.state)){
+    if (PAUSED_STATES.includes(state)){
         states.push(TORRENT_STATES_MAP.paused);
     }
 
-    if (CHECKING_STATES.includes(torrent.state)) {
+    if (CHECKING_STATES.includes(state)) {
         states.push(TORRENT_STATES_MAP.checking);
     }
 
-    if (hasSpeed){
+    if (hasSpeed || ACTIVE_STATES.includes(state)){
         states.push(TORRENT_STATES_MAP.active);
     }
 
@@ -201,7 +204,7 @@ export const computeStates = torrent => {
         states.push(TORRENT_STATES_MAP.inactive);
     }
 
-    if (ERROR_STATES.includes(torrent.state)){
+    if (ERROR_STATES.includes(state)){
         states.push(TORRENT_STATES_MAP.error);
     }
 

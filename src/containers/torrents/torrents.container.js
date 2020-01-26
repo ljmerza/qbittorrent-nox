@@ -46,13 +46,14 @@ class TorrentsContainer extends PureComponent {
         }
     }
 
-    startUpdate = () => {
+    startUpdate = async () => {
         this.props.getTorrents();
 
         // load every set interval unless currently loading
-        this._interval = setInterval(() => {
+        this._interval = setInterval(async () => {
             if (this.props.loading) return;
             this.props.getTorrents();
+            
         }, this.props.refreshInterval);
     }
 

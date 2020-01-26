@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { UNCATEGORIZED, ALL_CATEGORY, UNTAGGED, ALL_TAGGED } from 'utilities/torrent-states';
-import { formatTorrent, formatServerStats } from 'utilities/torrent.tools';
+import { formatTorrent, formatServerStats, sumTorrents } from 'utilities/torrent.tools';
 
 export const initialState = {
     torrents: [],
+    statesCount: {},
     categories: [],
     categoryCount: {},
     tags: [],
@@ -24,44 +25,40 @@ export const torrentsSlice = createSlice({
     reducers: {
         torrents: state => ({ ...state, error: '', loading: true }),
         torrentsSuccess: (state, action) => {
-            const { torrents, categories, server_state: serverState, tags, ...rest } = action.response;
-            const categoryCount = {};
-            const tagsCount = {};
-            
-            const formattedTorrents = Object.entries(torrents).reduce((acc, [hash, torrent], idx) => {
+            const { 
+                torrents, categories, server_state: serverState, 
+                tags, full_update: fullUpdate, ...rest 
+            } = action.response;
+
+            let formattedTorrents = Object.entries(torrents || {}).reduce((acc, [hash, torrent], idx) => {
                 torrent.hash = hash;
-                const oldTorrent = state.torrents[idx] || {};
-                torrent = formatTorrent(torrent, oldTorrent, state.dateTimeFormat);
-
-                // sum up categories
-                if (!categoryCount[torrent.category]) categoryCount[torrent.category] = 0;
-                categoryCount[torrent.category]++;
-
-                // sum up tags
-                torrent.tagsUi.forEach(tag => {
-                    if (!tagsCount[tag]) tagsCount[tag] = 0;
-                    tagsCount[tag]++;
-                });
-
+                torrent = formatTorrent(torrent, state.torrents || [], state.dateTimeFormat);
                 acc.push(torrent);
                 return acc;
             }, []);
 
-            categoryCount.all = formattedTorrents.length;
-            tagsCount.all = formattedTorrents.length;
+            // if was not a full update then we didn't get all torrents back
+            // we need to merge the new updated torrents with the old torrents
+            if (!fullUpdate) {
+                formattedTorrents = state.torrents.map(torrent => {
+                    const newTorrent = formattedTorrents.find(ft => ft.hash === torrent.hash);
+                    return newTorrent || torrent;
+                });
+            }
 
-            // convert category objects to array with no category (Uncategorized)
-            const formattedCategories = Object.values(categories).reduce((acc, category) => {
+            // if api gave categories/tags then convert them
+            const formattedCategories = !categories ? state.categories : Object.values(categories).reduce((acc, category) => {
                 acc.push({ id: category.name, ...category });
                 return acc;
             }, [ALL_CATEGORY, UNCATEGORIZED]);
 
-            const formattedTags = tags.reduce((acc, tag) => {
+            const formattedTags = !tags ? state.tags : tags.reduce((acc, tag) => {
                 acc.push({ id: tag, name: tag });
                 return acc;
             }, [ALL_TAGGED, UNTAGGED]);
 
-            const formattedServerState = formatServerStats(serverState);
+            // format any server stats for the UI
+            const formattedServerState = formatServerStats(serverState, state.serverState);
 
             return { 
                 ...state, 
@@ -70,13 +67,15 @@ export const torrentsSlice = createSlice({
                 serverState: formattedServerState, 
                 categories: formattedCategories, 
                 tags: formattedTags,
-                categoryCount,
-                tagsCount,
+                fullUpdate,
+                ...sumTorrents(formattedTorrents),
                 ...rest
             };
         },
         torrentsError: (state, action) => ({ ...state, loading: false, error: action.error }),
     }
 });
+
+
 
 export const { actions: torrentsActions, reducer: torrentsReducer } = torrentsSlice;

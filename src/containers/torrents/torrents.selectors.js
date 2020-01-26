@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { TORRENT_FILTER_STATES_MAP } from 'utilities/torrent-states';
 
 import {
     getSelectedState,
@@ -15,6 +16,15 @@ import { DEFAULT_UI_STATE, UNTAGGED, ALL_TAGGED, ALL_CATEGORY, UNCATEGORIZED } f
 
 export const getTorrents = state => state.torrents;
 export const getTorrentsTorrents = createSelector(getTorrents, torrents => torrents.torrents);
+export const getTorrentsRid = createSelector(getTorrents, torrents => torrents.rid);
+
+export const getTorrentsStatesCount = createSelector(getTorrents, torrents => torrents.statesCount);
+export const getStatesCount = createSelector(getTorrentsStatesCount, states => {
+    return TORRENT_FILTER_STATES_MAP.map(uiState => {
+        let count = states[uiState.id] || 0;
+        return { id: uiState.id, name: `${uiState.name} (${count})` };
+    });
+});
 
 export const getLoading = createSelector(getTorrents, torrents => torrents.loading);
 export const getError = createSelector(getTorrents, torrents => torrents.error);

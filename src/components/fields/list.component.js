@@ -33,7 +33,7 @@ function ListComponent({ selected, items, onChangeSelected, children }) {
                         })}
                         onClick={() => onChangeSelected(item.id)}
                     >
-                        {children ? children(item, isSelected) : <ListItemText primary={item.label || item.name} />}
+                        {children ? children(item, isSelected) : <ListItemText primary={item.name} />}
                     </ListItem>
                 );
             })}

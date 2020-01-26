@@ -7,57 +7,113 @@ import { computedDateTime, computeTimeLeft, computePercentDone } from './formatt
  * format torrent values for UI - only update 
  * certain values if the raw value has changed
  * @param {Object} torrent 
- * @param {Object} oldTorrent 
+ * @param {Object[]} stateTorrents
  * @param {String} dateTimeFormat 
  */
-export const formatTorrent = (torrent, oldTorrent, dateTimeFormat) => {
+export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
+    // find if we already have the torrent so we can update it
+    const newTorrent = { ...(stateTorrents.find(st => st.hash === torrent.hash) || {}) };
+ 
+    Object.entries(torrent || {}).forEach(([key, value]) => {
+        newTorrent[key] = value;
 
-    // format sizes
-    torrent.sizeUi = (oldTorrent.size === torrent.size) ? oldTorrent.sizeUi : prettySize(torrent.size);
-    torrent.downloadedUi = (oldTorrent.downloaded === torrent.downloaded) ? oldTorrent.downloadedUi : prettySize(torrent.downloaded);
-    torrent.completedUi = (oldTorrent.completed === torrent.completed) ? oldTorrent.completedUi : prettySize(torrent.completed);
-    torrent.totalSizeUi = (oldTorrent.total_size === torrent.total_size) ? oldTorrent.totalSizeUi : prettySize(torrent.total_size);
-    torrent.uploadedUi = (oldTorrent.uploaded === torrent.uploaded) ? oldTorrent.uploadedUi : prettySize(torrent.uploaded);
-    torrent.amountLeftUi = (oldTorrent.amount_left === torrent.amount_left) ? oldTorrent.amountLeftUi : prettySize(torrent.amount_left);
+        switch(key){
+            case 'size': 
+                newTorrent.sizeUi = prettySize(torrent.size);
+                break;
+            case 'downloaded': 
+                newTorrent.downloadedUi = prettySize(torrent.downloaded);
+                break;
+            case 'completed':
+                newTorrent.completedUi = prettySize(torrent.completed);
+                break;
+            case 'total_size':
+                newTorrent.totalSizeUi = prettySize(torrent.total_size);
+                break;
+            case 'uploaded':
+                newTorrent.uploadedUi = prettySize(torrent.uploaded);
+                break;
+            case 'amount_left':
+                newTorrent.amountLeftUi = prettySize(torrent.amount_left);
+                break;
+            case 'added_on':
+                newTorrent.addedOnUi = computedDateTime(torrent.added_on, dateTimeFormat);
+                break;
+            case 'eta':
+                newTorrent.etaUi = computeTimeLeft(torrent.eta);
+                break;
+            case 'completion_on':
+                newTorrent.completedOnUi = computedDateTime(torrent.completion_on, dateTimeFormat);
+                break;
+            case 'seen_complete':
+                newTorrent.seenCompleteUi = computedDateTime(torrent.seen_complete, dateTimeFormat);
+                break;
+            case 'time_active':
+                newTorrent.timeActiveUi = computedDateTime(torrent.time_active, dateTimeFormat);
+                break;
+            case 'state':
+                newTorrent.stateUi = mapTorrentState(torrent.state);
+                const dlspeed = 'dlspeed' in torrent ? torrent.dlspeed : newTorrent.dlspeed;
+                const upspeed = 'upspeed' in torrent ? torrent.upspeed : newTorrent.upspeed;
+                const progress = 'progress' in torrent ? torrent.progress : newTorrent.progress;
+                const state = 'state' in torrent ? torrent.state : newTorrent.state;
+                newTorrent.states = computeStates({dlspeed, upspeed, progress, state});
+                break;
+            case 'progress':
+                newTorrent.percentDone = computePercentDone(torrent.progress);
+                newTorrent.isDone = torrent.progress === 1;
+                break;
+            case 'category':
+                newTorrent.category = torrent.category || UNCATEGORIZED.id;
+                break;
+            case 'dlspeed':
+                newTorrent.dlspeedUi = prettySizeTime(torrent.dlspeed);
+                break;
+            case 'upspeed':
+                newTorrent.upspeedUi = prettySizeTime(torrent.upspeed);
+                break;
+            case 'tags':
+                newTorrent.tagsUi = torrent.tags.split(',').map(tag => tag.trim());
+                break;
+            default:
+                break;
+        }
+    });
 
-    // format date times
-    torrent.addedOnUi = (oldTorrent.added_on === torrent.added_on) ? oldTorrent.addedOnUi : computedDateTime(torrent.added_on, dateTimeFormat);
-    torrent.etaUi = (oldTorrent.eta === torrent.eta) ? oldTorrent.etaUi : computeTimeLeft(torrent.eta);
-    torrent.completedOnUi = (oldTorrent.completion_on === torrent.completion_on) ? oldTorrent.completedOnUi : computedDateTime(torrent.completion_on, dateTimeFormat);
-    torrent.seenCompleteUi = (oldTorrent.seen_complete === torrent.seen_complete) ? oldTorrent.seenCompleteUi : computedDateTime(torrent.seen_complete, dateTimeFormat);
-    torrent.timeActiveUi = (oldTorrent.time_active === torrent.time_active) ? oldTorrent.timeActiveUi : computedDateTime(torrent.time_active, dateTimeFormat);
-
-    // get some extra formatted data
-    torrent.stateUi = (oldTorrent.state === torrent.state) ? oldTorrent.stateUi :  mapTorrentState(torrent.state);
-    torrent.percentDone = computePercentDone(torrent.progress);
-    torrent.isDone = torrent.progress === 1;
-    torrent.states = computeStates(torrent);
-    torrent.category = torrent.category || UNCATEGORIZED.id;
-
-    // format speeds and get total speeds
-    torrent.dlspeedUi = (oldTorrent.dlspeed === torrent.dlspeed) ? oldTorrent.dlspeedUi : prettySizeTime(torrent.dlspeed);
-    torrent.upspeedUi = (oldTorrent.upspeed === torrent.upspeed) ? oldTorrent.upspeedUi : prettySizeTime(torrent.upspeed);
-
-    // seperate tags
-    torrent.tagsUi = (oldTorrent.tags === torrent.tags) ? oldTorrent.tagsUi : torrent.tags.split(',').map(tag => tag.trim());
-
-    return torrent;
+    return newTorrent;
 };
 
-export const formatServerStats = serverState => {
-    if (serverState._formatted) return serverState;
-    serverState = { ...serverState };
+export const formatServerStats = (serverState, oldServerState) => {
+    const newServerState = oldServerState ? { ...oldServerState } : {};
 
-    serverState.dlTotal = prettySize(serverState.dl_info_data);
-    serverState.dlSpeed = prettySizeTime(serverState.dl_info_speed);
-    serverState.dlLimit = prettySizeTime(serverState.dl_rate_limit);
-    
-    serverState.upTotal = prettySize(serverState.up_info_data);
-    serverState.upSpeed = prettySizeTime(serverState.up_info_speed);
-    serverState.upLimit = prettySizeTime(serverState.up_rate_limit);
+    Object.entries(serverState || {}).forEach(([key, value]) => {
+        newServerState[key] = value;
 
-    serverState._formatted = true;
-    return serverState;
+        switch (key) {
+            case 'dl_info_data':
+                newServerState.dlTotal = prettySize(serverState.dl_info_data);
+                break;
+            case 'dl_info_speed':
+                newServerState.dlSpeed = prettySizeTime(serverState.dl_info_speed);;
+                break;
+            case 'dl_rate_limit':
+                newServerState.dlLimit = prettySizeTime(serverState.dl_rate_limit);;
+                break;
+            case 'up_info_data':
+                newServerState.upTotal = prettySize(serverState.up_info_data);;
+                break;
+            case 'up_info_speed':
+                newServerState.upSpeed = prettySizeTime(serverState.up_info_speed);;
+                break;
+            case 'up_rate_limit':
+                newServerState.upLimit = prettySizeTime(serverState.up_rate_limit);;
+                break;
+            default:
+                break;
+        }
+    });
+
+    return newServerState;
 }
 
 
@@ -75,4 +131,39 @@ export const generateSortFunction = (selectedSort, isSortDescending) => {
 
         return (aVal > bVal) ? first : second;
     }
+}
+
+/**
+ * sum the states, categories, and tags
+ * @param {Object[]} formattedTorrents 
+ */
+export function sumTorrents(formattedTorrents) {
+    const categoryCount = {};
+    const tagsCount = {};
+    const statesCount = {};
+
+    // now that we havev complete list - sum up what we need
+    formattedTorrents.forEach(torrent => {
+        // sum up categories
+        if (!categoryCount[torrent.category]) categoryCount[torrent.category] = 0;
+        categoryCount[torrent.category]++;
+
+        // sum up tags
+        torrent.tagsUi.forEach(tag => {
+            if (!tagsCount[tag]) tagsCount[tag] = 0;
+            tagsCount[tag]++;
+        });
+
+        // sum up states
+        torrent.states.forEach(state => {
+            if (!statesCount[state]) statesCount[state] = 0;
+            statesCount[state]++;
+        });
+    });
+
+    categoryCount.all = formattedTorrents.length;
+    tagsCount.all = formattedTorrents.length;
+    statesCount.all = formattedTorrents.length;
+
+    return { categoryCount, tagsCount, statesCount };
 }
