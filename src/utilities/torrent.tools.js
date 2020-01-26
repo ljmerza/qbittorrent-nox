@@ -15,7 +15,6 @@ export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
     const newTorrent = { ...(stateTorrents.find(st => st.hash === torrent.hash) || {}) };
  
     Object.entries(torrent || {}).forEach(([key, value]) => {
-        newTorrent[key] = value;
 
         switch(key){
             case 'size': 
@@ -78,6 +77,9 @@ export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
             default:
                 break;
         }
+
+        // copy new value over to old AFTER we compare for new value in switch statements
+        newTorrent[key] = value;
     });
 
     return newTorrent;
