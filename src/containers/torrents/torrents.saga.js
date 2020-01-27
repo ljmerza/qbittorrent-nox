@@ -17,7 +17,9 @@ import { initialState, torrentsActions } from './torrents.reducer';
  */
 function chunkArray(myArray, chunkSize) {
     const results = [];
-    while (myArray.length) results.push(myArray.splice(0, chunkSize));
+    while (myArray.length) {
+        results.push(myArray.splice(0, chunkSize));
+    }
     return results;
 }
 
