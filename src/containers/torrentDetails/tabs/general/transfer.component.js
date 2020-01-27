@@ -28,7 +28,7 @@ function GeneralTabTransfer({ generalInfo, changeUploadLimit, changeDownloadLimi
                 <Text label='Downloaded' disabled value={`${generalInfo.totalDownloadedUi} (${generalInfo.totalDownloadedSessionUi} session)`} />
             </Item>
             <Item>
-                <Text label='Uploaded' disabled value={`${generalInfo.totalDownloadedUi} (${generalInfo.totalUploadedSessionUi} session)`} />
+                <Text label='Uploaded' disabled value={`${generalInfo.totalUploadedUi} (${generalInfo.totalUploadedSessionUi} session)`} />
             </Item>
             <Item>
                 <Text label='Wasted' disabled value={generalInfo.totalWastedUi} />
