@@ -44,7 +44,7 @@ function GeneralTabInformation({
                 <TextSave label='Save Path' name='save_path' onSave={onSavePath} value={generalInfo.save_path} />
             </Item>
             <Item>
-                <Select label='Category' value={selectedTorrent.category} options={selectableCategories} onChange={changeTorrentCategory} />
+                <Select label='Category' value={selectedTorrent.categoryUi} options={selectableCategories} onChange={changeTorrentCategory} />
             </Item>
             <Item>
                 <MultipleSelect label='Tags' value={selectedTorrent.tagsUi} options={selectableTags} onChange={changeTorrentTags} />

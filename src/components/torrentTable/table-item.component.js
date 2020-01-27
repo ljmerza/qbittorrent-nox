@@ -118,7 +118,7 @@ function TableItem({ torrent, selectTorrent, isSelected }) {
                         <div className={clsx(classes.row, classes.seperated)}>
                             <SubText text={sizes} />
                             <InfoChip label={torrent.percentDone} />
-                            {torrent.category ? <InfoChip label={torrent.category} /> : null}
+                            {torrent.categoryUi ? <InfoChip label={torrent.categoryUi} /> : null}
                             <SubText text={torrent.etaUi} className={classes.rowEnd} />
                         </div>
 

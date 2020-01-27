@@ -85,7 +85,7 @@ export const getFilteredTorrents = createSelector(
         }
 
         if (selectedCategory) {
-            filteredTorrents = filteredTorrents.filter(torrent => torrent.category === selectedCategory);
+            filteredTorrents = filteredTorrents.filter(torrent => torrent.categoryUi === selectedCategory);
         }
 
         if (selectedTag) {

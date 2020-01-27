@@ -63,7 +63,7 @@ export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
                 newTorrent.isDone = torrent.progress === 1;
                 break;
             case 'category':
-                newTorrent.category = torrent.category || UNCATEGORIZED.id;
+                newTorrent.categoryUi = torrent.category || UNCATEGORIZED.id;
                 break;
             case 'dlspeed':
                 newTorrent.dlspeedUi = (newTorrent.dlspeed === torrent.dlspeed) ? newTorrent.dlspeedUi : prettySizeTime(torrent.dlspeed);
@@ -149,8 +149,8 @@ export function sumTorrents(formattedTorrents) {
     // now that we havev complete list - sum up what we need
     formattedTorrents.forEach(torrent => {
         // sum up categories
-        if (!categoryCount[torrent.category]) categoryCount[torrent.category] = 0;
-        categoryCount[torrent.category]++;
+        if (!categoryCount[torrent.categoryUi]) categoryCount[torrent.categoryUi] = 0;
+        categoryCount[torrent.categoryUi]++;
 
         // sum up tags
         torrent.tagsUi.forEach(tag => {
