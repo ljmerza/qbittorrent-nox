@@ -24,7 +24,7 @@ function chunkArray(myArray, chunkSize) {
 }
 
 /**
- * 
+ * async process a function
  * @param {Function} processingFunction 
  */
 function asyncFunction(processingFunction) {
