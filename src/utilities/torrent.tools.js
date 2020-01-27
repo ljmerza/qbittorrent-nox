@@ -51,7 +51,7 @@ export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
                 newTorrent.timeActiveUi = (newTorrent.time_active === torrent.time_active) ? newTorrent.timeActiveUi : computedDateTime(torrent.time_active, dateTimeFormat);
                 break;
             case 'state':
-                newTorrent.stateUi = mapTorrentState(torrent.state);
+                newTorrent.stateUi = (newTorrent.state === torrent.state) ? newTorrent.stateUi : mapTorrentState(torrent.state);
                 const dlspeed = 'dlspeed' in torrent ? torrent.dlspeed : newTorrent.dlspeed;
                 const upspeed = 'upspeed' in torrent ? torrent.upspeed : newTorrent.upspeed;
                 const progress = 'progress' in torrent ? torrent.progress : newTorrent.progress;
