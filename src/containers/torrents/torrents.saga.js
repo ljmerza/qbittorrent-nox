@@ -57,18 +57,15 @@ export default function* torrents() {
             } = response;
 
             // we do this in the saga so we can async call chunks of torrents (reducer is NOT async)
-            // for large (2000+) list of torrents, processing can t ake over a second freezing the UI
+            // for large (2000+) list of torrents, processing can take over a second freezing the UI
             // so we break up the array into chunks and async process a chunk at a time to give the
             // event loop a chance to process the UI
             
             // chunk torrents list into pieces so we can async process this X at a time
-            console.time("chunkArray");
             const chunks = chunkArray(Object.entries(torrents || {}), 25);
-            console.timeEnd("chunkArray");
 
             // for each chunk call asyncFunction that will format torrent chunk (returning a promise)
             // then att to array of formatted torrents.
-            console.time("formattedTorrents");
             let formattedTorrents = [];
             for(const chunk of chunks){
                 const newData = yield asyncFunction(() => {
@@ -80,42 +77,32 @@ export default function* torrents() {
                 });
                 formattedTorrents.push(...newData);
             }
-            console.timeEnd("formattedTorrents");
 
 
             // if was not a full update then we didn't get all torrents back
             // we need to merge the new updated torrents with the old torrents
-            console.time("fullUpdate");
             if (!fullUpdate) {
                 formattedTorrents = torrentState.torrents.map(torrent => {
                     const newTorrent = formattedTorrents.find(ft => ft.hash === torrent.hash);
                     return newTorrent || torrent;
                 });
             }
-            console.timeEnd("fullUpdate");
 
             // might as well do the rest of the processing to keep it all together
 
             // if api gave categories/tags then convert them
-            console.time("formattedCategories");
             const formattedCategories = !categories ? torrentState.categories : Object.values(categories).reduce((acc, category) => {
                 acc.push({ id: category.name, ...category });
                 return acc;
             }, [ALL_CATEGORY, UNCATEGORIZED]);
-            console.timeEnd("formattedCategories");
 
-            console.time("formattedTags");
             const formattedTags = !tags ? torrentState.tags : tags.reduce((acc, tag) => {
                 acc.push({ id: tag, name: tag });
                 return acc;
             }, [ALL_TAGGED, UNTAGGED]);
-            console.timeEnd("formattedTags");
 
             // format any server stats for the UI
-            console.time("formatServerStats");
             const formattedServerState = formatServerStats(serverState, torrentState.serverState);
-            console.timeEnd("formatServerStats");
-            console.log('---------------')
 
             yield put({
                 type: `${torrentsActions.torrentsSuccess}`, 
