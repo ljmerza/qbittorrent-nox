@@ -7,12 +7,11 @@ import { Helmet } from 'react-helmet';
 import { makeStyles } from '@material-ui/core/styles';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import SpeedIcon from '../speedIcon.component';
 import { filtersActions } from 'containers/filters/filters.reducer';
 import { getServerStateDown, getServerStateUp } from 'containers/torrents/torrents.selectors';
+import BottomMenu from 'components/bottomMenu';
 
 export const BOTTOM_NAV_HEIGHT = 56;
 
@@ -61,8 +60,8 @@ function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
             >
                 
                 <BottomNavigationAction icon={<FilterListIcon />} onClick={toggleFilterDrawer} />
-                <BottomNavigationAction icon={<KeyboardArrowUpIcon />} label={SpeedUi} />
-                <BottomNavigationAction icon={<MoreVertIcon />} />
+                <BottomNavigationAction icon={null} label={SpeedUi} />
+                <BottomNavigationAction icon={<BottomMenu />} />
                 
             </BottomNavigation>
         </>

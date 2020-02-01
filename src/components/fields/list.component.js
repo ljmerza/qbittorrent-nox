@@ -8,6 +8,10 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
     nested: {
         paddingLeft: theme.spacing(3),
+        '&:hover': {
+            color: theme.palette.common.white,
+            backgroundColor: theme.palette.primary.main,
+        },
     },
     selected: {
         color: theme.palette.common.white,

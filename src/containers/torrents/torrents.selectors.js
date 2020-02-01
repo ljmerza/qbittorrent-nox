@@ -37,7 +37,7 @@ export const getCategoriesCount = createSelector(
         return categories.map(category => {
             let count = categoryCount[category.name] || 0;
             if (category.id === ALL_CATEGORY.id) count = categoryCount.all;
-            if (category.id === UNCATEGORIZED.id) count = categoryCount[UNCATEGORIZED.id];
+            if (category.id === UNCATEGORIZED.id) count = categoryCount[UNCATEGORIZED.id] || 0;
             return { id: category.id, name: `${category.name} (${count})` };
         });
     }

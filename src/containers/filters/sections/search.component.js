@@ -43,7 +43,7 @@ class FiltersSearch extends Component {
         const { search } = this.state;
 
         const searchedBy = SEARCH_BY_OPTIONS.find(search => search.id === selectedSearchBy);
-        const searchLabel = `Search By ${searchedBy ? searchedBy.label : ''}`;
+        const searchLabel = `Search By ${searchedBy ? searchedBy.name : ''}`;
 
         return (
             <Collapsible
