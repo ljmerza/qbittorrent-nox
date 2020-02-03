@@ -73,6 +73,9 @@ function GeneralTabInformation({
             <Item>
                 <Text label='Reannounce In' disabled value={generalInfo.reannounceUi} />
             </Item>
+            <Item xs={12} md={8}>
+                <Text label='Tracker' disabled value={selectedTorrent.tracker} />
+            </Item>
             <Item xs={12} md={12}>
                 <Text label='Comment' disabled value={generalInfo.comment} />
             </Item>
