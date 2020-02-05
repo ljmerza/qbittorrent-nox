@@ -51,7 +51,7 @@ function MultipleSelect({ value, name, label, options, onChange, ...restProps })
         const isReset = value.includes(resetId);
         const newValue = isReset ? [] : value;
         setSelectValue(newValue);
-        onChange(newValue);
+        onChange(({ target: { name, value: newValue } }));
     };
 
     return (

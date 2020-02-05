@@ -23,7 +23,6 @@ export function* rootSaga() {
         getApiVersion(),
         getConfig(),
         loginSaga(),
-        
         torrentsSaga(),
 
         getGeneralInfo(),

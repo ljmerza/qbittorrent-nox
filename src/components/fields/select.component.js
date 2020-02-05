@@ -23,7 +23,7 @@ function SelectField({
 
     const onValueChange = ({ target: { value } }) => {
         setSelectValue(value);
-        onChange(value);
+        onChange({ target: { name, value } });
     };
 
     return (

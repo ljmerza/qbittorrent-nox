@@ -13,7 +13,7 @@ import { torrentDetailsActions, FILE_PRIORITY_UI, VALID_FILE_PRIORITIES } from '
 
 const FileCard = ({ file, setFilePriority, setFileRename }) => {
     const onFileNameSave = ({ target: { value } }) => setFileRename(file.fileId, value);
-    const onSetPriority = priority => setFilePriority(file.fileId, priority);
+    const onSetPriority = ({ target: { value } }) => setFilePriority(file.fileId, value);
 
     // file priority 1-4 is normal but to simplify - all normal priorities will be '4'
     const priority = VALID_FILE_PRIORITIES.includes(file.priority) ? file.priority : 4;

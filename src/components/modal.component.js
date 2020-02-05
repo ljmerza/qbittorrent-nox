@@ -55,6 +55,7 @@ const styles = theme => ({
         alignItems: 'center',
         justifyContent: 'center',
         margin: theme.spacing(1),
+        overflow: 'scroll',
     },
     paper: {
         backgroundColor: theme.palette.background.paper,

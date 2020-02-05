@@ -8,7 +8,7 @@ import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.sel
 
 export default function* changeTorrentTags() {
 
-    yield takeLatest(`${torrentDetailsActions.changeTorrentTags}`, function* ({ payload }) {
+    yield takeLatest(`${torrentDetailsActions.changeTorrentTags}`, function* ({ payload: { target: { value } } }) {
 
 
         try {
@@ -17,7 +17,7 @@ export default function* changeTorrentTags() {
             if (!selectedTorrent) return;
 
             // find out if adding or removing tag
-            const isAdding = payload.length > selectedTorrent.tagsUi.length;
+            const isAdding = value.length > selectedTorrent.tagsUi.length;
             const tagPath = isAdding ? initialState.addTagPath : initialState.removeTagPath;
 
              // need space since reset doesnt have tag - want 1 space always
@@ -25,12 +25,12 @@ export default function* changeTorrentTags() {
 
             let tag;
             if (isAdding){
-                tag = payload.filter(x => !selectedTorrent.tagsUi.includes(x)).join(',');
-            } else if (payload.length === 0) {
+                tag = value.filter(x => !selectedTorrent.tagsUi.includes(x)).join(',');
+            } else if (value.length === 0) {
                 tag = '';
                 successMessage = 'reset successfully';
             } else {
-                tag = selectedTorrent.tagsUi.filter(x => !payload.includes(x)).join(',');
+                tag = selectedTorrent.tagsUi.filter(x => !value.includes(x)).join(',');
             }
 
             const formData = new FormData();

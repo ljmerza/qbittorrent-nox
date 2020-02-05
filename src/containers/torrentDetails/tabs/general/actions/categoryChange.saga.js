@@ -7,8 +7,7 @@ import { initialState, torrentDetailsActions } from 'containers/torrentDetails/t
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
 export default function* changeTorrentCategory() {
-    yield takeLatest(`${torrentDetailsActions.changeTorrentCategory}`, function* ({ payload }) {
-
+    yield takeLatest(`${torrentDetailsActions.changeTorrentCategory}`, function* ({ payload: { target: { value }} }) {
         try {
             const apiUrl = yield select(getLoginApiUrl);
             const selectedTorrent = yield select(getSelectedTorrent);
@@ -16,7 +15,7 @@ export default function* changeTorrentCategory() {
 
             const formData = new FormData();
             formData.append("hashes", selectedTorrent.hash);
-            formData.append("category", payload);
+            formData.append("category", value);
 
             const options = {
                 method: 'POST',
