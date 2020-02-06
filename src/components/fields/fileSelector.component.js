@@ -1,31 +1,53 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-import { withStyles } from '@material-ui/core/styles';
 
 import { FormControl } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
-function FileSelector({ onChange, name, label, classes, ...rest }) {
-    const onDrop = useCallback(files => onChange({ target: { name, value: files } }), [onChange, name]);
+import { Container } from 'components/grid.component';
+import UploadedFiles from 'components/files.component';
+
+
+function FileSelector({ name, label, value, onChange, classes }) {
+
+    const onDrop = useCallback(files => {
+        onChange({ target: { name, value: files } })
+    }, [onChange, name]);
+
+    const onDeleteFile = file => {
+        const newFiles = value.filter(f => f !== file);
+        onChange({ target: { name, value: newFiles } });
+    };
 
     return (
-        <Dropzone className={classes.dropzone} onDrop={onDrop} {...rest}>
-            {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()}>
-                    <FormControl variant='outlined' className={classes.controlRoot}>
-                        <input {...getInputProps()} />
-                        Select or drag and drop {label}
-                    </FormControl>
-                </div>
+        <>
+            <Dropzone className={classes.dropzone} onDrop={onDrop}>
+                {({ getRootProps, getInputProps }) => (
+                    <div {...getRootProps()}>
+                        <FormControl variant='outlined' className={classes.controlRoot}>
+                            <input {...getInputProps()} />
+                            Select or drag and drop {label}
+                        </FormControl>
+                    </div>
+                )}
+            </Dropzone>
+
+            {value.length === 0 ? null : (
+                <Container className={classes.uploadedFiles}>
+                    <UploadedFiles files={value} onDeleteFile={onDeleteFile} />
+                </Container>
             )}
-        </Dropzone>
+        </>
     );
 }
 
 FileSelector.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
+    value: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 const styles = theme => ({
@@ -46,6 +68,10 @@ const styles = theme => ({
         '&:focus': {
             outline: 'none !important',
         },
+    },
+    uploadedFiles: {
+        marginTop: theme.spacing(3),
+        marginBottm: theme.spacing(3),
     }
 });
 

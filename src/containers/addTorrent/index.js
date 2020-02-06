@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 import Text from 'components/fields/text.component';
 import Select from 'components/fields/select.component';
@@ -30,7 +31,7 @@ class AddTorrentContainer extends Component {
             open: false,
 
             form: {
-                torrent: '',
+                torrents: [],
                 managementMode: 'manual',
                 saveLocation: config.save_path,
                 cookie: '',
@@ -52,6 +53,10 @@ class AddTorrentContainer extends Component {
 
     onChange = ({ target: { name, value } }) => {
         this.setState(state => ({ ...state, form: { ...state.form, [name]: value } }));
+    }
+
+    removeFile = () => {
+        
     }
 
     render(){
@@ -77,45 +82,52 @@ class AddTorrentContainer extends Component {
                     onSubmit={this.handleClose}
                     onCancel={this.handleClose}
                 >
-                    <Container>
-                        <Item xs={12} md={12} lg={12} className={classes.fileSelector}>
-                            <FileSelector label='torrent' name='torrent' onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Select label='Torrent Management Mode' name='managementMode' value={form.managementMode} options={MANAGEMENT_MODES} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Text emptyValue label='Save Location' name='saveLocation' value={form.saveLocation} onChange={this.onChange} disabled={disableManualInputs} />
-                        </Item>
-                        <Item>
-                            <Text emptyValue label='Rename To' name='renameTorrent' value={form.renameTorrent} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Select label='Category' value={form.category} options={selectableCategories} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Text emptyValue label='Download Rate (kb/s)' name='limitDownloadRate' value={form.limitDownloadRate} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Text emptyValue label='Upload Rate (kb/s)' name='limitUploadRate' value={form.limitUploadRate} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Checkbox label='Start Torrent' name='startTorrent' value={form.startTorrent} onChange={this.onChange}  />
-                        </Item>
-                        <Item>
-                            <Checkbox label='Skip Hash Check' name='skipHash' value={form.skipHash} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Checkbox label='Create Subfolder' name='createSubDirectory' value={form.createSubDirectory} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Checkbox label='Download Sequentially' name='downloadSequential' value={form.downloadSequential} onChange={this.onChange} />
-                        </Item>
-                        <Item>
-                            <Checkbox label='Download First/Last Pieces' name='downloadFirstLast' value={form.downloadFirstLast} onChange={this.onChange} />
-                        </Item>
-                    </Container>
-                    
+                    <Box className={classes.form}>
+                        <Container>
+                            <Item sm={12} md={12} lg={12} className={classes.fileSelector}>
+                                <FileSelector label='torrents' name='torrents' value={form.torrents} onChange={this.onChange} />
+                            </Item>
+                        </Container>
+                       
+                        <Container>
+                            <Item sm={12} md={6} lg={6}>
+                                <Select label='Torrent Management Mode' name='managementMode' value={form.managementMode} options={MANAGEMENT_MODES} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Text emptyValue label='Save Location' name='saveLocation' value={form.saveLocation} onChange={this.onChange} disabled={disableManualInputs} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Text emptyValue label='Rename To' name='renameTorrent' value={form.renameTorrent} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Select label='Category' value={form.category} options={selectableCategories} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Text emptyValue label='Download Rate (kb/s)' name='limitDownloadRate' value={form.limitDownloadRate} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Text emptyValue label='Upload Rate (kb/s)' name='limitUploadRate' value={form.limitUploadRate} onChange={this.onChange} />
+                            </Item>
+                        </Container>
+
+                        <Container>
+                            <Item sm={12} md={6} lg={6}>
+                                <Checkbox label='Start Torrent' name='startTorrent' value={form.startTorrent} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Checkbox label='Skip Hash Check' name='skipHash' value={form.skipHash} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Checkbox label='Create Subfolder' name='createSubDirectory' value={form.createSubDirectory} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Checkbox label='Download Sequentially' name='downloadSequential' value={form.downloadSequential} onChange={this.onChange} />
+                            </Item>
+                            <Item sm={12} md={6} lg={6}>
+                                <Checkbox label='Download First/Last Pieces' name='downloadFirstLast' value={form.downloadFirstLast} onChange={this.onChange} />
+                            </Item>
+                        </Container>
+                    </Box>
                 </Modal>
             </>
         );
@@ -128,35 +140,12 @@ const styles = theme => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    card: {
-        margin: theme.spacing(1),
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    header: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+    form: {
+        maxWidth: '700px',
     },
     fileSelector: {
         marginBottom: theme.spacing(3)
-    },
-    actions: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        marginRight: theme.spacing(1),
-    },
-    close: {
-        cursor: 'pointer',
-    },
+    }
 });
 
 AddTorrentContainer.propTypes = {

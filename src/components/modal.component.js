@@ -51,9 +51,11 @@ function MyModal({ children, title, submitTitle, onSubmit, onCancel, open, handl
 
 const styles = theme => ({
     modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
         margin: theme.spacing(1),
         overflow: 'scroll',
     },
