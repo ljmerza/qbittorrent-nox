@@ -57,6 +57,7 @@ class AddTorrentContainer extends Component {
     render(){
         const { classes, children, categories } = this.props;
         const { form } = this.state;
+        console.log({ form })
 
         let [, ...selectableCategories] = categories;
 
@@ -77,8 +78,8 @@ class AddTorrentContainer extends Component {
                     onCancel={this.handleClose}
                 >
                     <Container>
-                        <Item>
-                            <FileSelector label='Torrent' name='torrent' onChange={this.onChange} />
+                        <Item xs={12} md={12} lg={12} className={classes.fileSelector}>
+                            <FileSelector label='torrent' name='torrent' onChange={this.onChange} />
                         </Item>
                         <Item>
                             <Select label='Torrent Management Mode' name='managementMode' value={form.managementMode} options={MANAGEMENT_MODES} onChange={this.onChange} />
@@ -144,8 +145,8 @@ const styles = theme => ({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    body: {
-
+    fileSelector: {
+        marginBottom: theme.spacing(3)
     },
     actions: {
         display: 'flex',
