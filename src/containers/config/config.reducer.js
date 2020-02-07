@@ -4,7 +4,7 @@ export const initialState = {
     apiVersion: null,
     pathVersion: 'app/webapiVersion',
 
-    config: null,
+    config: {},
     loading: false,
 
     internal: {
