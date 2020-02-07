@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class ConfigContainer extends Component {
+class ConfigContainer extends PureComponent {
     render(){
         return (
             <div>config</div>

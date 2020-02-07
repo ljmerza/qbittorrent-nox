@@ -7,6 +7,7 @@ import { toastReducer } from 'common/toast/toast.reducer';
 import { configReducer } from 'containers/config/config.reducer';
 import { loginReducer } from 'containers/login/login.reducer';
 import { torrentsReducer } from 'containers/torrents/torrents.reducer';
+import { addTorrentReducer } from 'containers/addTorrent/addTorrent.reducer';
 import { filtersReducer } from 'containers/filters/filters.reducer';
 import { torrentDetailsReducer } from 'containers/torrentDetails/torrentDetails.reducer';
 
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
     toast: toastReducer,
     login: loginReducer,
     torrents: torrentsReducer,
+    addTorrent: addTorrentReducer,
     filters: filtersReducer,
     torrentDetails: torrentDetailsReducer,
     router: connectRouter(history),

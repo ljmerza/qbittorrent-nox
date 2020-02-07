@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -15,14 +15,15 @@ import Modal from 'components/modal.component';
 
 import { getConfigConfig } from 'containers/config/config.selectors';
 import { getCategories } from 'containers/torrents/torrents.selectors';
-import { UNCATEGORIZED } from 'utilities/torrent-states';
+
+import { addTorrentActions } from './addTorrent.reducer';
 
 const MANAGEMENT_MODES = [
-    { id: 'manual', name: 'Manual' },
-    { id: 'automatic', name: 'Automatic' },
+    { id: 'MANUAL', name: 'Manual' },
+    { id: 'AUTOMATIC', name: 'Automatic' },
 ]
 
-class AddTorrentContainer extends Component {
+class AddTorrentContainer extends PureComponent {
     constructor(props){
         super(props);
         const { config } = props;
@@ -32,11 +33,11 @@ class AddTorrentContainer extends Component {
 
             form: {
                 torrents: [],
-                managementMode: 'manual',
+                managementMode: 'MANUAL',
                 saveLocation: config.save_path,
                 cookie: '',
                 renameTorrent: '',
-                category: UNCATEGORIZED.id,
+                category: '',
                 startTorrent: !config.start_paused_enabled,
                 skipHash: false,
                 createSubDirectory: config.create_subfolder_enabled,
@@ -51,20 +52,17 @@ class AddTorrentContainer extends Component {
     handleOpen = () => this.setState({ open: true });
     handleClose = () => this.setState({ open: false });
 
-    onChange = ({ target: { name, value } }) => {
+    onChange = ({ target: { name, value } }) => 
         this.setState(state => ({ ...state, form: { ...state.form, [name]: value } }));
-    }
 
-    removeFile = () => {
-        
-    }
+    onSumbit = () => this.props.addTorrent(this.state.form);
 
     render(){
         const { classes, children, categories } = this.props;
         const { form } = this.state;
-        console.log({ form })
 
-        let [, ...selectableCategories] = categories;
+        let [, , ...selectableCategories] = categories;
+        selectableCategories.unshift({ id: '', name: '' });
 
         const disableManualInputs = form.managementMode === 'automatic';
 
@@ -79,7 +77,7 @@ class AddTorrentContainer extends Component {
                     open={this.state.open}
                     handleClose={this.handleClose}
                     submitTitle='Add'
-                    onSubmit={this.handleClose}
+                    onSubmit={this.onSumbit}
                     onCancel={this.handleClose}
                 >
                     <Box className={classes.form}>
@@ -151,6 +149,7 @@ const styles = theme => ({
 AddTorrentContainer.propTypes = {
     config: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
+    addTorrent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -160,7 +159,11 @@ const mapStateToProps = state => {
     }
 };
 
+const mapDispatchToProps = {
+    addTorrent: addTorrentActions.addTorrent
+}
+
 export default compose(
     withStyles(styles),
-    connect(mapStateToProps, null)
+    connect(mapStateToProps, mapDispatchToProps)
 )(AddTorrentContainer);

@@ -11,105 +11,47 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import BottomNav from 'components/bottomNavigation';
 import TorrentTable from 'components/torrentTable';
 
-
-import { torrentsActions } from './torrents.reducer';
 import { getLoading, getTorrentsTorrents, getFilteredTorrents } from './torrents.selectors';
-
-import {
-    getSelectedState,
-    getSelectedCategory,
-    getSelectedTag,
-    getSelectedSort,
-    getIsSortDescending,
-} from '../filters/filters.selectors';
-
 import { torrentDetailsActions } from '../torrentDetails/torrentDetails.reducer';
-import { getConfigInternalRefreshInterval } from '../config/config.selectors';
 
-class TorrentsContainer extends PureComponent {
-    componentDidMount(){
-        this.startUpdate();
-    }
-
-    componentWillUnmount() {
-        this.stopUpdate();
-    }
-
-    /**
-     * if refreshInterval has updated then reset update 
-     * torrent interval to that new interval value
-     */
-    componentDidUpdate(prevProps){
-        if (prevProps.refreshInterval !== this.props.refreshInterval){
-            this.stopUpdate();
-            this.startUpdate();
-        }
-    }
-
-    startUpdate = async () => {
-        this.props.getTorrents();
-
-        // load every set interval unless currently loading
-        this._interval = setInterval(async () => {
-            if (this.props.loading) return;
-            this.props.getTorrents();
-            
-        }, this.props.refreshInterval);
-    }
-
-    stopUpdate = () => {
-        if (this._interval) clearInterval(this._interval);
-    }
-
-    render() {
-        const isLoading = this.props.torrents.length === 0 && this.props.loading;
-        
-        return (
-            <PageContainer>
-                {/* only show loading indicator if this is the first load of torrents */}
-                {isLoading ? <LoadingIndicator /> : (
-                    <>
-                        <FiltersContainer />
-                        <TorrentDetails />
-                        <TorrentTable filteredTorrents={this.props.filteredTorrents} selectTorrent={this.props.selectTorrent} />
-                        <BottomNav />
-                    </>
-                )}
-            </PageContainer>
-        );
-    }
+function TorrentsContainer({ torrents, loading, filteredTorrents, selectTorrent }) {
+    const isLoading = torrents.length === 0 && loading;
+    
+    return (
+        <PageContainer>
+            {/* only show loading indicator if this is the first load of torrents */}
+            {isLoading ? <LoadingIndicator /> : (
+                <>
+                    <FiltersContainer />
+                    <TorrentDetails />
+                    <TorrentTable 
+                        filteredTorrents={filteredTorrents} 
+                        selectTorrent={selectTorrent} 
+                    />
+                    <BottomNav />
+                </>
+            )}
+        </PageContainer>
+    );
 }
 
 TorrentsContainer.propTypes = {
     torrents: PropTypes.array.isRequired,
-    filteredTorrents: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
-    selectedState: PropTypes.string.isRequired,
-    selectedCategory: PropTypes.string.isRequired,
-    selectedTag: PropTypes.string.isRequired,
-    refreshInterval: PropTypes.number.isRequired,
-    selectedSort: PropTypes.string.isRequired,
-    isSortDescending: PropTypes.bool.isRequired,
+    filteredTorrents: PropTypes.array.isRequired,
     selectTorrent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
     return {
-        selectedState: getSelectedState(state),
-        selectedCategory: getSelectedCategory(state),
-        selectedTag: getSelectedTag(state),
         torrents: getTorrentsTorrents(state),
-        filteredTorrents: getFilteredTorrents(state),
         loading: getLoading(state),
-        selectedSort: getSelectedSort(state),
-        isSortDescending: getIsSortDescending(state),
-        refreshInterval: getConfigInternalRefreshInterval(state),
+        filteredTorrents: getFilteredTorrents(state),
     }
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        getTorrents: () => dispatch(torrentsActions.torrents()),
         selectTorrent: torrent => dispatch(torrentDetailsActions.selectTorrent(torrent)),
     };
 }

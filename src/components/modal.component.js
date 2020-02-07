@@ -35,11 +35,11 @@ function MyModal({ children, title, submitTitle, onSubmit, onCancel, open, handl
                         </CardContent>
 
                         <CardActions className={classes.actions}>
-                            <Button size="small" color="primary" onClick={onSubmit}>
-                                {submitTitle}
-                            </Button>
                             <Button size="small" color="primary" onClick={onCancel}>
                                 Cancel
+                            </Button>
+                            <Button size="small" color="primary" onClick={onSubmit}>
+                                {submitTitle}
                             </Button>
                         </CardActions>
                     </div>

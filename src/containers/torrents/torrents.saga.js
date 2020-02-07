@@ -44,7 +44,7 @@ export default function* torrents() {
 
             const options = {
                 method: 'GET',
-                url: `${apiUrl}/${initialState.path}?rid=${torrentState.rid}`,
+                url: `${apiUrl}/${initialState.path}?rid=${torrentState.rid || 0}`,
             }
 
             const response = yield call(request, options);

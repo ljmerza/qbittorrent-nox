@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -14,7 +14,7 @@ import { filtersActions } from '../filters.reducer';
 import { getOpenSearch, getSearch, getSearchBy } from '../filters.selectors';
 import { SEARCH_BY_OPTIONS } from '../filter.tools';
 
-class FiltersSearch extends Component {
+class FiltersSearch extends PureComponent {
     constructor(props){
         super(props);
 

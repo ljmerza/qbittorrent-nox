@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import { loginActions } from './login.reducer';
 import { getLoginUsername, getLoginPassword, getLoginLoading } from './login.selectors';
 
-class LoginContainer extends Component {
+class LoginContainer extends PureComponent {
     constructor(props){
         super(props);
 
