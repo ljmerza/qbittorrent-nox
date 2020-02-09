@@ -70,7 +70,14 @@ export const torrentDetailsSlice = createSlice({
     name: 'torrentDetails',
     initialState,
     reducers: {
-        selectTorrent: (state, action) => ({ ...state, isOpen: true, selectedTorrent: action.payload }),
+        selectTorrent: (state, action) => {
+            return { 
+                ...state, 
+                // only open the sidebar if we are selecting only one torrent
+                isOpen: (action.payload && !Array.isArray(action.payload)) || false, 
+                selectedTorrent: action.payload 
+            }
+        },
         clearTorrent: () => ({ ...initialState }),
 
         getGeneralInfo: state => ({ ...state, isLoadingGeneral: true }),

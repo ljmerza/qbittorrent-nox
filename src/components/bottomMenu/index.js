@@ -1,44 +1,50 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+
 import { withStyles } from '@material-ui/core/styles';
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Menu, MenuItem, Typography } from '@material-ui/core';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LinkIcon from '@material-ui/icons/Link';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SelectAllIcon from '@material-ui/icons/SelectAll';
 
+import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import AddTorrent from 'containers/addTorrent';
 
 const styles = theme => ({
     menuItemRoot: {
-        '&:focus': {
-            backgroundColor: theme.palette.primary.main,
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-                color: theme.palette.common.white,
-            },
-        },
+        display: 'flex',
+        justifyContent: 'flex-end',
+        paddingRight: theme.spacing(1),
     },
     menuPaper: {
-        paper: {
-            border: '1px solid #d3d4d5',
-        },
+        border: '1px solid #d3d4d5',
     },
     iconRoot: {
-        margin: '0 10px 0 0px',
+        margin: `0 0 0 ${theme.spacing(1)}px`,
         minWidth: 'inherit',
     },
-    addTorrent: {
+    iconAction: {
         display: 'flex',
         alignItems: 'center',
     }
 });
 
-function BottomMenu({ classes }) {
+function BottomMenu({ classes, selectTorrent }) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = event => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
+
+    const onMultiSelect = () => {
+        selectTorrent([]);
+        handleClose();
+    }
 
     return (
         <div>
@@ -55,36 +61,51 @@ function BottomMenu({ classes }) {
                 onClose={handleClose}
             >
                 <MenuItem className={classes.menuItemRoot} dense>
-                    <ListItemIcon classes={{ root: classes.iconRoot }}>
-                        <SettingsIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings" />
+                    <Typography>Settings</Typography>
+                    <SettingsIcon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
                     <AddTorrent>
-                        <div onClick={handleClose} className={classes.addTorrent}>
-                            <InsertDriveFileIcon classes={{ root: classes.iconRoot }}>
-                                <SettingsIcon fontSize="small" />
-                            </InsertDriveFileIcon>
-                            <ListItemText primary="Add Torrent File" />
+                        <div onClick={handleClose} className={classes.iconAction}>
+                            <Typography>Add Torrent File</Typography>
+                            <InsertDriveFileIcon classes={{ root: classes.iconRoot }} />
                         </div>
                     </AddTorrent>
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
-                    <ListItemIcon classes={{ root: classes.iconRoot }}>
-                        <LinkIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Add Torrent Link" />
+                    <Typography>Add Torrent Link</Typography>
+                    <LinkIcon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
-                    <ListItemIcon classes={{ root: classes.iconRoot }}>
-                        <ExitToAppIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
+                    <div onClick={onMultiSelect} className={classes.iconAction}>
+                        <Typography>Multiselect</Typography>
+                        <SelectAllIcon classes={{ root: classes.iconRoot }} />
+                    </div>
+                </MenuItem>
+                <MenuItem classes={{ root: classes.menuItemRoot }} dense>
+                    <Typography>Logout</Typography>
+                    <ExitToAppIcon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
             </Menu>
         </div>
     );
 }
 
-export default withStyles(styles)(BottomMenu);
+BottomMenu.propTypes = {
+    classes: PropTypes.object.isRequired,
+    selectTorrent: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+    return {
+        selectTorrent: torrent => dispatch(torrentDetailsActions.selectTorrent(torrent)),
+    };
+}
+
+export default compose(
+    withStyles(styles),
+    connect(
+        null,
+        mapDispatchToProps
+    )
+)(BottomMenu);

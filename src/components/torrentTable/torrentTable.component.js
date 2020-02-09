@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Virtuoso } from 'react-virtuoso';
 
-import TableItem from './table-item.component';
+import TableItem from './tableItem.component';
 import { BOTTOM_NAV_HEIGHT } from '../bottomNavigation';
 
-function TorrentTable({ filteredTorrents, selectTorrent }){
+function TorrentTable({ filteredTorrents }){
 
     return (
         <Virtuoso
@@ -13,7 +13,7 @@ function TorrentTable({ filteredTorrents, selectTorrent }){
             totalCount={filteredTorrents.length}
             item={index => {
                 const torrent = filteredTorrents[index];
-                return <TableItem torrent={torrent} selectTorrent={selectTorrent} />
+                return <TableItem torrent={torrent} />
             }}
         />
     );
@@ -21,7 +21,6 @@ function TorrentTable({ filteredTorrents, selectTorrent }){
 
 TorrentTable.propTypes = {
     filteredTorrents: PropTypes.array.isRequired,
-    selectTorrent: PropTypes.func.isRequired,
 };
 
-export default React.memo(TorrentTable);
+export default TorrentTable;

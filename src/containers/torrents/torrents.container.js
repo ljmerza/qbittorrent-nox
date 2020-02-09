@@ -12,9 +12,8 @@ import BottomNav from 'components/bottomNavigation';
 import TorrentTable from 'components/torrentTable';
 
 import { getLoading, getTorrentsTorrents, getFilteredTorrents } from './torrents.selectors';
-import { torrentDetailsActions } from '../torrentDetails/torrentDetails.reducer';
 
-function TorrentsContainer({ torrents, loading, filteredTorrents, selectTorrent }) {
+function TorrentsContainer({ torrents, loading, filteredTorrents }) {
     const isLoading = torrents.length === 0 && loading;
     
     return (
@@ -24,10 +23,7 @@ function TorrentsContainer({ torrents, loading, filteredTorrents, selectTorrent 
                 <>
                     <FiltersContainer />
                     <TorrentDetails />
-                    <TorrentTable 
-                        filteredTorrents={filteredTorrents} 
-                        selectTorrent={selectTorrent} 
-                    />
+                    <TorrentTable filteredTorrents={filteredTorrents} />
                     <BottomNav />
                 </>
             )}
@@ -39,7 +35,6 @@ TorrentsContainer.propTypes = {
     torrents: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     filteredTorrents: PropTypes.array.isRequired,
-    selectTorrent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -50,15 +45,10 @@ const mapStateToProps = state => {
     }
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        selectTorrent: torrent => dispatch(torrentDetailsActions.selectTorrent(torrent)),
-    };
-}
 
 export default compose(
     connect(
         mapStateToProps,
-        mapDispatchToProps
+        null
     )
 )(TorrentsContainer);

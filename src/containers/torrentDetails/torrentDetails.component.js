@@ -11,7 +11,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import DescriptionIcon from '@material-ui/icons/Description';
 import PublicIcon from '@material-ui/icons/Public';
 
-import SpeedIcon from 'components/speedIcon.component';
+import Icon from 'components/icon.component';
 
 import { torrentDetailsActions } from './torrentDetails.reducer';
 import { getIsOpen, getSelectedTorrent } from './torrentDetails.selectors';
@@ -46,10 +46,10 @@ function TorrentDetails({ isOpen, clearTorrent }) {
         >
             <AppBar position="static">
                 <Tabs value={value} onChange={handleChange}>
-                    <Tab label={<SpeedIcon Icon={InfoIcon} color='inherit' />} />
-                    <Tab label={<SpeedIcon Icon={PublicIcon} color='inherit' />} />
-                    <Tab label={<SpeedIcon Icon={PeopleIcon} color='inherit' />} />
-                    <Tab label={<SpeedIcon Icon={DescriptionIcon} color='inherit' />} />
+                    <Tab label={<Icon Icon={InfoIcon} color='inherit' />} />
+                    <Tab label={<Icon Icon={PublicIcon} color='inherit' />} />
+                    <Tab label={<Icon Icon={PeopleIcon} color='inherit' />} />
+                    <Tab label={<Icon Icon={DescriptionIcon} color='inherit' />} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

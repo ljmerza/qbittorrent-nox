@@ -9,6 +9,10 @@ export const getIsOpen = createSelector(getTorrentDetails, torrentDetails => tor
 export const getSelectedTorrent = createSelector(
     [getTorrentsTorrents, getTorrentDetails], 
     (torrents, torrentDetails) => {
+        if (Array.isArray(torrentDetails.selectedTorrent)){
+            return torrents.filter(torrent => torrentDetails.selectedTorrent.includes(torrent.hash));
+        }
+
         return torrents.find(torrent => torrent.hash === torrentDetails.selectedTorrent)
     });
 
