@@ -66,26 +66,15 @@ function TableItem({ torrent, selectTorrent, selectedTorrent }) {
     const isSelected = (selectedTorrent && Array.isArray(selectedTorrent)) && selectedTorrent.includes(torrent);
 
     const onClick = () => {
-        let newSelectedTorrents = null;
 
-        // if we are in multi select already then see if we need to add or remove this torrent
-        if (Array.isArray(selectedTorrent)){
-            console.log({ selectedTorrent })
+        // if not in multiselect mode then set selected
+        if (!Array.isArray(selectedTorrent)) return selectTorrent(torrent.hash);
 
-            // if removing last torrent then clear out selected
-            if (isSelected && selectedTorrent.length === 1){
-                newSelectedTorrents = null;
-                
-            } else {
-                newSelectedTorrents = isSelected ? selectedTorrent.filter(t => t !== torrent) : [...selectedTorrent, torrent];
-                newSelectedTorrents = newSelectedTorrents.map(t => t.hash);
-            }
+        // if removing last torrent then clear out selected
+        if (isSelected && selectedTorrent.length === 1) return selectTorrent(null);
 
-        } else {
-            newSelectedTorrents = torrent.hash;
-        }
-
-        console.log({ newSelectedTorrents })
+        // either remove or add this torrent
+        const newSelectedTorrents = (isSelected ? selectedTorrent.filter(t => t !== torrent) : [...selectedTorrent, torrent]).map(t => t.hash);
         selectTorrent(newSelectedTorrents);
     }
 
