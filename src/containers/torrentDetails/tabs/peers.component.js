@@ -8,7 +8,6 @@ import { getConfigInternalRefreshInterval } from 'containers/config/config.selec
 import Text from 'components/fields/text.component';
 import { Item } from 'components/grid.component';
 import LoadingIndicator from 'components/LoadingIndicator';
-import { BOTTOM_NAV_HEIGHT } from 'components/bottomNavigation';
 
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getPeersInfoLoading, getPeersInfo } from '../torrentDetails.selectors';
@@ -69,9 +68,11 @@ function PeersTab({ refreshInterval, getPeersInfo, loading, data }) {
 
     useEffect(() => {
         getPeersInfo();
-        let timerId = setInterval(getPeersInfo, refreshInterval);
+        const timerId = setInterval(() => {
+            if (!loading) getPeersInfo();
+        }, refreshInterval);
         return () => clearInterval(timerId);
-    }, [getPeersInfo, refreshInterval]);
+    }, [getPeersInfo, refreshInterval, loading]);
 
 
     if (!data.length && loading) {
@@ -85,7 +86,6 @@ function PeersTab({ refreshInterval, getPeersInfo, loading, data }) {
             {/* if more than 25 peers then use virtual list */}
             {data.length > 25 ? (
                 <Virtuoso
-                    style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
                     totalCount={data.length}
                     item={idx => <PeerCard peer={data[idx]} />}
                 />

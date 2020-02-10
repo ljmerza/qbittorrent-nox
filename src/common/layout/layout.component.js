@@ -10,6 +10,8 @@ import Routes from '../routes';
 
 // import Header from './header.container';
 import Toast from 'common/toast/toast.container';
+import Title from 'components/title.component';
+
 
 class MainContainer extends PureComponent {
     componentDidMount() {
@@ -23,6 +25,7 @@ class MainContainer extends PureComponent {
         return (
             <>
                 <main className={classes.mainContent}>
+                    <Title />
                     {/* <Header /> */}
                     <Routes />
                 </main>

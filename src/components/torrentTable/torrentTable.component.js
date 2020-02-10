@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Virtuoso } from 'react-virtuoso';
 
 import TableItem from './tableItem.component';
-import { BOTTOM_NAV_HEIGHT } from '../bottomNavigation';
+import { BOTTOM_NAV_HEIGHT } from 'containers/bottomNavigation';
 
 function TorrentTable({ filteredTorrents }){
 
