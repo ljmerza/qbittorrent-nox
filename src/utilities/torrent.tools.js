@@ -120,7 +120,6 @@ export const formatServerStats = (serverState, oldServerState) => {
     return newServerState;
 }
 
-
 export const generateSortFunction = (selectedSort, isSortDescending) => {
     const first = isSortDescending ? 1 : -1;
     const second = first * -1;
@@ -170,4 +169,8 @@ export function sumTorrents(formattedTorrents) {
     statesCount.all = formattedTorrents.length;
 
     return { categoryCount, tagsCount, statesCount };
+}
+
+export const getTorrentHashes = torrents => {
+    return Array.isArray(torrents) ? torrents.map(torrent => torrent.hash).join('|') : torrents.hash;
 }

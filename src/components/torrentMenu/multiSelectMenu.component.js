@@ -11,14 +11,13 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 import { 
     ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, 
-    ACTION_F_RESUME, ACTION_CHECK, ACTION_ADD 
+    ACTION_F_RESUME, ACTION_CHECK 
 } from 'utilities/torrent-states';
 
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
 import GeneralTabActionsDelete from 'containers/torrentDetails/tabs/general/actionsDeleteModal.component';
-import TrackerTabActionsAdd from 'containers/torrentDetails/tabs/trackers/addTrackerModal.component';
 
 
 const styles = theme => ({
@@ -54,12 +53,10 @@ function MultiSelectMenu({
     const handleClose = () => setAnchorEl(null);
 
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    const [openAddTracker, setOpenAddTracker] = useState(false);
 
     return (
         <div>
             <GeneralTabActionsDelete openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} />
-            <TrackerTabActionsAdd openAddTracker={openAddTracker} setOpenAddTracker={setOpenAddTracker} />
 
             <MoreVertIcon onClick={handleClick} />
             <Menu
@@ -111,14 +108,6 @@ function MultiSelectMenu({
                 }}>
                     <Typography>Recheck</Typography>
                     <ACTION_CHECK.icon classes={{ root: classes.iconRoot }} />
-                </MenuItem>
-
-                <MenuItem className={classes.menuItemRoot} dense onClick={() => {
-                    setOpenAddTracker(true);
-                    handleClose();
-                }}>
-                    <Typography>Add Trackers</Typography>
-                    <ACTION_ADD.icon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
 
                 <MenuItem className={classes.menuItemRoot} dense onClick={() => {
