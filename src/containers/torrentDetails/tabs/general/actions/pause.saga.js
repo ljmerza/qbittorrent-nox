@@ -15,6 +15,10 @@ export default function* pauseTorrent() {
             if (!selectedTorrent) return;
 
             const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
 
             const options = {
                 method: 'GET',
@@ -24,7 +28,7 @@ export default function* pauseTorrent() {
 
             yield call(request, options);
             yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent paused', from: 'pauseTorrent' });
-
+            
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'pauseTorrent' });
         }

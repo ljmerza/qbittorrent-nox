@@ -17,6 +17,10 @@ export default function* moveTorrent() {
             if (!selectedTorrent) return;
 
             const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
 
             const formData = new FormData();
             formData.append("hashes", hashes);
@@ -31,7 +35,7 @@ export default function* moveTorrent() {
 
             yield call(request, options);
             yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent moving', from: 'moveTorrent' });
-
+            
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'moveTorrent' });
         }

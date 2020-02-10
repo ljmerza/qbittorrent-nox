@@ -15,6 +15,10 @@ export default function* resumeTorrent() {
             if (!selectedTorrent) return;
 
             const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
 
             const options = {
                 method: 'GET',

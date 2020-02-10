@@ -15,6 +15,10 @@ export default function* recheckTorrent() {
             if (!selectedTorrent) return;
 
             const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
 
             const options = {
                 method: 'GET',
@@ -24,6 +28,8 @@ export default function* recheckTorrent() {
 
             yield call(request, options);
             yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent rechecking', from: 'recheckTorrent' });
+
+            
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'recheckTorrent' });

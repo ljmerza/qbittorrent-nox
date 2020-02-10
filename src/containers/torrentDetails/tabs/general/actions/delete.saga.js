@@ -16,6 +16,10 @@ export default function* deleteTorrent() {
             if (!selectedTorrent) return;
 
             const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
 
             // torrent is deleted so clear the selected torrent
             yield put({ type: `${torrentDetailsActions.clearTorrent}`});
@@ -33,8 +37,7 @@ export default function* deleteTorrent() {
 
             yield call(request, options);
             yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent deleted', from: 'deleteTorrent' });
-
-
+            
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e, from: 'deleteTorrent' });
         }
