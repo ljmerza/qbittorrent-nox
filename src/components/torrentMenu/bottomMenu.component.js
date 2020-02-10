@@ -20,7 +20,10 @@ const styles = theme => ({
     menuItemRoot: {
         display: 'flex',
         justifyContent: 'flex-end',
-        padding: theme.spacing(1),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
     },
     menuPaper: {
         border: '1px solid #d3d4d5',
@@ -73,8 +76,13 @@ function BottomMenu({ classes, selectTorrent }) {
                     </AddTorrent>
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
-                    <Typography>Add Torrent Link</Typography>
-                    <LinkIcon classes={{ root: classes.iconRoot }} />
+                    <AddTorrent addUrl>
+                        <div onClick={handleClose} className={classes.iconAction}>
+                            <Typography>Add Torrent Link</Typography>
+                            <LinkIcon classes={{ root: classes.iconRoot }} />
+                        </div>
+                    </AddTorrent>
+                    
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
                     <div onClick={onMultiSelect} className={classes.iconAction}>

@@ -16,6 +16,8 @@ export default function* addTorrent() {
             payload.torrents.forEach(file => {
                 formData.append("fileselect", file);
             });
+            if (payload.urls) formData.append("urls", payload.urls);
+
             formData.append("autoTMM", payload.managementMode === 'AUTOMATIC');
             formData.append("savepath", payload.saveLocation);
             if (payload.cookie) formData.append("cookie", payload.cookie);
