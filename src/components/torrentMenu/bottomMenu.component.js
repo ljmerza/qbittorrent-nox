@@ -20,7 +20,7 @@ const styles = theme => ({
     menuItemRoot: {
         display: 'flex',
         justifyContent: 'flex-end',
-        padding: `${theme.spacing(1)}px ${theme.spacing(1)}px ${theme.spacing(1)}px 0`,
+        padding: theme.spacing(1),
     },
     menuPaper: {
         border: '1px solid #d3d4d5',

@@ -6,12 +6,13 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 import { filtersActions } from 'containers/filters/filters.reducer';
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
-import BottomMenu from 'components/bottomMenu';
+import { BottomMenu, MultiSelectMenu } from 'components/torrentMenu';
 import Speed from './speed.component';
 
 export const BOTTOM_NAV_HEIGHT = 56;
@@ -29,10 +30,12 @@ const useStyles = makeStyles({
     },
 });
 
-function BottomNav({ toggleFilterDrawer }) {
+function BottomNav({ toggleFilterDrawer, selectedTorrent, clearTorrent }) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
+    // if in multi select mode then use multi select menu
+    const isMultiSelect = Array.isArray(selectedTorrent);
 
     return (
         <>  
@@ -44,10 +47,14 @@ function BottomNav({ toggleFilterDrawer }) {
                 showLabels
                 className={classes.root}
             >
-                
-                <BottomNavigationAction icon={<FilterListIcon />} onClick={toggleFilterDrawer} />
+                {isMultiSelect? (
+                    <BottomNavigationAction icon={<ClearAllIcon />} onClick={clearTorrent} />
+                ) : (
+                    <BottomNavigationAction icon = {<FilterListIcon />} onClick={toggleFilterDrawer} />
+                )}
+
                 <BottomNavigationAction icon={null} label={<Speed />} />
-                <BottomNavigationAction icon={<BottomMenu />} />
+                <BottomNavigationAction icon={isMultiSelect ? <MultiSelectMenu /> : <BottomMenu />} />
                 
             </BottomNavigation>
         </>
@@ -56,6 +63,8 @@ function BottomNav({ toggleFilterDrawer }) {
 
 BottomNav.propTypes = {
     toggleFilterDrawer: PropTypes.func.isRequired,
+    clearTorrent: PropTypes.func.isRequired,
+    selectedTorrent: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 const mapStateToProps = state => {

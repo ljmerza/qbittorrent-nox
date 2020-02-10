@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
         cursor: 'pointer',
     },
     isSelected: {
-        border: `1px solid ${theme.palette.primary.main}`,
+        border: `3px solid ${theme.palette.primary.main}`,
     },
     button: {
         width: '100%'
