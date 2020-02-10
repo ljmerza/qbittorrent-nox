@@ -56,8 +56,8 @@ function MultiSelectMenu({
     const handleClick = event => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
-    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
     const noneSelected = selectedTorrent && selectedTorrent.length === 0;
     if (noneSelected) return null;
 

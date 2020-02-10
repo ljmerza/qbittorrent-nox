@@ -7,82 +7,80 @@ import { computedDateTime, computeTimeLeft, computePercentDone } from './formatt
  * format torrent values for UI - only update 
  * certain values if the raw value has changed
  * @param {Object} torrent 
- * @param {Object[]} stateTorrents
+ * @param {Object[]} stateTorrent
  * @param {String} dateTimeFormat 
  */
-export const formatTorrent = (torrent, stateTorrents, dateTimeFormat) => {
-    // find if we already have the torrent so we can update it
-    const newTorrent = { ...(stateTorrents.find(st => st.hash === torrent.hash) || {}) };
- 
-    Object.entries(torrent || {}).forEach(([key, value]) => {
+export const formatTorrent = (newTorrent, stateTorrent, dateTimeFormat) => {
+   
+    Object.entries(newTorrent || {}).forEach(([key, value]) => {
 
-        switch(key){
-            case 'size': 
-                newTorrent.sizeUi = (newTorrent.size === torrent.size) ? newTorrent.sizeUi : prettySize(torrent.size);
+        switch (key) {
+            case 'size':
+                stateTorrent.sizeUi = (stateTorrent.size === newTorrent.size) ? stateTorrent.sizeUi : prettySize(newTorrent.size);
                 break;
-            case 'downloaded': 
-                newTorrent.downloadedUi = (newTorrent.downloaded === torrent.downloaded) ? newTorrent.downloadedUi : prettySize(torrent.downloaded);
+            case 'downloaded':
+                stateTorrent.downloadedUi = (stateTorrent.downloaded === newTorrent.downloaded) ? stateTorrent.downloadedUi : prettySize(newTorrent.downloaded);
                 break;
             case 'completed':
-                newTorrent.completedUi = (newTorrent.completed === torrent.completed) ? newTorrent.completedUi : prettySize(torrent.completed);
+                stateTorrent.completedUi = (stateTorrent.completed === newTorrent.completed) ? stateTorrent.completedUi : prettySize(newTorrent.completed);
                 break;
             case 'total_size':
-                newTorrent.totalSizeUi = (newTorrent.total_size === torrent.total_size) ? newTorrent.totalSizeUi : prettySize(torrent.total_size);
+                stateTorrent.totalSizeUi = (stateTorrent.total_size === newTorrent.total_size) ? stateTorrent.totalSizeUi : prettySize(newTorrent.total_size);
                 break;
             case 'uploaded':
-                newTorrent.uploadedUi = (newTorrent.uploaded === torrent.uploaded) ? newTorrent.uploadedUi : prettySize(torrent.uploaded);
+                stateTorrent.uploadedUi = (stateTorrent.uploaded === newTorrent.uploaded) ? stateTorrent.uploadedUi : prettySize(newTorrent.uploaded);
                 break;
             case 'amount_left':
-                newTorrent.amountLeftUi = (newTorrent.amount_left === torrent.amount_left) ? newTorrent.amountLeftUi : prettySize(torrent.amount_left);
+                stateTorrent.amountLeftUi = (stateTorrent.amount_left === newTorrent.amount_left) ? stateTorrent.amountLeftUi : prettySize(newTorrent.amount_left);
                 break;
             case 'added_on':
-                newTorrent.addedOnUi = (newTorrent.added_on === torrent.added_on) ? newTorrent.addedOnUi : computedDateTime(torrent.added_on, dateTimeFormat);
+                stateTorrent.addedOnUi = (stateTorrent.added_on === newTorrent.added_on) ? stateTorrent.addedOnUi : computedDateTime(newTorrent.added_on, dateTimeFormat);
                 break;
             case 'eta':
-                newTorrent.etaUi = (newTorrent.eta === torrent.eta) ? newTorrent.etaUi : computeTimeLeft(torrent.eta);
+                stateTorrent.etaUi = (stateTorrent.eta === newTorrent.eta) ? stateTorrent.etaUi : computeTimeLeft(newTorrent.eta);
                 break;
             case 'completion_on':
-                newTorrent.completedOnUi = (newTorrent.completion_on === torrent.completion_on) ? newTorrent.completedOnUi : computedDateTime(torrent.completion_on, dateTimeFormat);
+                stateTorrent.completedOnUi = (stateTorrent.completion_on === newTorrent.completion_on) ? stateTorrent.completedOnUi : computedDateTime(newTorrent.completion_on, dateTimeFormat);
                 break;
             case 'seen_complete':
-                newTorrent.seenCompleteUi = (newTorrent.seen_complete === torrent.seen_complete) ? newTorrent.seenCompleteUi : computedDateTime(torrent.seen_complete, dateTimeFormat);
+                stateTorrent.seenCompleteUi = (stateTorrent.seen_complete === newTorrent.seen_complete) ? stateTorrent.seenCompleteUi : computedDateTime(newTorrent.seen_complete, dateTimeFormat);
                 break;
             case 'time_active':
-                newTorrent.timeActiveUi = (newTorrent.time_active === torrent.time_active) ? newTorrent.timeActiveUi : computedDateTime(torrent.time_active, dateTimeFormat);
+                stateTorrent.timeActiveUi = (stateTorrent.time_active === newTorrent.time_active) ? stateTorrent.timeActiveUi : computedDateTime(newTorrent.time_active, dateTimeFormat);
                 break;
             case 'state':
-                newTorrent.stateUi = (newTorrent.state === torrent.state) ? newTorrent.stateUi : mapTorrentState(torrent.state);
-                const dlspeed = 'dlspeed' in torrent ? torrent.dlspeed : newTorrent.dlspeed;
-                const upspeed = 'upspeed' in torrent ? torrent.upspeed : newTorrent.upspeed;
-                const progress = 'progress' in torrent ? torrent.progress : newTorrent.progress;
-                const state = 'state' in torrent ? torrent.state : newTorrent.state;
-                newTorrent.states = computeStates({dlspeed, upspeed, progress, state});
+                stateTorrent.stateUi = (stateTorrent.state === newTorrent.state) ? stateTorrent.stateUi : mapTorrentState(newTorrent.state);
+                const dlspeed = 'dlspeed' in newTorrent ? newTorrent.dlspeed : stateTorrent.dlspeed;
+                const upspeed = 'upspeed' in newTorrent ? newTorrent.upspeed : stateTorrent.upspeed;
+                const progress = 'progress' in newTorrent ? newTorrent.progress : stateTorrent.progress;
+                const state = 'state' in newTorrent ? newTorrent.state : stateTorrent.state;
+                stateTorrent.states = computeStates({ dlspeed, upspeed, progress, state });
                 break;
             case 'progress':
-                newTorrent.percentDone = (newTorrent.progress === torrent.progress) ? newTorrent.percentDone : computePercentDone(torrent.progress);
-                newTorrent.isDone = torrent.progress === 1;
+                stateTorrent.percentDone = (stateTorrent.progress === newTorrent.progress) ? stateTorrent.percentDone : computePercentDone(newTorrent.progress);
+                stateTorrent.isDone = newTorrent.progress === 1;
                 break;
             case 'category':
-                newTorrent.categoryUi = torrent.category || UNCATEGORIZED.id;
+                stateTorrent.categoryUi = newTorrent.category || UNCATEGORIZED.id;
                 break;
             case 'dlspeed':
-                newTorrent.dlspeedUi = (newTorrent.dlspeed === torrent.dlspeed) ? newTorrent.dlspeedUi : prettySizeTime(torrent.dlspeed);
+                stateTorrent.dlspeedUi = (stateTorrent.dlspeed === newTorrent.dlspeed) ? stateTorrent.dlspeedUi : prettySizeTime(newTorrent.dlspeed);
                 break;
             case 'upspeed':
-                newTorrent.upspeedUi = (newTorrent.upspeed === torrent.upspeed) ? newTorrent.upspeedUi : prettySizeTime(torrent.upspeed);
+                stateTorrent.upspeedUi = (stateTorrent.upspeed === newTorrent.upspeed) ? stateTorrent.upspeedUi : prettySizeTime(newTorrent.upspeed);
                 break;
             case 'tags':
-                newTorrent.tagsUi = torrent.tags.split(',').map(tag => tag.trim());
+                stateTorrent.tagsUi = newTorrent.tags.split(',').map(tag => tag.trim());
                 break;
             default:
                 break;
         }
 
         // copy new value over to old AFTER we compare for new value in switch statements
-        newTorrent[key] = value;
+        stateTorrent[key] = value;
     });
 
-    return newTorrent;
+    return stateTorrent;
 };
 
 export const formatServerStats = (serverState, oldServerState) => {
