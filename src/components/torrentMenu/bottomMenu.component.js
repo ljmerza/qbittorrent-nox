@@ -47,7 +47,7 @@ function BottomMenu({ classes, selectTorrent }) {
     }
 
     return (
-        <div>
+        <>
             <MoreVertIcon onClick={handleClick} />
             <Menu
                 classes={{ paper: classes.menuPaper }}
@@ -87,7 +87,7 @@ function BottomMenu({ classes, selectTorrent }) {
                     <ExitToAppIcon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
             </Menu>
-        </div>
+        </>
     );
 }
 

@@ -48,6 +48,7 @@ function MultiSelectMenu({
     pauseSelectedTorrent,
     forceResumeSelectedTorrent,
     checkSelectedTorrent,
+    selectedTorrent,
     selectTorrent,
 }) {
 
@@ -56,10 +57,12 @@ function MultiSelectMenu({
     const handleClose = () => setAnchorEl(null);
 
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
-    const noneSelected = selectTorrent && selectTorrent.length === 0;
+    
+    const noneSelected = selectedTorrent && selectedTorrent.length === 0;
+    if (noneSelected) return null;
 
     return (
-        <div>
+        <>
             <GeneralTabActionsDelete openDeleteModal={openDeleteModal} setOpenDeleteModal={setOpenDeleteModal} />
 
             <MoreVertIcon onClick={handleClick} />
@@ -74,49 +77,45 @@ function MultiSelectMenu({
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                {noneSelected ? null : (
-                    <>
-                        <MenuItem className={classes.menuItemRoot} dense onClick={() => {
-                            resumeSelectedTorrent();
-                            handleClose();
-                        }}>
-                            <Typography>Resume</Typography>
-                            <ACTION_RESUME.icon classes={{ root: classes.iconRoot }} />
-                        </MenuItem>
+                <MenuItem className={classes.menuItemRoot} dense onClick={() => {
+                    resumeSelectedTorrent();
+                    handleClose();
+                }}>
+                    <Typography>Resume</Typography>
+                    <ACTION_RESUME.icon classes={{ root: classes.iconRoot }} />
+                </MenuItem>
 
-                        <MenuItem className={classes.menuItemRoot} dense onClick={() => {
-                            pauseSelectedTorrent();
-                            handleClose();
-                        }}>
-                            <Typography>Pause</Typography>
-                            <ACTION_PAUSE.icon classes={{ root: classes.iconRoot }} />
-                        </MenuItem>
+                <MenuItem className={classes.menuItemRoot} dense onClick={() => {
+                    pauseSelectedTorrent();
+                    handleClose();
+                }}>
+                    <Typography>Pause</Typography>
+                    <ACTION_PAUSE.icon classes={{ root: classes.iconRoot }} />
+                </MenuItem>
 
-                        <MenuItem className={classes.menuItemRoot} dense onClick={() => {
-                            forceResumeSelectedTorrent();
-                            handleClose();
-                        }}>
-                            <Typography>Force Resume</Typography>
-                            <ACTION_F_RESUME.icon classes={{ root: classes.iconRoot }} />
-                        </MenuItem>
+                <MenuItem className={classes.menuItemRoot} dense onClick={() => {
+                    forceResumeSelectedTorrent();
+                    handleClose();
+                }}>
+                    <Typography>Force Resume</Typography>
+                    <ACTION_F_RESUME.icon classes={{ root: classes.iconRoot }} />
+                </MenuItem>
 
-                        <MenuItem className={classes.menuItemRoot} dense onClick={() => {
-                            setOpenDeleteModal(true);
-                            handleClose();
-                        }}>
-                            <Typography>Delete</Typography>
-                            <ACTION_DELETE.icon classes={{ root: classes.iconRoot }} />
-                        </MenuItem>
+                <MenuItem className={classes.menuItemRoot} dense onClick={() => {
+                    setOpenDeleteModal(true);
+                    handleClose();
+                }}>
+                    <Typography>Delete</Typography>
+                    <ACTION_DELETE.icon classes={{ root: classes.iconRoot }} />
+                </MenuItem>
 
-                        <MenuItem className={classes.menuItemRoot} dense onClick={() => {
-                            checkSelectedTorrent();
-                            handleClose();
-                        }}>
-                            <Typography>Recheck</Typography>
-                            <ACTION_CHECK.icon classes={{ root: classes.iconRoot }} />
-                        </MenuItem>
-                    </>
-                )}
+                <MenuItem className={classes.menuItemRoot} dense onClick={() => {
+                    checkSelectedTorrent();
+                    handleClose();
+                }}>
+                    <Typography>Recheck</Typography>
+                    <ACTION_CHECK.icon classes={{ root: classes.iconRoot }} />
+                </MenuItem>
                 
                 <MenuItem className={classes.menuItemRoot} dense onClick={() => {
                     selectTorrent(null);
@@ -126,7 +125,7 @@ function MultiSelectMenu({
                     <ClearAllIcon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
             </Menu>
-        </div>
+        </>
     );
 }
 
