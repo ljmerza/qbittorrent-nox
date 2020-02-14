@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 
@@ -10,10 +10,7 @@ import UploadedFiles from 'components/files.component';
 
 
 function FileSelector({ name, label, value, onChange, classes }) {
-
-    const onDrop = useCallback(files => {
-        onChange({ target: { name, value: files } })
-    }, [onChange, name]);
+    const onDrop = files => onChange({ target: { name, value: files } });
 
     const onDeleteFile = file => {
         const newFiles = value.filter(f => f !== file);

@@ -1,5 +1,8 @@
 import { createSelector } from 'reselect';
-import { TORRENT_FILTER_STATES_MAP } from 'utilities/torrent-states';
+import { 
+    TORRENT_FILTER_STATES_MAP, DEFAULT_UI_STATE, UNCATEGORIZED,
+    RESET_CATEGORY, ALL_CATEGORY, UNTAGGED, ALL_TAGGED, RESET_TAGGED. 
+} from 'utilities/torrent-states';
 
 import {
     getSelectedState,
@@ -12,7 +15,6 @@ import {
  } from '../filters/filters.selectors'
 
 import { generateSortFunction } from 'utilities/torrent.tools';
-import { DEFAULT_UI_STATE, UNTAGGED, ALL_TAGGED, ALL_CATEGORY, UNCATEGORIZED } from 'utilities/torrent-states';
 
 export const getTorrents = state => state.torrents;
 export const getTorrentsTorrents = createSelector(getTorrents, torrents => torrents.torrents);
@@ -30,6 +32,9 @@ export const getLoading = createSelector(getTorrents, torrents => torrents.loadi
 export const getError = createSelector(getTorrents, torrents => torrents.error);
 
 export const getCategories = createSelector(getTorrents, torrents => torrents.categories);
+export const getCategoriesWithReset = createSelector(getCategories, categories => [RESET_CATEGORY, ...categories]);
+
+
 export const getTorrentsCategoryCount = createSelector(getTorrents, torrents => torrents.categoryCount);
 export const getCategoriesCount = createSelector(
     [getCategories, getTorrentsCategoryCount], 

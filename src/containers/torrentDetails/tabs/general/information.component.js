@@ -9,7 +9,7 @@ import TextSave from 'components/fields/textSave.component';
 import MultipleSelect from 'components/fields/multipleSelect.component';
 import Select from 'components/fields/select.component';
 import { Item } from 'components/grid.component';
-import { getCategories } from 'containers/torrents/torrents.selectors';
+import { getCategoriesWithReset } from 'containers/torrents/torrents.selectors';
 import { getTags } from 'containers/torrents/torrents.selectors';
 
 import { torrentDetailsActions } from '../../torrentDetails.reducer';
@@ -23,10 +23,6 @@ function GeneralTabInformation({
     changeTorrentName, 
     changeTorrentLocation
 }) {
-
-    // remove all and uncategorized then add 'reset cat' to beginning
-    let [, ...selectableCategories] = categories;
-    selectableCategories.unshift(RESET_CATEGORY);
 
     const onSaveName = ({ target: { value } }) => changeTorrentName(value);
     const onSavePath = ({ target: { value } }) => changeTorrentLocation(value);
@@ -44,7 +40,7 @@ function GeneralTabInformation({
                 <TextSave label='Save Path' name='save_path' onSave={onSavePath} value={generalInfo.save_path} />
             </Item>
             <Item>
-                <Select label='Category' value={selectedTorrent.categoryUi} options={selectableCategories} onChange={changeTorrentCategory} />
+                <Select label='Category' value={selectedTorrent.categoryUi} options={categories} onChange={changeTorrentCategory} />
             </Item>
             <Item>
                 <MultipleSelect label='Tags' value={selectedTorrent.tagsUi} options={selectableTags} onChange={changeTorrentTags} />
@@ -98,7 +94,7 @@ GeneralTabInformation.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        categories: getCategories(state),
+        categories: getCategoriesWithReset(state),
         tags: getTags(state),
     }
 };

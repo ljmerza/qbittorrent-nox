@@ -2,7 +2,7 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
 import { formatTorrent, formatServerStats, sumTorrents } from 'utilities/torrent.tools';
-import { UNCATEGORIZED, ALL_CATEGORY, UNTAGGED, ALL_TAGGED } from 'utilities/torrent-states';
+import { UNTAGGED, ALL_TAGGED } from 'utilities/torrent-states';
 
 import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
@@ -107,7 +107,7 @@ export default function* torrents() {
             const formattedCategories = !categories ? torrentState.categories : Object.values(categories).reduce((acc, category) => {
                 acc.push({ id: category.name, ...category });
                 return acc;
-            }, [ALL_CATEGORY, UNCATEGORIZED]);
+            }, []);
 
             const formattedTags = !tags ? torrentState.tags : tags.reduce((acc, tag) => {
                 acc.push({ id: tag, name: tag });
