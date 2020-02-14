@@ -38,9 +38,10 @@
     "typeface-roboto": "0.0.75",
     "whatwg-fetch": "^3.0.0"
   },
+  "homepage": ".",
   "scripts": {
-    // "start": "react-app-rewired start",
-    "start": "./scripts/start-writeon-disk.js",
+    "start": "react-app-rewired start",
+    "watch": "node ./scripts/start-writeon-disk.js",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
@@ -64,6 +65,7 @@
     "eslint": "^6.8.0",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
-    "react-app-rewired": "^2.1.5"
+    "react-app-rewired": "^2.1.5",
+    "rewire": "^4.0.1"
   }
 }

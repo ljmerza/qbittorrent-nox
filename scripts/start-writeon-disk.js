@@ -1,10 +1,31 @@
-#!/usr/bin/env node
+process.env.NODE_ENV = 'development';
 
-const rewire = require('rewire')
-const defaults = rewire('react-scripts/scripts/start.js')
+const fs = require('fs-extra');
+const paths = require('react-scripts/config/paths');
+const webpack = require('webpack');
 
-const createDevServerConfig = defaults.__get__('createDevServerConfig')
-defaults.__set__('createDevServerConfig', (...args) => ({
-    ...createDevServerConfig(...args),
-    writeToDisk: true,
-}))
+const config = require('react-scripts/config/webpack.config')(process.env.NODE_ENV);
+config.output.publicPath = '.';
+
+// removes react-dev-utils/webpackHotDevClient.js at first in the array
+config.entry.shift();
+
+
+webpack(config).watch({}, (err, stats) => {
+    if (err) {
+        console.error(err);
+    } else {
+        copyPublicFolder();
+    }
+    console.error(stats.toString({
+        chunks: false,
+        colors: true
+    }));
+});
+
+function copyPublicFolder() {
+    fs.copySync(paths.appPublic, paths.appBuild, {
+        dereference: true,
+        filter: file => file !== paths.appHtml
+    });
+}
