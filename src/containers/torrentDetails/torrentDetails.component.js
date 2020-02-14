@@ -1,88 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, AppBar, Tabs, Tab, Box } from '@material-ui/core';
+import { Drawer } from '@material-ui/core';
 
-import InfoIcon from '@material-ui/icons/Info';
-import PeopleIcon from '@material-ui/icons/People';
-import DescriptionIcon from '@material-ui/icons/Description';
-import PublicIcon from '@material-ui/icons/Public';
-
-import Icon from 'components/icon.component';
-
+import { getSelectedTorrent, getIsOpen } from './torrentDetails.selectors';
 import { torrentDetailsActions } from './torrentDetails.reducer';
-import { getIsOpen, getSelectedTorrent } from './torrentDetails.selectors';
+import SingleTorrentDetails from './singleTorrentDetails.component';
+import MultiTorrentDetails from './multiTorrentDetails.component';
 
-import GeneralTab from './tabs/general.component';
-import TrackersTab from './tabs/trackers.component';
-import PeersTab from './tabs/peers.component';
-import FilesTab from './tabs/files.component';
+const useStyles = makeStyles(() => ({
+    drawerWidth: {
+        width: '80%',
+        maxWidth: 700,
+    }
+}));
 
-const TabPanel = props => {
-    const { children, value, index } = props;
-    return value === index ? <Box>{children}</Box> : null;
-}
-
-function TorrentDetails({ isOpen, clearTorrent }) {
+function TorrentDetails({ selectedTorrent, isOpen, clearTorrent, closeDetails }) {
     const classes = useStyles();
 
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => setValue(newValue);
 
+    const isMultiSelect = Array.isArray(selectedTorrent);
+
+    const onBackdropClick = () => {
+        setValue(0); // reset selected tab
+
+        if (isMultiSelect) {
+            closeDetails();
+        } else {
+            clearTorrent();
+        }
+    }
+
     return (
-        <Drawer 
+        <Drawer
             anchor='right'
-            open={isOpen} 
-            ModalProps={{ 
-                onBackdropClick: () => {
-                    setValue(0); // reset selected tab
-                    clearTorrent();
-                }}
-            } 
+            open={isOpen}
+            ModalProps={{ onBackdropClick }}
             classes={{ paper: classes.drawerWidth }}
         >
-            <AppBar position="static">
-                <Tabs value={value} onChange={handleChange}>
-                    <Tab label={<Icon Icon={InfoIcon} color='inherit' />} />
-                    <Tab label={<Icon Icon={PublicIcon} color='inherit' />} />
-                    <Tab label={<Icon Icon={PeopleIcon} color='inherit' />} />
-                    <Tab label={<Icon Icon={DescriptionIcon} color='inherit' />} />
-                </Tabs>
-            </AppBar>
-            <TabPanel value={value} index={0}>
-                <GeneralTab />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <TrackersTab />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <PeersTab />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-                <FilesTab />
-            </TabPanel>
+            {isMultiSelect ? (
+                <MultiTorrentDetails 
+                    handleChange={handleChange} 
+                    value={value} 
+                /> 
+            ) : (
+                <SingleTorrentDetails
+                    handleChange={handleChange} 
+                    value={value} 
+                />
+            )}
         </Drawer>
     );
 }
 
-const useStyles = makeStyles(theme => ({
-    drawerWidth: {
-        width: '80%',
-        maxWidth: 700,
-    },
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-    }
-}));
-
 TorrentDetails.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    selectedTorrent: PropTypes.any,
+    selectedTorrent: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     clearTorrent: PropTypes.func.isRequired,
+    closeDetails: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -95,8 +75,11 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
     return {
         clearTorrent: () => dispatch(torrentDetailsActions.clearTorrent()),
+        closeDetails: () => dispatch(torrentDetailsActions.closeDetails()),
     };
 }
+
+
 
 export default compose(
     connect(

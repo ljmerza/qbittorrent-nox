@@ -10,13 +10,14 @@ import MultipleSelect from 'components/fields/multipleSelect.component';
 import Select from 'components/fields/select.component';
 import { Item } from 'components/grid.component';
 
-import { getCategoriesWithReset } from 'containers/torrents/torrents.selectors';
-import { getTagsWithReset } from 'containers/torrents/torrents.selectors';
+import { getTagsWithReset, getCategoriesWithReset } from 'containers/torrents/torrents.selectors';
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 
 function GeneralTabInformation({ 
-    generalInfo, selectedTorrent, 
-    categories, tags,
+    generalInfo, 
+    selectedTorrent, 
+    categories, 
+    tags,
     changeTorrentCategory,
     changeTorrentTags,
     changeTorrentName, 
@@ -76,7 +77,7 @@ function GeneralTabInformation({
 
 GeneralTabInformation.propTypes = {
     generalInfo: PropTypes.any,
-    selectedTorrent: PropTypes.any,
+    selectedTorrent: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     categories: PropTypes.array.isRequired,
     tags: PropTypes.array.isRequired,
     changeTorrentName: PropTypes.func.isRequired,
@@ -97,8 +98,8 @@ function mapDispatchToProps(dispatch) {
     return {
         changeTorrentName: name => dispatch(torrentDetailsActions.changeTorrentName(name)),
         changeTorrentLocation: location => dispatch(torrentDetailsActions.changeTorrentLocation(location)),
-        changeTorrentCategory: hashes => dispatch(torrentDetailsActions.changeTorrentCategory(hashes)),
-        changeTorrentTags: hashes => dispatch(torrentDetailsActions.changeTorrentTags(hashes)),
+        changeTorrentCategory: category => dispatch(torrentDetailsActions.changeTorrentCategory(category)),
+        changeTorrentTags: tag => dispatch(torrentDetailsActions.changeTorrentTags(tag)),
     };
 }
 

@@ -40,7 +40,7 @@ function GeneralTabActions({
 }
 
 GeneralTabActions.propTypes = {
-    selectedTorrent: PropTypes.any,
+    selectedTorrent: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     resumeSelectedTorrent: PropTypes.func.isRequired,
     pauseSelectedTorrent: PropTypes.func.isRequired,
     forceResumeSelectedTorrent: PropTypes.func.isRequired,

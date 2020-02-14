@@ -38,7 +38,6 @@
     "typeface-roboto": "0.0.75",
     "whatwg-fetch": "^3.0.0"
   },
-  "homepage": ".",
   "scripts": {
     "start": "react-app-rewired start",
     "watch": "node ./scripts/start-writeon-disk.js",

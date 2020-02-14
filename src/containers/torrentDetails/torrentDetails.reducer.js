@@ -70,15 +70,17 @@ export const torrentDetailsSlice = createSlice({
     name: 'torrentDetails',
     initialState,
     reducers: {
+        openDetails: state => ({ ...state, isOpen: true }),
+        closeDetails: state => ({ ...state, isOpen: false }),
         selectTorrent: (state, action) => {
             return { 
                 ...state, 
-                // only open the sidebar if we are selecting only one torrent
-                isOpen: (action.payload && !Array.isArray(action.payload)) || false, 
+                // only open the sidebar if we are selecting only one torrent - else keep the same state
+                isOpen: (action.payload && !Array.isArray(action.payload)) || state.isOpen, 
                 selectedTorrent: action.payload 
             }
         },
-        clearTorrent: () => ({ ...initialState }),
+        clearTorrent: (state, action) => ({ ...initialState, isOpen: action.payload || false }),
 
         getGeneralInfo: state => ({ ...state, isLoadingGeneral: true }),
         getGeneralInfoSuccess: (state, action) => ({ ...state, isLoadingGeneral: false, selectedTorrentGeneral: formatGeneralInfo(state, action.response) }),
