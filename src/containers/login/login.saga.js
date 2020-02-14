@@ -27,13 +27,13 @@ export default function* login() {
                 yield put({ type: `${loginActions.loginSuccess}`, loggedIn });
             } else {
                 yield put({ type: `${toastActions.showError}`, message: null, from: 'login' });
-                yield put({ type: `${loginActions.notLoggedIn}`, message: null, from: 'login' });
+                yield put({ type: `${loginActions.notLoggedIn}` });
             }
 
         } catch (e) {
             const message = `Invalid username and/or password`;
             yield put({ type: `${toastActions.showError}`, message: message, from: 'login' });
-            yield put({ type: `${loginActions.notLoggedIn}`, message: null, from: 'login' });
+            yield put({ type: `${loginActions.notLoggedIn}` });
         }
     });
 }

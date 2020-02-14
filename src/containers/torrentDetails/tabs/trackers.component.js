@@ -11,7 +11,6 @@ import ZeroText from 'components/fields/zeroText.component';
 import TextSave from 'components/fields/textSave.component';
 import { Item } from 'components/grid.component';
 import LoadingIndicator from 'components/LoadingIndicator';
-import { BOTTOM_NAV_HEIGHT } from 'components/bottomNavigation';
 
 import { torrentDetailsActions } from '../torrentDetails.reducer';
 import { getTrackersInfoLoading, getTrackersInfo } from '../torrentDetails.selectors';
@@ -58,9 +57,11 @@ function TrackersTab({ refreshInterval, getTrackersInfo, trackerEditUrl, loading
 
     useEffect(() => {
         getTrackersInfo();
-        let timerId = setInterval(getTrackersInfo, refreshInterval);
+        const timerId = setInterval(() => {
+            if (!loading) getTrackersInfo();
+        }, refreshInterval);
         return () => clearInterval(timerId);
-    }, [getTrackersInfo, refreshInterval]);
+    }, [getTrackersInfo, refreshInterval, loading]);
 
     return (
         <>
@@ -69,7 +70,6 @@ function TrackersTab({ refreshInterval, getTrackersInfo, trackerEditUrl, loading
                 /* if more than 25 trackers then use virtual list */
                 data.length > 25 ? (
                     <Virtuoso
-                        style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
                         totalCount={data.length}
                         item={idx => <TrackerCard tracker={data[idx]} trackerEditUrl={trackerEditUrl} />}
                     />

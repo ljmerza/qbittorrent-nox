@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
+import { getTorrentHashes } from 'utilities/torrent.tools';
 import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
@@ -15,6 +16,12 @@ export default function* changeTorrentTags() {
             const apiUrl = yield select(getLoginApiUrl);
             const selectedTorrent = yield select(getSelectedTorrent);
             if (!selectedTorrent) return;
+
+            const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
 
             // find out if adding or removing tag
             const isAdding = value.length > selectedTorrent.tagsUi.length;
@@ -34,7 +41,7 @@ export default function* changeTorrentTags() {
             }
 
             const formData = new FormData();
-            formData.append("hashes", selectedTorrent.hash);
+            formData.append("hashes", hashes);
             formData.append("tags", tag);
 
             const options = {

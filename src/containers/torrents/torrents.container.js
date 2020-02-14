@@ -8,8 +8,8 @@ import TorrentDetails from 'containers/torrentDetails';
 
 import PageContainer from 'components/pageContainer';
 import LoadingIndicator from 'components/LoadingIndicator';
-import BottomNav from 'components/bottomNavigation';
 import TorrentTable from 'components/torrentTable';
+import BottomNav from 'containers/bottomNavigation';
 
 import { getLoading, getTorrentsTorrents, getFilteredTorrents } from './torrents.selectors';
 

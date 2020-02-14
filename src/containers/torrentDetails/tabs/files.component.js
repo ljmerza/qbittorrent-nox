@@ -16,9 +16,11 @@ function FilesTab({ refreshInterval, getFilesInfo, data, loading }) {
 
     useEffect(() => {
         getFilesInfo();
-        let timerId = setInterval(getFilesInfo, refreshInterval);
+        const timerId = setInterval(() => {
+            if (!loading) getFilesInfo();
+        }, refreshInterval);
         return () => clearInterval(timerId);
-    }, [getFilesInfo, refreshInterval]);
+    }, [getFilesInfo, refreshInterval, loading]);
 
 
     if (!data.length && loading) {

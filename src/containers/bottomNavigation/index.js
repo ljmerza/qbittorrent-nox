@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import SwapVertIcon from '@material-ui/icons/SwapVert';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 import { filtersActions } from 'containers/filters/filters.reducer';
-import { getServerStateDown, getServerStateUp } from 'containers/torrents/torrents.selectors';
-import Icon from 'components/icon.component';
-import BottomMenu from 'components/bottomMenu';
+import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
+import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
+
+import { BottomMenu, MultiSelectMenu } from 'components/torrentMenu';
+import Speed from './speed.component';
 
 export const BOTTOM_NAV_HEIGHT = 56;
 
@@ -27,30 +28,17 @@ const useStyles = makeStyles({
         height: BOTTOM_NAV_HEIGHT,
         width: '100%',
     },
-    speeds: {
-        display: 'flex',
-        alignItems: 'center'
-    }
 });
 
-function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
+function BottomNav({ toggleFilterDrawer, selectedTorrent, clearTorrent }) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
-    const title = (dlSpeed && upSpeed) ? `D: ${ dlSpeed }, U: ${upSpeed}` : ``;
+    // if in multi select mode then use multi select menu
+    const isMultiSelect = Array.isArray(selectedTorrent);
 
-    const SpeedUi = (
-        <div className={classes.speeds}>
-            {dlSpeed} <Icon Icon={SwapVertIcon} /> {upSpeed}
-        </div>
-    );
-    
     return (
         <>  
-            <Helmet defer={false}>
-                <title>{title}</title>
-            </Helmet>
-
             {/* add spacing so elements above arent hidden behind fixed BottomNavigation */}
             <div className={classes.spacer}></div>
             <BottomNavigation
@@ -59,10 +47,14 @@ function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
                 showLabels
                 className={classes.root}
             >
-                
-                <BottomNavigationAction icon={<FilterListIcon />} onClick={toggleFilterDrawer} />
-                <BottomNavigationAction icon={null} label={SpeedUi} />
-                <BottomNavigationAction icon={<BottomMenu />} />
+                {isMultiSelect? (
+                    <BottomNavigationAction icon={<ClearAllIcon />} onClick={clearTorrent} />
+                ) : (
+                    <BottomNavigationAction icon = {<FilterListIcon />} onClick={toggleFilterDrawer} />
+                )}
+
+                <BottomNavigationAction icon={null} label={<Speed />} />
+                <BottomNavigationAction icon={isMultiSelect ? <MultiSelectMenu /> : <BottomMenu />} />
                 
             </BottomNavigation>
         </>
@@ -71,20 +63,20 @@ function BottomNav({ toggleFilterDrawer, dlSpeed, upSpeed }) {
 
 BottomNav.propTypes = {
     toggleFilterDrawer: PropTypes.func.isRequired,
-    dlSpeed: PropTypes.string.isRequired,
-    upSpeed: PropTypes.string.isRequired,
+    clearTorrent: PropTypes.func.isRequired,
+    selectedTorrent: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 const mapStateToProps = state => {
     return {
-        dlSpeed: getServerStateDown(state),
-        upSpeed: getServerStateUp(state),
+        selectedTorrent: getSelectedTorrent(state),
     }
 };
 
 function mapDispatchToProps(dispatch) {
     return {
         toggleFilterDrawer: () => dispatch(filtersActions.toggleFilterDrawer()),
+        clearTorrent: () => dispatch(torrentDetailsActions.clearTorrent()),
     };
 }
 

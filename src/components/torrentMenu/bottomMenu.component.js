@@ -20,6 +20,9 @@ const styles = theme => ({
     menuItemRoot: {
         display: 'flex',
         justifyContent: 'flex-end',
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
     },
     menuPaper: {
@@ -47,7 +50,7 @@ function BottomMenu({ classes, selectTorrent }) {
     }
 
     return (
-        <div>
+        <>
             <MoreVertIcon onClick={handleClick} />
             <Menu
                 classes={{ paper: classes.menuPaper }}
@@ -73,8 +76,13 @@ function BottomMenu({ classes, selectTorrent }) {
                     </AddTorrent>
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
-                    <Typography>Add Torrent Link</Typography>
-                    <LinkIcon classes={{ root: classes.iconRoot }} />
+                    <AddTorrent addUrl>
+                        <div onClick={handleClose} className={classes.iconAction}>
+                            <Typography>Add Torrent Link</Typography>
+                            <LinkIcon classes={{ root: classes.iconRoot }} />
+                        </div>
+                    </AddTorrent>
+                    
                 </MenuItem>
                 <MenuItem classes={{ root: classes.menuItemRoot }} dense>
                     <div onClick={onMultiSelect} className={classes.iconAction}>
@@ -87,7 +95,7 @@ function BottomMenu({ classes, selectTorrent }) {
                     <ExitToAppIcon classes={{ root: classes.iconRoot }} />
                 </MenuItem>
             </Menu>
-        </div>
+        </>
     );
 }
 

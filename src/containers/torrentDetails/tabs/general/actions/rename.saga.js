@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
+import { getTorrentHashes } from 'utilities/torrent.tools';
 import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from '../../../torrentDetails.reducer';
@@ -15,13 +16,15 @@ export default function* renameTorrent() {
             const selectedTorrent = yield select(getSelectedTorrent);
             if (!selectedTorrent) return;
 
+            const hashes = getTorrentHashes(selectedTorrent);
+
             const formData = new FormData();
-            formData.append("hash", selectedTorrent.hash);
+            formData.append("hash", hashes);
             formData.append("name", payload);
         
             const options = {
                 method: 'POST',
-                url: `${apiUrl}/${initialState.renameTorrentPath}?hash=${selectedTorrent.hash}`,
+                url: `${apiUrl}/${initialState.renameTorrentPath}`,
                 data: formData,
                 allowNoResponse: true
             };

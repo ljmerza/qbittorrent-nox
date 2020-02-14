@@ -33,6 +33,7 @@ class AddTorrentContainer extends PureComponent {
 
             form: {
                 torrents: [],
+                urls: '',
                 managementMode: 'MANUAL',
                 saveLocation: config.save_path,
                 cookie: '',
@@ -58,7 +59,7 @@ class AddTorrentContainer extends PureComponent {
     onSumbit = () => this.props.addTorrent(this.state.form);
 
     render(){
-        const { classes, children, categories } = this.props;
+        const { classes, children, categories, addUrl } = this.props;
         const { form } = this.state;
 
         let [, , ...selectableCategories] = categories;
@@ -83,7 +84,19 @@ class AddTorrentContainer extends PureComponent {
                     <Box className={classes.form}>
                         <Container>
                             <Item sm={12} md={12} lg={12} className={classes.fileSelector}>
-                                <FileSelector label='torrents' name='torrents' value={form.torrents} onChange={this.onChange} />
+                                {addUrl ? (
+                                    <Text
+                                        label='URLs (one per line)'
+                                        name='urls'
+                                        value={form.urls}
+                                        onChange={this.onChange}
+                                        multiline
+                                        emptyValue
+                                        rows='5'
+                                    />
+                                ): (
+                                    <FileSelector label='torrents' name='torrents' value={form.torrents} onChange={this.onChange} />
+                                )}
                             </Item>
                         </Container>
                        
@@ -94,6 +107,11 @@ class AddTorrentContainer extends PureComponent {
                             <Item sm={12} md={6} lg={6}>
                                 <Text emptyValue label='Save Location' name='saveLocation' value={form.saveLocation} onChange={this.onChange} disabled={disableManualInputs} />
                             </Item>
+                            {addUrl ? (
+                                <Item sm={12} md={6} lg={6}>
+                                    <Text emptyValue label='Cookie' name='cookie' value={form.cookie} onChange={this.onChange} disabled={disableManualInputs} />
+                                </Item>
+                            ) : null}
                             <Item sm={12} md={6} lg={6}>
                                 <Text emptyValue label='Rename To' name='renameTorrent' value={form.renameTorrent} onChange={this.onChange} />
                             </Item>
@@ -150,6 +168,7 @@ AddTorrentContainer.propTypes = {
     config: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     addTorrent: PropTypes.func.isRequired,
+    addUrl: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

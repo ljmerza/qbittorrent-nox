@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Typography } from '@material-ui/core';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
-import { BOTTOM_NAV_HEIGHT } from 'components/bottomNavigation';
 import Card from 'components/card.component';
 import FileCard from './fileCard.component';
 
@@ -51,7 +50,6 @@ const FileGroup = ({ group }) => {
                 {/* if more than 50 files then use virtual list */}
                 {group.files.length > 25 ? (
                     <Virtuoso
-                        style={{ height: `calc(100vh - ${BOTTOM_NAV_HEIGHT}px)` }}
                         totalCount={group.files.length}
                         item={idx => {
                             const file = group.files[idx];

@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 
-import request from 'utilities/request';
+import request from 'utilities/request'; 
+import { getTorrentHashes } from 'utilities/torrent.tools';
 import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
 import { initialState, torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
@@ -13,8 +14,14 @@ export default function* changeTorrentCategory() {
             const selectedTorrent = yield select(getSelectedTorrent);
             if (!selectedTorrent) return;
 
+            const hashes = getTorrentHashes(selectedTorrent);
+            // if multi select then unselect torrents
+            if (Array.isArray(selectedTorrent)) {
+                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
+            }
+
             const formData = new FormData();
-            formData.append("hashes", selectedTorrent.hash);
+            formData.append("hashes", hashes);
             formData.append("category", value);
 
             const options = {
@@ -26,7 +33,6 @@ export default function* changeTorrentCategory() {
 
             yield call(request, options);
             yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent category changed', from: 'changeTorrentCategory' });
-
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentCategory' });

@@ -18,9 +18,11 @@ function GeneralTab({ refreshInterval, getGeneralInfo, loading, generalInfo, sel
 
     useEffect(() => {
         getGeneralInfo();
-        let timerId = setInterval(getGeneralInfo, refreshInterval);
+        const timerId = setInterval(() => {
+            if (!loading) getGeneralInfo();
+        }, refreshInterval);
         return () => clearInterval(timerId);
-    }, [getGeneralInfo, refreshInterval]);
+    }, [getGeneralInfo, refreshInterval, loading]);
 
     return (
         <>
