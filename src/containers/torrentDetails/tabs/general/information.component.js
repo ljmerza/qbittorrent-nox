@@ -9,11 +9,10 @@ import TextSave from 'components/fields/textSave.component';
 import MultipleSelect from 'components/fields/multipleSelect.component';
 import Select from 'components/fields/select.component';
 import { Item } from 'components/grid.component';
-import { getCategoriesWithReset } from 'containers/torrents/torrents.selectors';
-import { getTags } from 'containers/torrents/torrents.selectors';
 
-import { torrentDetailsActions } from '../../torrentDetails.reducer';
-import { RESET_CATEGORY, RESET_TAGGED } from 'utilities/torrent-states';
+import { getCategoriesWithReset } from 'containers/torrents/torrents.selectors';
+import { getTagsWithReset } from 'containers/torrents/torrents.selectors';
+import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 
 function GeneralTabInformation({ 
     generalInfo, selectedTorrent, 
@@ -23,13 +22,8 @@ function GeneralTabInformation({
     changeTorrentName, 
     changeTorrentLocation
 }) {
-
     const onSaveName = ({ target: { value } }) => changeTorrentName(value);
     const onSavePath = ({ target: { value } }) => changeTorrentLocation(value);
-
-    // remove all/untagged then add 'reset tags' to beginning
-    let [, , ...selectableTags] = tags;
-    selectableTags.unshift({ ...RESET_TAGGED, isReset: true });
 
     return (
         <Card title='Information'>
@@ -43,7 +37,7 @@ function GeneralTabInformation({
                 <Select label='Category' value={selectedTorrent.categoryUi} options={categories} onChange={changeTorrentCategory} />
             </Item>
             <Item>
-                <MultipleSelect label='Tags' value={selectedTorrent.tagsUi} options={selectableTags} onChange={changeTorrentTags} />
+                <MultipleSelect label='Tags' value={selectedTorrent.tagsUi} options={tags} onChange={changeTorrentTags} />
             </Item>
             <Item>
                 <Text label='Time Active' disabled value={generalInfo.timeElapsedUi} />
@@ -95,7 +89,7 @@ GeneralTabInformation.propTypes = {
 const mapStateToProps = state => {
     return {
         categories: getCategoriesWithReset(state),
-        tags: getTags(state),
+        tags: getTagsWithReset(state),
     }
 };
 

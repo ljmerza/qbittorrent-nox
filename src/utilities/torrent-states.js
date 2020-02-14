@@ -5,6 +5,14 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import ReplayIcon from '@material-ui/icons/Replay';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
+
+export const MANAGEMENT_MODE_MANUAL = { id: 'MANUAL', name: 'Manual' };
+export const MANAGEMENT_MODE_AUTOMATIC = { id: 'AUTOMATIC', name: 'Automatic' };
+export const MANAGEMENT_MODES = [
+    MANAGEMENT_MODE_MANUAL,
+    MANAGEMENT_MODE_AUTOMATIC,
+];
+
 /**
  * extra uncategorized category
  */
@@ -14,7 +22,7 @@ export const RESET_CATEGORY = { id: '', name: 'Reset Category', uneditable: true
 
 export const ALL_TAGGED = { id: '', name: 'All', uneditable: true };
 export const UNTAGGED = { id: 'untagged', name: 'Untagged', uneditable: true };
-export const RESET_TAGGED = { id: 'RESET_TAGGED', name: 'Reset Tags', uneditable: true };
+export const RESET_TAGGED = { id: 'RESET_TAGGED', name: 'Reset Tags', uneditable: true, isReset: true };
 
 export const DEFAULT_UI_STATE = 'all';
 export const DEFAULT_UI_CATEGORY = ALL_CATEGORY.id;

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
+import { MANAGEMENT_MODES, MANAGEMENT_MODE_MANUAL, MANAGEMENT_MODE_AUTOMATIC } from 'utilities/torrent-states';
+
 import Text from 'components/fields/text.component';
 import Select from 'components/fields/select.component';
 import Checkbox from 'components/fields/checkbox.component';
@@ -14,14 +16,9 @@ import { Container, Item } from 'components/grid.component';
 import Modal from 'components/modal.component';
 
 import { getConfigConfig } from 'containers/config/config.selectors';
-import { getCategories } from 'containers/torrents/torrents.selectors';
+import { getCategoriesWithNone } from 'containers/torrents/torrents.selectors';
 
 import { addTorrentActions } from './addTorrent.reducer';
-
-const MANAGEMENT_MODES = [
-    { id: 'MANUAL', name: 'Manual' },
-    { id: 'AUTOMATIC', name: 'Automatic' },
-]
 
 class AddTorrentContainer extends PureComponent {
     constructor(props){
@@ -34,7 +31,25 @@ class AddTorrentContainer extends PureComponent {
             form: {
                 torrents: [],
                 urls: '',
-                managementMode: 'MANUAL',
+                managementMode: MANAGEMENT_MODE_MANUAL.id,
+                saveLocation: config.save_path,
+                cookie: '',
+                renameTorrent: '',
+                category: '',
+                startTorrent: !config.start_paused_enabled,
+                skipHash: false,
+                createSubDirectory: config.create_subfolder_enabled,
+                downloadSequential: false,
+                downloadFirstLast: false,
+                limitDownloadRate: 0,
+                limitUploadRate: 0,
+            },
+
+            // save for when we exit out of form
+            initialForm: {
+                torrents: [],
+                urls: '',
+                managementMode: MANAGEMENT_MODE_MANUAL.id,
                 saveLocation: config.save_path,
                 cookie: '',
                 renameTorrent: '',
@@ -51,21 +66,24 @@ class AddTorrentContainer extends PureComponent {
     }
     
     handleOpen = () => this.setState({ open: true });
-    handleClose = () => this.setState({ open: false });
+    
+    handleClose = () => {
+        this.setState(oldState => ({ ...oldState, open: false, form: oldState.initialForm }));
+    }
 
     onChange = ({ target: { name, value } }) => 
         this.setState(state => ({ ...state, form: { ...state.form, [name]: value } }));
 
-    onSumbit = () => this.props.addTorrent(this.state.form);
+    onSumbit = () => {
+        this.props.addTorrent(this.state.form);
+        this.handleClose();
+    }
 
     render(){
         const { classes, children, categories, addUrl } = this.props;
         const { form } = this.state;
 
-        let [, , ...selectableCategories] = categories;
-        selectableCategories.unshift({ id: '', name: '' });
-
-        const disableManualInputs = form.managementMode === 'automatic';
+        const disableManualInputs = form.managementMode === MANAGEMENT_MODE_AUTOMATIC.id;
 
         return (
             <>
@@ -116,7 +134,7 @@ class AddTorrentContainer extends PureComponent {
                                 <Text emptyValue label='Rename To' name='renameTorrent' value={form.renameTorrent} onChange={this.onChange} />
                             </Item>
                             <Item sm={12} md={6} lg={6}>
-                                <Select label='Category' value={form.category} options={selectableCategories} onChange={this.onChange} />
+                                <Select label='Category' value={form.category} options={categories} onChange={this.onChange} />
                             </Item>
                             <Item sm={12} md={6} lg={6}>
                                 <Text emptyValue label='Download Rate (kb/s)' name='limitDownloadRate' value={form.limitDownloadRate} onChange={this.onChange} />
@@ -174,7 +192,7 @@ AddTorrentContainer.propTypes = {
 const mapStateToProps = state => {
     return {
         config: getConfigConfig(state),
-        categories: getCategories(state),
+        categories: getCategoriesWithNone(state),
     }
 };
 

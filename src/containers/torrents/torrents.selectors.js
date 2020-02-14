@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { 
     TORRENT_FILTER_STATES_MAP, DEFAULT_UI_STATE, UNCATEGORIZED,
-    RESET_CATEGORY, ALL_CATEGORY, UNTAGGED, ALL_TAGGED, RESET_TAGGED. 
+    RESET_CATEGORY, ALL_CATEGORY, UNTAGGED, ALL_TAGGED, RESET_TAGGED, 
 } from 'utilities/torrent-states';
 
 import {
@@ -33,11 +33,13 @@ export const getError = createSelector(getTorrents, torrents => torrents.error);
 
 export const getCategories = createSelector(getTorrents, torrents => torrents.categories);
 export const getCategoriesWithReset = createSelector(getCategories, categories => [RESET_CATEGORY, ...categories]);
+export const getCategoriesWithNone = createSelector(getCategories, categories => [{ id: '', name: '' }, ...categories]);
+export const getCategoriesWithAll = createSelector(getCategories, categories => [ALL_CATEGORY, ...categories]);
 
 
 export const getTorrentsCategoryCount = createSelector(getTorrents, torrents => torrents.categoryCount);
 export const getCategoriesCount = createSelector(
-    [getCategories, getTorrentsCategoryCount], 
+    [getCategoriesWithAll, getTorrentsCategoryCount], 
     (categories, categoryCount) => {
         return categories.map(category => {
             let count = categoryCount[category.name] || 0;
@@ -49,6 +51,8 @@ export const getCategoriesCount = createSelector(
 );
 
 export const getTags = createSelector(getTorrents, torrents => torrents.tags);
+export const getTagsWithReset = createSelector(getTags, tags => [RESET_TAGGED, ...tags]);
+
 export const getTorrentsTagsCount = createSelector(getTorrents, torrents => torrents.tagsCount);
 export const getTagsCount = createSelector(
     [getTags, getTorrentsTagsCount],
