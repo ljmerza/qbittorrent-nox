@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import {
     MenuItem,
     InputLabel,
     FormControl,
-    OutlinedInput,
     ListItemText,
     Select,
 } from '@material-ui/core';
@@ -35,6 +34,12 @@ function getStyles(currentSelected, selected, theme) {
 function MultipleSelect({ value, name, label, options, onChange, ...restProps }) {
     const classes = useStyles();
     const theme = useTheme();
+
+    const inputLabel = useRef(null);
+    const [labelWidth, setLabelWidth] = useState(0);
+    useEffect(() => {
+        setLabelWidth(inputLabel.current.offsetWidth);
+    }, []);
     
     // use internal state so we can update this in the UI immediately even though the value hasnt changed
     // yet (it's async) - use effect so when the value DOES change everything is updated accordingly
@@ -55,13 +60,13 @@ function MultipleSelect({ value, name, label, options, onChange, ...restProps })
     };
 
     return (
-        <FormControl margin='dense' className={classes.formControl}>
-            <InputLabel>{label}</InputLabel>
+        <FormControl margin='dense' variant="outlined" className={classes.formControl}>
+            <InputLabel ref={inputLabel}>{label}</InputLabel>
             <Select
                 multiple
                 value={selectedValue}
                 onChange={onValueChange}
-                input={<OutlinedInput />}
+                labelWidth={labelWidth}
                 renderValue={selected => selected.join(', ')}
                 {...restProps}
             >
