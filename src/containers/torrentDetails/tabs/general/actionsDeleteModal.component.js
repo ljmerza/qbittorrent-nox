@@ -12,6 +12,7 @@ function GeneralTabActionsDelete({
     openDeleteModal,
     setOpenDeleteModal,
     deleteSelectedTorrent,
+    deleteCallback,
 }) {
 
     // handle checkbox
@@ -21,6 +22,7 @@ function GeneralTabActionsDelete({
     const onConfirmDelete = () => {
         setOpenDeleteModal(false);
         deleteSelectedTorrent(deleteFiles);
+        if (deleteCallback) deleteCallback();
     };
 
     return (
@@ -41,6 +43,7 @@ GeneralTabActionsDelete.propTypes = {
     openDeleteModal: PropTypes.any,
     setOpenDeleteModal: PropTypes.func.isRequired,
     deleteSelectedTorrent: PropTypes.func.isRequired,
+    deleteCallback: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {

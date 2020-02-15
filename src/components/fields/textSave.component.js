@@ -15,7 +15,7 @@ const styles = theme => ({
 
 });
 
-const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, ...props }) => {
+const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, numbericOnly, inputMode, ...props }) => {
 
     // use internal state so we can update this in the UI immediately even though the value hasnt changed
     // yet (it's async) - use effect so when the value DOES change everything is updated accordingly
@@ -25,7 +25,10 @@ const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, ...pr
         setVal(value);
     }, [value, setVal]);
 
-    const onChangeVal = ({ target: { value } }) => setVal(value);
+    const onChangeVal = ({ target: { value } }) => {
+        if(numbericOnly) value = value.replace(/\D/g, '');
+        setVal(value);
+    }
     const onClick = () => onSave({ target: { name, value: val } });
 
     const isUndef = val === undefined || val === null;
@@ -38,6 +41,7 @@ const TextSave = ({ classes, startAdorment, name, value, disabled, onSave, ...pr
             disabled={disabled}
             onChange={onChangeVal}
             emptyValue
+            inputMode={numbericOnly ? "numeric" : inputMode || null}
             inputProps={{
                 endAdornment: (
                     <InputAdornment position="end">
@@ -69,7 +73,9 @@ TextSave.propTypes = {
     value: PropTypes.any,
     startAdorment: PropTypes.any, 
     disabled: PropTypes.bool, 
-    onSave: PropTypes.func.isRequired
+    onSave: PropTypes.func.isRequired,
+    numbericOnly: PropTypes.bool,
+    inputMode: PropTypes.string,
 };
 
 export default withStyles(styles)(TextSave);
