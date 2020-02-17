@@ -34,12 +34,12 @@ export const getError = createSelector(getTorrents, torrents => torrents.error);
 export const getCategories = createSelector(getTorrents, torrents => torrents.categories);
 export const getCategoriesWithReset = createSelector(getCategories, categories => [RESET_CATEGORY, ...categories]);
 export const getCategoriesWithNone = createSelector(getCategories, categories => [{ id: '', name: '' }, ...categories]);
-export const getCategoriesWithAll = createSelector(getCategories, categories => [ALL_CATEGORY, ...categories]);
+export const getAllCategories = createSelector(getCategories, categories => [ALL_CATEGORY, UNCATEGORIZED, ...categories]);
 
 
 export const getTorrentsCategoryCount = createSelector(getTorrents, torrents => torrents.categoryCount);
 export const getCategoriesCount = createSelector(
-    [getCategoriesWithAll, getTorrentsCategoryCount], 
+    [getAllCategories, getTorrentsCategoryCount], 
     (categories, categoryCount) => {
         return categories.map(category => {
             let count = categoryCount[category.name] || 0;
