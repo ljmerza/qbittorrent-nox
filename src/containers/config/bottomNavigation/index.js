@@ -12,14 +12,14 @@ import BottomNavigationComponent from 'components/bottomNavigation.component';
 import Speed from 'components/speed.component';
 import BottomMenu from './bottomMenu.component';
 
-function BottomNav({ history }) {
+function BottomNav(props) {
 
     return (
         <BottomNavigationComponent>
             {/* keep everything centered with empty action */}
             <BottomNavigationAction icon={null} label={null} /> 
             <BottomNavigationAction icon={null} label={<Speed />} />
-            <BottomNavigationAction icon={<BottomMenu />} />
+            <BottomNavigationAction icon={<BottomMenu {...props} />} />
         </BottomNavigationComponent>
     );
 }

@@ -43,7 +43,7 @@ function MenuComponent({ classes, children }) {
             >   
                 {/* materialUI menu doesnt allow fragment as child */}
                 <div>
-                    {children(handleClose, classes)}
+                    {children({handleClose, classes})}
                 </div>
             </Menu>
         </>

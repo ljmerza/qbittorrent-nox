@@ -23,7 +23,7 @@ function BottomMenu({ selectTorrent, history }) {
 
     return (
         <Menu>
-            {(handleClose, classes) => (
+            {({handleClose, classes}) => (
                 <>
                     <Menu.MenuItem onClick={onSettingsClick}>
                         <Typography>Settings</Typography>

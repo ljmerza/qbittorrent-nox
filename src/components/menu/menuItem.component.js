@@ -16,9 +16,13 @@ const styles = theme => ({
     }
 });
 
-function MenuItemComponent({ classes, onClick, children }) {
+function MenuItemComponent({ classes, children, onClick, ...rest }) {
+    const _onClick = event => {
+        onClick(event);
+    };
+
     return (
-        <MenuItem classes={{ root: classes.menuItemRoot }} dense onClick={onClick}>
+        <MenuItem classes={{ root: classes.menuItemRoot }} dense onClick={_onClick} {...rest}>
             {children}
         </MenuItem>
     );
@@ -28,5 +32,9 @@ MenuItemComponent.propTypes = {
     onClick: PropTypes.func,
     children: PropTypes.node.isRequired,
 };
+
+MenuItemComponent.defaultProps = {
+    onClick: () => {},
+}
 
 export default withStyles(styles)(MenuItemComponent);
