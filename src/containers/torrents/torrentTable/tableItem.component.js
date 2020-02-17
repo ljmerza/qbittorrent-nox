@@ -12,7 +12,7 @@ import SubText from 'components/fields/subText.component';
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
 
-import Speed from './speed.component';
+import Speed from 'components/speed.component';
 
 const useStyles = makeStyles(theme => ({
     card: {

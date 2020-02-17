@@ -4,13 +4,17 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Redirect, Switch, Route } from 'react-router-dom';
 
-import { configActions } from 'containers/config/config.reducer';
+
+import LoadingIndicator from 'components/LoadingIndicator';
+
 import TorrentsComponent from 'containers/torrents';
 import FiltersComponent from 'containers/filters';
+import ConfigComponent from 'containers/config';
 
 import { getLoading } from 'containers/torrents/torrents.selectors';
+import { getConfigInternalRefreshInterval, getConfigLoading } from 'containers/config/config.selectors';
+import { configActions } from 'containers/config/config.reducer';
 import { torrentsActions } from 'containers/torrents/torrents.reducer';
-import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
 
 class LoggedInRoutes extends PureComponent {
     componentDidMount() {
@@ -30,10 +34,19 @@ class LoggedInRoutes extends PureComponent {
     }
 
     render(){
+        if (this.props.loadingSettings) return <LoadingIndicator />;
+        
         return (
             <Switch>
-                <Route exact path="/torrents" component={TorrentsComponent} />
-                <Route exact path="/filters" component={FiltersComponent} />
+                <Route path="/torrents">
+                    <TorrentsComponent />
+                </Route>
+                <Route path="/filters">
+                    <FiltersComponent />
+                </Route>
+                <Route path="/settings">
+                    <ConfigComponent />
+                </Route>
                 <Redirect from="*" to="/torrents" />
             </Switch>
         );
@@ -43,6 +56,7 @@ class LoggedInRoutes extends PureComponent {
 LoggedInRoutes.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
+    loadingSettings: PropTypes.bool.isRequired,
     getTorrents: PropTypes.func.isRequired,
     getConfig: PropTypes.func.isRequired,
 };
@@ -50,6 +64,7 @@ LoggedInRoutes.propTypes = {
 const mapStateToProps = state => {
     return {
         loading: getLoading(state),
+        loadingSettings: getConfigLoading(state),
         refreshInterval: getConfigInternalRefreshInterval(state),
     }
 };

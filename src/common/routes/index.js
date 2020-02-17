@@ -4,7 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import LoginRoutes from './login.routes';
 import LoggedInRoutes from './loggedIn.routes';
@@ -21,8 +21,9 @@ function Routes({ loggedIn }) {
      */
     return (
         <Switch>
-            <Route exact path="/" component={InitLoaderComponent} />
-            <Redirect from="*" to="/" />
+            <Route exact path="/">
+                <InitLoaderComponent />
+            </Route>
         </Switch>
     );
 }

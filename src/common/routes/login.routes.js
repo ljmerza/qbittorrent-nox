@@ -5,7 +5,9 @@ import LoginComponent from 'containers/login';
 function LoginRoutes() {
     return (
         <Switch>
-            <Route exact path="/login" component={LoginComponent} />
+            <Route exact path="/login">
+                <LoginComponent />
+            </Route>
             <Redirect from="*" to="/login" />
         </Switch>
     );
