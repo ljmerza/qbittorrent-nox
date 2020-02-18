@@ -15,7 +15,7 @@ import FileSelector from 'components/fields/fileSelector.component';
 import { Container, Item } from 'components/grid.component';
 import Modal from 'components/modal.component';
 
-import { getConfigConfig } from 'containers/config/config.selectors';
+import { getSettingsConfig } from 'containers/settings/settings.selectors';
 import { getCategoriesWithNone } from 'containers/torrents/torrents.selectors';
 
 import { addTorrentActions } from './addTorrent.reducer';
@@ -23,7 +23,7 @@ import { addTorrentActions } from './addTorrent.reducer';
 class AddTorrentContainer extends PureComponent {
     constructor(props){
         super(props);
-        const { config } = props;
+        const { settings } = props;
 
         this.state = {
             open: false,
@@ -32,13 +32,13 @@ class AddTorrentContainer extends PureComponent {
                 torrents: [],
                 urls: '',
                 managementMode: MANAGEMENT_MODE_MANUAL.id,
-                saveLocation: config.save_path,
+                saveLocation: settings.save_path,
                 cookie: '',
                 renameTorrent: '',
                 category: '',
-                startTorrent: !config.start_paused_enabled,
+                startTorrent: !settings.start_paused_enabled,
                 skipHash: false,
-                createSubDirectory: config.create_subfolder_enabled,
+                createSubDirectory: settings.create_subfolder_enabled,
                 downloadSequential: false,
                 downloadFirstLast: false,
                 limitDownloadRate: 0,
@@ -50,13 +50,13 @@ class AddTorrentContainer extends PureComponent {
                 torrents: [],
                 urls: '',
                 managementMode: MANAGEMENT_MODE_MANUAL.id,
-                saveLocation: config.save_path,
+                saveLocation: settings.save_path,
                 cookie: '',
                 renameTorrent: '',
                 category: '',
-                startTorrent: !config.start_paused_enabled,
+                startTorrent: !settings.start_paused_enabled,
                 skipHash: false,
-                createSubDirectory: config.create_subfolder_enabled,
+                createSubDirectory: settings.create_subfolder_enabled,
                 downloadSequential: false,
                 downloadFirstLast: false,
                 limitDownloadRate: 0,
@@ -183,7 +183,7 @@ const styles = theme => ({
 });
 
 AddTorrentContainer.propTypes = {
-    config: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     addTorrent: PropTypes.func.isRequired,
     addUrl: PropTypes.bool,
@@ -191,7 +191,7 @@ AddTorrentContainer.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        config: getConfigConfig(state),
+        settings: getSettingsConfig(state),
         categories: getCategoriesWithNone(state),
     }
 };

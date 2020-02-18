@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import { configActions } from 'containers/config/config.reducer';
+import { settingsActions } from 'containers/settings/settings.reducer';
 import Routes from '../routes';
 
 // import Header from './header.container';
@@ -52,7 +52,7 @@ MainContainer.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getApiVersion: () => dispatch(configActions.getApiVersion())
+        getApiVersion: () => dispatch(settingsActions.getApiVersion())
     };
 }
 

@@ -7,7 +7,7 @@ import PageContainer from 'components/pageContainer';
 import LoadingIndicator from 'components/LoadingIndicator';
 import BottomNav from './bottomNavigation';
 
-import { getConfigConfig, getConfigLoading } from './config.selectors';
+import { getSettingsConfig, getSettingsLoading } from './settings.selectors';
 
 import { 
     AdvancedSettings, BitTorrentSettings, ConnectionSettings, 
@@ -60,8 +60,8 @@ SettingsContainer.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        settings: getConfigConfig(state),
-        loading: getConfigLoading(state),
+        settings: getSettingsConfig(state),
+        loading: getSettingsLoading(state),
     }
 };
 

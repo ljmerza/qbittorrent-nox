@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
 
-import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import { getSettingsInternalRefreshInterval } from 'containers/settings/settings.selectors';
 import Card from 'components/card.component';
 import Text from 'components/fields/text.component';
 import ZeroText from 'components/fields/zeroText.component';
@@ -94,7 +94,7 @@ TrackersTab.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        refreshInterval: getConfigInternalRefreshInterval(state),
+        refreshInterval: getSettingsInternalRefreshInterval(state),
         loading: getTrackersInfoLoading(state),
         data: getTrackersInfo(state),
     }

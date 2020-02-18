@@ -3,10 +3,10 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import request from 'utilities/request';
 import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
-import { initialState, configActions } from './config.reducer';
+import { initialState, settingsActions } from './settings.reducer';
 
-export default function* getConfig() {
-    yield takeLatest(`${configActions.getConfig}`, function* () {
+export default function* getSettings() {
+    yield takeLatest(`${settingsActions.getSettings}`, function* () {
 
         try {
             const apiUrl = yield select(getLoginApiUrl);
@@ -16,11 +16,11 @@ export default function* getConfig() {
                 url: `${apiUrl}/${initialState.path}`,
             }
 
-            const config = yield call(request, options);
-            yield put({ type: `${configActions.getConfigSuccess}`, config });
+            const settings = yield call(request, options);
+            yield put({ type: `${settingsActions.getSettingsSuccess}`, settings });
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getConfig' });
+            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'getSettings' });
         }
     });
 }

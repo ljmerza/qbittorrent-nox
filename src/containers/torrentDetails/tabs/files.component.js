@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import { getSettingsInternalRefreshInterval } from 'containers/settings/settings.selectors';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { torrentDetailsActions } from '../torrentDetails.reducer';
@@ -43,7 +43,7 @@ FilesTab.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        refreshInterval: getConfigInternalRefreshInterval(state),
+        refreshInterval: getSettingsInternalRefreshInterval(state),
         loading: getFilesInfoLoading(state),
         data: getFilesInfo(state),
     }

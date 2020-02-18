@@ -9,16 +9,16 @@ import LoadingIndicator from 'components/LoadingIndicator';
 
 import TorrentsComponent from 'containers/torrents';
 import FiltersComponent from 'containers/filters';
-import ConfigComponent from 'containers/config';
+import SettingsComponent from 'containers/settings';
 
 import { getLoading } from 'containers/torrents/torrents.selectors';
-import { getConfigInternalRefreshInterval, getConfigLoading } from 'containers/config/config.selectors';
-import { configActions } from 'containers/config/config.reducer';
+import { getSettingsInternalRefreshInterval, getSettingsLoading } from 'containers/settings/settings.selectors';
+import { settingsActions } from 'containers/settings/settings.reducer';
 import { torrentsActions } from 'containers/torrents/torrents.reducer';
 
 class LoggedInRoutes extends PureComponent {
     componentDidMount() {
-        this.props.getConfig();
+        this.props.getSettings();
         this.props.getTorrents();
 
         // load every set interval unless currently loading
@@ -45,7 +45,7 @@ class LoggedInRoutes extends PureComponent {
                     <FiltersComponent />
                 </Route>
                 <Route path="/settings">
-                    <ConfigComponent />
+                    <SettingsComponent />
                 </Route>
                 <Redirect from="*" to="/torrents" />
             </Switch>
@@ -58,21 +58,21 @@ LoggedInRoutes.propTypes = {
     loading: PropTypes.bool.isRequired,
     loadingSettings: PropTypes.bool.isRequired,
     getTorrents: PropTypes.func.isRequired,
-    getConfig: PropTypes.func.isRequired,
+    getSettings: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
     return {
         loading: getLoading(state),
-        loadingSettings: getConfigLoading(state),
-        refreshInterval: getConfigInternalRefreshInterval(state),
+        loadingSettings: getSettingsLoading(state),
+        refreshInterval: getSettingsInternalRefreshInterval(state),
     }
 };
 
 function mapDispatchToProps(dispatch) {
     return {
         getTorrents: () => dispatch(torrentsActions.torrents()),
-        getConfig: () => dispatch(configActions.getConfig()),
+        getSettings: () => dispatch(settingsActions.getSettings()),
     };
 }
 

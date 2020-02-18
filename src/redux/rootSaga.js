@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
 
-import getApiVersion from 'containers/config/version.saga';
-import getConfig from 'containers/config/config.saga';
+import getApiVersion from 'containers/settings/version.saga';
+import getSettings from 'containers/settings/settings.saga';
 import loginSaga from 'containers/login/login.saga';
 import torrentsSaga from 'containers/torrents/torrents.saga';
 import addTorrentSaga from 'containers/addTorrent/addTorrent.saga';
@@ -22,7 +22,7 @@ import {
 export function* rootSaga() {
     yield all([
         getApiVersion(),
-        getConfig(),
+        getSettings(),
         loginSaga(),
         torrentsSaga(),
         addTorrentSaga(),

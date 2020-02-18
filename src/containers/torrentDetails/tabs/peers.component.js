@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Virtuoso } from 'react-virtuoso';
 
-import { getConfigInternalRefreshInterval } from 'containers/config/config.selectors';
+import { getSettingsInternalRefreshInterval } from 'containers/settings/settings.selectors';
 import Text from 'components/fields/text.component';
 import { Item } from 'components/grid.component';
 import LoadingIndicator from 'components/LoadingIndicator';
@@ -108,7 +108,7 @@ PeersTab.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        refreshInterval: getConfigInternalRefreshInterval(state),
+        refreshInterval: getSettingsInternalRefreshInterval(state),
         loading: getPeersInfoLoading(state),
         data: getPeersInfo(state),
     }
