@@ -6,13 +6,13 @@ import Menu from 'components/menu/menu.component';
 import { SECTION_NAMES } from '../sections';
 
 function BottomMenu({ setSettingsTab }) {
-
     return (
         <Menu>
             {({handleClose, classes}) => (
                 <>
                     {Object.values(SECTION_NAMES).map(section => (
                         <Menu.MenuItem 
+                            key={section.key}
                             onClick={() => {
                                 handleClose();
                                 setSettingsTab(section.key);
