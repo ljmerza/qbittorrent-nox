@@ -104,8 +104,8 @@ export const torrentDetailsSlice = createSlice({
                 peer.dlspeedUi = (oldPeer.dlspeed === peer.dl_speed) ? oldPeer.dlspeedUi : prettySizeTime(peer.dl_speed);
                 peer.upspeedUi = (oldPeer.dlspeed === peer.up_speed) ? oldPeer.upspeedUi : prettySizeTime(peer.up_speed);
 
-                peer.downloadedUi = (oldPeer.downloaded === peer.downloaded) ? oldPeer.downloadedUi : prettySizeTime(peer.downloaded);
-                peer.uploadedUi = (oldPeer.uploaded === peer.uploaded) ? oldPeer.uploadedUi : prettySizeTime(peer.uploaded);
+                peer.downloadedUi = (oldPeer.downloaded === peer.downloaded) ? oldPeer.downloadedUi : prettySize(peer.downloaded);
+                peer.uploadedUi = (oldPeer.uploaded === peer.uploaded) ? oldPeer.uploadedUi : prettySize(peer.uploaded);
 
                 peer.progressUi = computePercentDone(peer.progress);
                 peer.relevanceUi = computePercentDone(peer.relevance);
