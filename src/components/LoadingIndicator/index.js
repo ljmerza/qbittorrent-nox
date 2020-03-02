@@ -9,7 +9,7 @@ function LoadingIndicator({ noOverlay, classes }) {
 
     return (
         <div className={noOverlay ? classes.centerLoading : classes.screenOverlay}>
-            <div className={classes.progressIndicator}>
+            <div className={noOverlay ? classes.progressIndicatorOverlay : classes.progressIndicator}>
                 <CircularProgress size={100} />
             </div>
         </div>
@@ -31,7 +31,11 @@ const styles = theme => ({
         zIndex: 100,
         color: theme.palette.primary.main
     },
-    centerLoading:{
+    progressIndicatorOverlay: {
+        marginLeft: '50%',
+        transform: 'translateX(-50%)'
+    },
+    centerLoading: {
         display: 'flex',
         alignItems: 'center',
         alignContent: 'center',

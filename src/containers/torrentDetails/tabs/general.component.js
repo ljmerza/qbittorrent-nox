@@ -1,70 +1,36 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
-import { getSettingsInternalRefreshInterval } from 'containers/settings/settings.selectors';
-import LoadingIndicator from 'components/LoadingIndicator';
-
-import { torrentDetailsActions } from '../torrentDetails.reducer';
-import { getGeneralInfoLoading, getGeneralInfo, getSelectedTorrent } from '../torrentDetails.selectors';
+import { getSelectedTorrent } from '../torrentDetails.selectors';
 
 import GeneralTabActions from './general/actions.component';
-import GeneralTabInformation from './general/information.component';
-import GeneralTabTransfer from './general/transfer.component';
+import GeneralTabDetails from './general/generalDetails.component';
 
 
-function GeneralTab({ refreshInterval, getGeneralInfo, loading, generalInfo, selectedTorrent }){
-
-    useEffect(() => {
-        getGeneralInfo();
-        const timerId = setInterval(() => {
-            if (!loading) getGeneralInfo();
-        }, refreshInterval);
-        return () => clearInterval(timerId);
-    }, [getGeneralInfo, refreshInterval, loading]);
-
+function GeneralTab({ selectedTorrent }){
     return (
         <>
             {selectedTorrent ? <GeneralTabActions selectedTorrent={selectedTorrent} /> : null}
-            {(loading && !generalInfo) ? <LoadingIndicator noOverlay /> : (
-                !selectedTorrent ? null : (
-                    <>
-                        <GeneralTabInformation generalInfo={generalInfo} selectedTorrent={selectedTorrent} />
-                        <GeneralTabTransfer generalInfo={generalInfo} />
-                    </>
-                )
-            )}
+            <GeneralTabDetails />
         </>
     )
 }
 
 GeneralTab.propTypes = {
-    refreshInterval: PropTypes.number.isRequired,
-    getGeneralInfo: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-    generalInfo: PropTypes.any,
     selectedTorrent: PropTypes.any,
 };
 
 const mapStateToProps = state => {
     return {
-        refreshInterval: getSettingsInternalRefreshInterval(state),
-        loading: getGeneralInfoLoading(state),
-        generalInfo: getGeneralInfo(state),
         selectedTorrent: getSelectedTorrent(state),
     }
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        getGeneralInfo: () => dispatch(torrentDetailsActions.getGeneralInfo()),
-    };
-}
-
 export default compose(
     connect(
         mapStateToProps,
-        mapDispatchToProps
+        null
     )
 )(GeneralTab);

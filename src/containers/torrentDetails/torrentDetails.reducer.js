@@ -49,6 +49,11 @@ export const initialState = {
     recheckPath: 'torrents/recheck',
     deletePath: 'torrents/delete',
 
+    piecePriorityPath: 'torrents/toggleFirstLastPiecePrio',
+    autoManagePath: 'torrents/setAutoManagement ',
+    superSeedPath: 'torrents/setSuperSeeding ',
+    reannouncePath: 'torrents/reannounce',
+
     renameTorrentPath: 'torrents/rename',
     moveTorrentPath: 'torrents/setLocation',
     setCategoryPath: 'torrents/setCategory',
@@ -137,6 +142,12 @@ export const torrentDetailsSlice = createSlice({
         forceResumeSelectedTorrent: state => state,
         checkSelectedTorrent: state => state,
         deleteSelectedTorrent: state => state,
+
+        autoManageSelectedTorrent: state => state,
+        piecePrioritySelectedTorrent: state => state,
+        sequentialSelectedTorrent: state => state,
+        reannouceSelectedTorrent: state => state,
+        superSeedSelectedTorrent: state => state,
 
         changeTorrentName: state => state,
         changeTorrentLocation: state => state,

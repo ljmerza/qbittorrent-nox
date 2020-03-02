@@ -4,8 +4,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
-import { ButtonGroup, Button, Typography } from '@material-ui/core';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
+import { Box } from '@material-ui/core';
 
 import Card from 'components/card.component';
 import MultipleSelect from 'components/fields/multipleSelect.component';
@@ -13,21 +12,15 @@ import Select from 'components/fields/select.component';
 import { Container, Item } from 'components/grid.component';
 import TextSave from 'components/fields/textSave.component';
 
-import {
-    ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE,
-    ACTION_F_RESUME, ACTION_CHECK
-} from 'utilities/torrent-states';
-
 import { getTagsWithReset, getCategoriesWithReset } from 'containers/torrents/torrents.selectors';
-import GeneralTabActionsDelete from 'containers/torrentDetails/tabs/general/actionsDeleteModal.component';
 
+import GeneralTabActions from './tabs/general/actions.component';
 import { torrentDetailsActions } from './torrentDetails.reducer';
 import { getIsOpen, getSelectedTorrent } from './torrentDetails.selectors';
 
 
 class MultiTorrentDetails extends PureComponent { 
     state = {
-        openDeleteModal: false,
         savePath: '',
         selectedCategory: '',
         selectedTag: [],
@@ -53,17 +46,11 @@ class MultiTorrentDetails extends PureComponent {
     onChangeDownloadLimit = ({ target: { value } }) => this.props.changeDownloadLimit(value);
     onChangeUploadLimit = ({ target: { value } }) => this.props.changeUploadLimit(value);
 
-    setOpenDeleteModal = openDeleteModal => this.setState({ openDeleteModal })
-
     render(){
         return (
-            <>
-                <GeneralTabActionsDelete 
-                    openDeleteModal={this.state.openDeleteModal} 
-                    setOpenDeleteModal={this.setOpenDeleteModal} 
-                    deleteCallback={this.props.closeDetails}
-                />
-    
+            <Box position="static" color='inherit'>
+                <GeneralTabActions selectedTorrent={this.props.selectedTorrent} />
+
                 <Card title='Information'>
                     <Item xs={12} sm={12} md={12}>
                         <TextSave 
@@ -110,97 +97,15 @@ class MultiTorrentDetails extends PureComponent {
                             />
                         </Item>
                     </Container>
-
-                    <Container>
-                        <Item xs={12} sm={12} md={12}>
-                            <ButtonGroup
-                                className={this.props.classes.buttonGroup}
-                                orientation="vertical"
-                                color="primary"
-                            >
-                                <Button 
-                                    classes={{ label: this.props.classes.buttonLabel }} 
-                                    startIcon={<ACTION_RESUME.icon />} 
-                                    onClick={() => {
-                                        this.props.resumeSelectedTorrent();
-                                        this.props.closeDetails();
-                                    }
-                                }>
-                                    <Typography>Resume</Typography>
-                                </Button>
-        
-                                <Button 
-                                    classes={{ label: this.props.classes.buttonLabel }} 
-                                    startIcon={<ACTION_PAUSE.icon />} 
-                                    onClick={() => {
-                                        this.props.pauseSelectedTorrent();
-                                        this.props.closeDetails();
-                                    }
-                                }>
-                                    <Typography>Pause</Typography>
-                                </Button>
-        
-                                <Button 
-                                    classes={{ label: this.props.classes.buttonLabel }} 
-                                    startIcon={<ACTION_F_RESUME.icon />} 
-                                    onClick={() => {
-                                        this.props.forceResumeSelectedTorrent();
-                                        this.props.closeDetails();
-                                    }
-                                }>
-                                    <Typography>Force Resume</Typography>
-                                </Button>
-        
-                                <Button 
-                                    classes={{ label: this.props.classes.buttonLabel }} 
-                                    startIcon={<ACTION_DELETE.icon />} 
-                                    onClick={() => this.setOpenDeleteModal(true)}
-                                >
-                                    <Typography>Delete</Typography>
-                                </Button>
-        
-                                <Button 
-                                    classes={{ label: this.props.classes.buttonLabel }} 
-                                    startIcon={<ACTION_CHECK.icon />} 
-                                    onClick={() => {
-                                        this.props.checkSelectedTorrent();
-                                        this.props.closeDetails();
-                                    }
-                                }>
-                                    <Typography>Recheck</Typography>
-                                </Button>
-        
-                                <Button 
-                                    classes={{ label: this.props.classes.buttonLabel }} 
-                                    startIcon={<ClearAllIcon />} 
-                                    onClick={() => {
-                                        this.props.selectTorrent(null);
-                                        this.props.closeDetails();
-                                    }
-                                }>
-                                    <Typography>Clear Selected</Typography>
-                                </Button>
-                            </ButtonGroup>
-                        </Item>
-                    </Container>
                 </Card>
-    
-            </>
+            </Box>
         );
     }
 }
 
 MultiTorrentDetails.propTypes = {
     classes: PropTypes.object.isRequired,
-    clearTorrent: PropTypes.func.isRequired,
-    selectTorrent: PropTypes.func.isRequired,
     selectedTorrent: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    resumeSelectedTorrent: PropTypes.func.isRequired,
-    pauseSelectedTorrent: PropTypes.func.isRequired,
-    forceResumeSelectedTorrent: PropTypes.func.isRequired,
-    checkSelectedTorrent: PropTypes.func.isRequired,
-    deleteSelectedTorrent: PropTypes.func.isRequired,
-    closeDetails: PropTypes.func.isRequired,
     changeTorrentLocation: PropTypes.func.isRequired,
     changeTorrentCategory: PropTypes.func.isRequired,
     changeTorrentTags: PropTypes.func.isRequired,
@@ -228,14 +133,6 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
     return {
-        selectTorrent: torrent => dispatch(torrentDetailsActions.selectTorrent(torrent)),
-        resumeSelectedTorrent: () => dispatch(torrentDetailsActions.resumeSelectedTorrent()),
-        pauseSelectedTorrent: () => dispatch(torrentDetailsActions.pauseSelectedTorrent()),
-        forceResumeSelectedTorrent: () => dispatch(torrentDetailsActions.forceResumeSelectedTorrent()),
-        checkSelectedTorrent: () => dispatch(torrentDetailsActions.checkSelectedTorrent()),
-        deleteSelectedTorrent: deleteFiles => dispatch(torrentDetailsActions.deleteSelectedTorrent(deleteFiles)),
-        closeDetails: () => dispatch(torrentDetailsActions.closeDetails()),
-        clearTorrent: () => dispatch(torrentDetailsActions.clearTorrent()),
         changeTorrentLocation: location => dispatch(torrentDetailsActions.changeTorrentLocation(location)),
         changeTorrentCategory: category => dispatch(torrentDetailsActions.changeTorrentCategory(category)),
         changeTorrentTags: tag => dispatch(torrentDetailsActions.changeTorrentTags(tag)),

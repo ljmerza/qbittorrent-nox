@@ -2,9 +2,14 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-import ReplayIcon from '@material-ui/icons/Replay';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import ViewDayOutlinedIcon from '@material-ui/icons/ViewDayOutlined';
+import FormatListNumberedOutlinedIcon from '@material-ui/icons/FormatListNumberedOutlined';
+import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
+import SupervisorAccountOutlinedIcon from '@material-ui/icons/SupervisorAccountOutlined';
+import DonutSmallOutlinedIcon from '@material-ui/icons/DonutSmallOutlined';
+import InsertChartOutlinedOutlinedIcon from '@material-ui/icons/InsertChartOutlinedOutlined';
 
 export const MANAGEMENT_MODE_MANUAL = { id: 'MANUAL', name: 'Manual' };
 export const MANAGEMENT_MODE_AUTOMATIC = { id: 'AUTOMATIC', name: 'Automatic' };
@@ -226,6 +231,13 @@ export const computeStates = ({dlspeed, upspeed, progress, state}) => {
 export const ACTION_RESUME = { id: 'resume', name: 'Resume', icon: PlayArrowIcon };
 export const ACTION_PAUSE = { id: 'pause', name: 'Pause', icon: PauseIcon };
 export const ACTION_DELETE = { id: 'delete', name: 'Delete', icon: HighlightOffIcon };
-export const ACTION_F_RESUME = { id: 'fResume', name: 'FResume', icon: SkipNextIcon };
-export const ACTION_CHECK = { id: 'check', name: 'Recheck', icon: ReplayIcon };
+export const ACTION_F_RESUME = { id: 'fResume', name: 'Force Resume', icon: SkipNextIcon };
+export const ACTION_CHECK = { id: 'check', name: 'Recheck', icon: DonutSmallOutlinedIcon };
 export const ACTION_ADD = { id: 'add', name: 'Add', icon: AddCircleOutlineIcon };
+export const ACTION_CLEAR = { id: 'clear', name: 'Clear Selected', icon: ClearAllIcon };
+
+export const ACTION_AUTO_MANAGE = { id: 'clear', name: 'Auto Management', icon: InsertChartOutlinedOutlinedIcon };
+export const ACTION_PIECE_PRIORITY = { id: 'clear', name: 'First/Last Piece Priority', icon: ViewDayOutlinedIcon };
+export const ACTION_SEQUENTIAL = { id: 'clear', name: 'Download Sequentially', icon: FormatListNumberedOutlinedIcon };
+export const ACTION_REANNOUCE = { id: 'clear', name: 'Reannnouce to Trackers', icon: AnnouncementOutlinedIcon };
+export const ACTION_SUPER_SEED = { id: 'clear', name: 'Super Seed', icon: SupervisorAccountOutlinedIcon };

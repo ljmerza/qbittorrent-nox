@@ -16,10 +16,6 @@ export default function* deleteTorrent() {
             if (!selectedTorrent) return;
 
             const hashes = getTorrentHashes(selectedTorrent);
-            // if multi select then unselect torrents
-            if (Array.isArray(selectedTorrent)) {
-                yield put({ type: `${torrentDetailsActions.clearTorrent}` });
-            }
 
             // torrent is deleted so clear the selected torrent
             yield put({ type: `${torrentDetailsActions.clearTorrent}`});

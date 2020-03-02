@@ -16,7 +16,9 @@ import { trackerEditUrl, trackerAdd, trackerDelete } from 'containers/torrentDet
 import { 
     resumeTorrent, pauseTorrent, forceTorrent, 
     checkTorrent, deleteTorrent, changeTorrentCategory, changeTorrentTags,
-    moveTorrent, renameTorrent, limitDownload, limitUpload
+    moveTorrent, renameTorrent, limitDownload, limitUpload,
+    autoManagementTorrent, piecePriorityTorrent, sequentialTorrent, 
+    reannouceTorrent, superSeedTorrent,
 } from 'containers/torrentDetails/tabs/general/actions';
 
 export function* rootSaga() {
@@ -37,6 +39,12 @@ export function* rootSaga() {
         forceTorrent(),
         checkTorrent(),
         deleteTorrent(),
+
+        autoManagementTorrent(),
+        piecePriorityTorrent(),
+        sequentialTorrent(),
+        reannouceTorrent(),
+        superSeedTorrent(),
         
         changeTorrentCategory(),
         changeTorrentTags(),
