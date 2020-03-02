@@ -23,7 +23,7 @@ export default function* piecePriority() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent resumed', from: 'piecePriority' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'First/Last Piece Priority Success', from: 'piecePriority' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'piecePriority' });

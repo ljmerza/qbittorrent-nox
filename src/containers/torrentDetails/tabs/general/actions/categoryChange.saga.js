@@ -28,7 +28,7 @@ export default function* changeTorrentCategory() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent category changed', from: 'changeTorrentCategory' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Category Changed', from: 'changeTorrentCategory' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentCategory' });

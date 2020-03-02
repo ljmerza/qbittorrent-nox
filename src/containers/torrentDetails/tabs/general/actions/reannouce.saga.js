@@ -23,7 +23,7 @@ export default function* reannouce() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent resumed', from: 'reannouce' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Reannoucing', from: 'reannouce' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'reannouce' });

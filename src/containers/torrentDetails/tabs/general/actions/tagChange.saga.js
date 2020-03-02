@@ -24,14 +24,14 @@ export default function* changeTorrentTags() {
             const tagPath = isAdding ? initialState.addTagPath : initialState.removeTagPath;
 
              // need space since reset doesnt have tag - want 1 space always
-            let successMessage = isAdding ? ' added' : ' removed';
+            let successMessage = isAdding ? ' Added' : ' Removed';
 
             let tag;
             if (isAdding){
                 tag = value.filter(x => !selectedTorrent.tagsUi.includes(x)).join(',');
             } else if (value.length === 0) {
                 tag = '';
-                successMessage = 'reset successfully';
+                successMessage = 'Reset Successfully';
             } else {
                 tag = selectedTorrent.tagsUi.filter(x => !value.includes(x)).join(',');
             }
@@ -48,7 +48,7 @@ export default function* changeTorrentTags() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: `Tag ${tag}${successMessage}`, from: 'changeTorrentTag' });
+            yield put({ type: `${toastActions.showSuccess}`, message: `Torrent Tag ${tag}${successMessage}`, from: 'changeTorrentTag' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'changeTorrentTag' });

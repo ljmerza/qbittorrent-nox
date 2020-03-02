@@ -8,12 +8,14 @@ import { initialState, addTorrentActions } from './addTorrent.reducer';
 export default function* addTorrent() {
     yield takeLatest(`${addTorrentActions.addTorrent}`, function* ({ payload }) {
 
+        console.log({ payload })
+
         try {
             const apiUrl = yield select(getLoginApiUrl);
 
             const formData = new FormData();
 
-            payload.torrents.forEach(file => {
+            payload.torrents.map(file => {
                 formData.append("fileselect", file);
             });
             if (payload.urls) formData.append("urls", payload.urls);

@@ -28,7 +28,7 @@ export default function* limitUpload() {
             };
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent upload limit changed', from: 'limitUpload' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Upload Limit Changed', from: 'limitUpload' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'limitUpload' });

@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 
 function TableItem({ torrent, selectTorrent, selectedTorrent }) {
     const classes = useStyles();
-    const isSelected = (selectedTorrent && Array.isArray(selectedTorrent)) && selectedTorrent.includes(torrent);
+    const isSelected = selectedTorrent && (Array.isArray(selectedTorrent) ? selectedTorrent.includes(torrent) : selectedTorrent === torrent);
 
     const onClick = () => {
 

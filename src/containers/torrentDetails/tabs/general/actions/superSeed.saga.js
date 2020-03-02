@@ -23,7 +23,7 @@ export default function* superSeed() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent resumed', from: 'superSeed' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Super Seeded', from: 'superSeed' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'superSeed' });

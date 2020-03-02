@@ -23,7 +23,7 @@ export default function* pauseTorrent() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent paused', from: 'pauseTorrent' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Paused', from: 'pauseTorrent' });
             
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'pauseTorrent' });

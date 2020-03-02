@@ -32,7 +32,7 @@ export default function* deleteTorrent() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent deleted', from: 'deleteTorrent' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Deleted', from: 'deleteTorrent' });
             
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e, from: 'deleteTorrent' });

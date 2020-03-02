@@ -28,7 +28,7 @@ export default function* forceResumeTorrent() {
             };
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent force resumed', from: 'forceResumeTorrent' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Force Resumed', from: 'forceResumeTorrent' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'forceResumeTorrent' });

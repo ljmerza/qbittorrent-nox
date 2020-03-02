@@ -23,7 +23,7 @@ export default function* sequential() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent resumed', from: 'sequential' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Sequential Download Success', from: 'sequential' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'sequential' });

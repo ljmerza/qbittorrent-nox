@@ -50,9 +50,10 @@ export const initialState = {
     deletePath: 'torrents/delete',
 
     piecePriorityPath: 'torrents/toggleFirstLastPiecePrio',
-    autoManagePath: 'torrents/setAutoManagement ',
-    superSeedPath: 'torrents/setSuperSeeding ',
-    reannouncePath: 'torrents/reannounce',
+    autoManagePath: 'torrents/setAutoManagement',
+    superSeedPath: 'torrents/setSuperSeeding',
+    reannoucePath: 'torrents/reannounce',
+    sequentialPath: 'torrents/toggleSequentialDownload',
 
     renameTorrentPath: 'torrents/rename',
     moveTorrentPath: 'torrents/setLocation',

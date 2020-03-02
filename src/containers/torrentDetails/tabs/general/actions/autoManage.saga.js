@@ -23,7 +23,7 @@ export default function* autoManagement() {
             }
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent resumed', from: 'autoManagement' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Auto Managed', from: 'autoManagement' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'autoManagement' });

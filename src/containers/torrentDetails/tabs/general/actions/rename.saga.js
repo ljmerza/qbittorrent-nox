@@ -30,7 +30,7 @@ export default function* renameTorrent() {
             };
 
             yield call(request, options);
-            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent renamed', from: 'renameTorrent' });
+            yield put({ type: `${toastActions.showSuccess}`, message: 'Torrent Renamed', from: 'renameTorrent' });
 
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'renameTorrent' });
