@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Virtuoso } from 'react-virtuoso';
 
 import { getSettingsInternalRefreshInterval } from 'containers/settings/settings.selectors';
 import Card from 'components/card.component';
@@ -63,22 +62,21 @@ function TrackersTab({ refreshInterval, getTrackersInfo, trackerEditUrl, loading
         return () => clearInterval(timerId);
     }, [getTrackersInfo, refreshInterval, loading]);
 
+    if (!data && loading) {
+        return (
+            <>
+                <TrackerActions />
+                <LoadingIndicator noOverlay />
+            </>
+        );
+    } else if (!data || data.length === 0) {
+        return null;
+    }
+
     return (
         <>
             <TrackerActions trackers={data} />
-            {(!data.length && loading) ? <LoadingIndicator noOverlay /> : (
-                /* if more than 25 trackers then use virtual list */
-                data.length > 25 ? (
-                    <Virtuoso
-                        totalCount={data.length}
-                        item={idx => <TrackerCard tracker={data[idx]} trackerEditUrl={trackerEditUrl} />}
-                    />
-                ) : (
-                    <>
-                        {data.map(tracker => <TrackerCard key={tracker.url} tracker={tracker} trackerEditUrl={trackerEditUrl} />)}
-                    </>
-                )
-            )}
+            {data.map(tracker => <TrackerCard key={tracker.url} tracker={tracker} trackerEditUrl={trackerEditUrl} />)}
         </>
     );
 }

@@ -29,5 +29,5 @@ export const getFilesInfoLoading = createSelector(getTorrentDetails, torrentDeta
 export const getFilesInfo = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrentFiles);
 
 export const getTrackersInfoNoDht = createSelector(getTorrentDetails, torrentDetails => {
-    return torrentDetails.selectedTorrentTrackers.filter(tracker => !DHT_TRACKERS.includes(tracker.url))
+    return (torrentDetails.selectedTorrentTrackers || []).filter(tracker => !DHT_TRACKERS.includes(tracker.url))
 });

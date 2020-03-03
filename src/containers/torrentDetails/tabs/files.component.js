@@ -23,9 +23,9 @@ function FilesTab({ refreshInterval, getFilesInfo, data, loading }) {
     }, [getFilesInfo, refreshInterval, loading]);
 
 
-    if (!data.length && loading) {
+    if (!data && loading) {
         return <LoadingIndicator noOverlay />
-    } else if (!data.length) {
+    } else if (!data || data.length === 0) {
         return null;
     }
 

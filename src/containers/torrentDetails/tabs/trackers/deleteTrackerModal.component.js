@@ -60,7 +60,6 @@ function TrackerTabActionsDelete({ trackerDelete, openDeleteTrackers, setOpenDel
 }
 
 TrackerTabActionsDelete.propTypes = {
-    trackerAdd: PropTypes.func.isRequired,
     trackerDelete: PropTypes.func.isRequired,
     openDeleteTrackers: PropTypes.bool.isRequired,
     setOpenDeleteTrackers: PropTypes.func.isRequired,

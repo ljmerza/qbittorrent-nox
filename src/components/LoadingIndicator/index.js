@@ -32,6 +32,7 @@ const styles = theme => ({
         color: theme.palette.primary.main
     },
     progressIndicatorOverlay: {
+        marginTop: theme.spacing(5),
         marginLeft: '50%',
         transform: 'translateX(-50%)'
     },

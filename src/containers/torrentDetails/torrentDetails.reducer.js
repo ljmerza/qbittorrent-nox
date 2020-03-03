@@ -27,13 +27,13 @@ export const initialState = {
     selectedTorrentGeneral: null,
     isLoadingGeneral: true,
 
-    selectedTorrentTrackers: [],
+    selectedTorrentTrackers: null,
     isLoadingTrackers: true,
 
-    selectedTorrentPeers: [],
+    selectedTorrentPeers: null,
     isLoadingPeers: true,
 
-    selectedTorrentFiles: [],
+    selectedTorrentFiles: null,
     isLoadingFiles: true,
 
     dateTimeFormat: 'MM/DD/YY LT',
@@ -126,7 +126,7 @@ export const torrentDetailsSlice = createSlice({
         getFilesInfo: state => ({ ...state, isLoadingFiles: true }),
         getFilesInfoSuccess: (state, action) => {
             const selectedTorrentFiles = action.response.map((file, idx) => {
-                const oldFile = state.selectedTorrentFiles[idx] || {};
+                const oldFile = (state.selectedTorrentFiles && state.selectedTorrentFiles[idx]) || {};
 
                 file.sizeUi = (oldFile.size === file.size) ? oldFile.sizeUi : prettySize(file.size);
                 file.progressUi = computePercentDone(file.progress);

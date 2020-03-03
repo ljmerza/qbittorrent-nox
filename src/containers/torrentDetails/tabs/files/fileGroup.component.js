@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { Virtuoso } from 'react-virtuoso';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Typography } from '@material-ui/core';
@@ -47,33 +46,13 @@ const FileGroup = ({ group }) => {
             <Box className={clsx(classes.fullWidth, {
                 [classes.spacer]: !!group.folder
             })}>
-                {/* if more than 50 files then use virtual list */}
-                {group.files.length > 25 ? (
-                    <Virtuoso
-                        totalCount={group.files.length}
-                        item={idx => {
-                            const file = group.files[idx];
-                            return (
-                                <>
-                                    {idx === 0 ? null : <Divider className={classes.divider} />}
-                                    <FileCard file={file} />
-                                </>
-                            )
-                        }}
-                    />
-                ) : (
-                    <>
-                        {group.files.map((file, idx) => {
-                            return (
-                                <div key={file.fileId}>
-                                    {idx === 0 ? null : <Divider className={classes.divider} />}
-                                    <FileCard file={file} />
-                                </div>
-                            );
 
-                        })}
+                {group.files.map((file, idx) => (
+                    <>
+                        {idx === 0 ? null : <Divider className={classes.divider} />}
+                        <FileCard file={file} />
                     </>
-                )}
+                ))}
             </Box>
         </Card>
     );
