@@ -10,6 +10,7 @@ import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 import SupervisorAccountOutlinedIcon from '@material-ui/icons/SupervisorAccountOutlined';
 import DonutSmallOutlinedIcon from '@material-ui/icons/DonutSmallOutlined';
 import InsertChartOutlinedOutlinedIcon from '@material-ui/icons/InsertChartOutlinedOutlined';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 export const MANAGEMENT_MODE_MANUAL = { id: 'MANUAL', name: 'Manual' };
 export const MANAGEMENT_MODE_AUTOMATIC = { id: 'AUTOMATIC', name: 'Automatic' };
@@ -22,7 +23,7 @@ export const MANAGEMENT_MODES = [
  * extra uncategorized category
  */
 export const ALL_CATEGORY = { id: '', name: 'All', uneditable: true };
-export const UNCATEGORIZED = { id: 'uncategorized', name: 'Uncategorized', uneditable: true };
+export const UNCATEGORIZED = { id: '', name: 'Uncategorized', uneditable: true };
 export const RESET_CATEGORY = { id: '', name: 'Reset Category', uneditable: true };
 
 export const ALL_TAGGED = { id: '', name: 'All', uneditable: true };
@@ -228,16 +229,28 @@ export const computeStates = ({dlspeed, upspeed, progress, state}) => {
 /**
  * actions on torrents
  */
-export const ACTION_RESUME = { id: 'resume', name: 'Resume', icon: PlayArrowIcon };
-export const ACTION_PAUSE = { id: 'pause', name: 'Pause', icon: PauseIcon };
-export const ACTION_DELETE = { id: 'delete', name: 'Delete', icon: HighlightOffIcon };
-export const ACTION_F_RESUME = { id: 'fResume', name: 'Force Resume', icon: SkipNextIcon };
-export const ACTION_CHECK = { id: 'check', name: 'Recheck', icon: DonutSmallOutlinedIcon };
-export const ACTION_ADD = { id: 'add', name: 'Add', icon: AddCircleOutlineIcon };
-export const ACTION_CLEAR = { id: 'clear', name: 'Clear Selected', icon: ClearAllIcon };
+export const ACTION_RESUME = { name: 'Resume', icon: PlayArrowIcon };
+export const ACTION_PAUSE = { name: 'Pause', icon: PauseIcon };
+export const ACTION_DELETE = { name: 'Delete', icon: HighlightOffIcon };
+export const ACTION_F_RESUME = { name: 'Force Resume', icon: SkipNextIcon };
+export const ACTION_CHECK = { name: 'Recheck', icon: DonutSmallOutlinedIcon };
+export const ACTION_ADD = { name: 'Add', icon: AddCircleOutlineIcon };
+export const ACTION_CLEAR = { name: 'Clear Selected', icon: ClearAllIcon };
 
-export const ACTION_AUTO_MANAGE = { id: 'clear', name: 'Auto Management', icon: InsertChartOutlinedOutlinedIcon };
-export const ACTION_PIECE_PRIORITY = { id: 'clear', name: 'First/Last Piece Priority', icon: ViewDayOutlinedIcon };
-export const ACTION_SEQUENTIAL = { id: 'clear', name: 'Download Sequentially', icon: FormatListNumberedOutlinedIcon };
-export const ACTION_REANNOUCE = { id: 'clear', name: 'Reannnouce to Trackers', icon: AnnouncementOutlinedIcon };
-export const ACTION_SUPER_SEED = { id: 'clear', name: 'Super Seed', icon: SupervisorAccountOutlinedIcon };
+export const ACTION_AUTO_MANAGE = { name: 'Auto Management', icon: InsertChartOutlinedOutlinedIcon };
+export const ACTION_PIECE_PRIORITY = { name: 'First/Last Piece Priority', icon: ViewDayOutlinedIcon };
+export const ACTION_SEQUENTIAL = { name: 'Download Sequentially', icon: FormatListNumberedOutlinedIcon };
+export const ACTION_REANNOUCE = { name: 'Reannnouce to Trackers', icon: AnnouncementOutlinedIcon };
+export const ACTION_SUPER_SEED = { name: 'Super Seed', icon: SupervisorAccountOutlinedIcon };
+export const ACTION_COPY = { name: 'Copy', icon: ArrowDropDownIcon };
+
+
+export const COPY_TYPE_NAME = { label: 'Copy Name to Clipboard', value: 'name' };
+export const COPY_TYPE_HASH = { label: 'Copy Hash to Clipboard', value: 'hash' };
+export const COPY_TYPE_MAGNET_LINK = { label: 'Copy Magnet Link to Clipboard', value: 'magnet_uri' };
+
+export const COPY_TYPES = [
+    COPY_TYPE_NAME,
+    COPY_TYPE_HASH,
+    COPY_TYPE_MAGNET_LINK,
+]

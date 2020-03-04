@@ -1,6 +1,12 @@
 
 
+/**
+ * groups files by parent folders
+ * @param {Object[]} files 
+ */
 export const groupByFolderPath = files => {
+    if (!files) return null;
+
     const groups = files.reduce((groups, file, idx) => {
         let folders = file.name.split('/');
         const fileName = folders.pop();
@@ -13,7 +19,7 @@ export const groupByFolderPath = files => {
     }, {});
 
     return Object.entries(groups).reduce((groupArray, [folder, files]) => {
-        groupArray.push({ folder, files });
+        groupArray.push({ folder: folder || '/', files });
         return groupArray;
-    }, [])
+    }, []);
 }

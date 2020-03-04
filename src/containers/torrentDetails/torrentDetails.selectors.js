@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { getTorrentsTorrents } from 'containers/torrents/torrents.selectors';
 import { DHT_TRACKERS } from './tabs/trackers/tools';
+import { groupByFolderPath } from './tabs/files/tools';
 
 export const getTorrentDetails = state => state.torrentDetails;
 
@@ -27,6 +28,7 @@ export const getPeersInfo = createSelector(getTorrentDetails, torrentDetails => 
 
 export const getFilesInfoLoading = createSelector(getTorrentDetails, torrentDetails => torrentDetails.isLoadingFiles);
 export const getFilesInfo = createSelector(getTorrentDetails, torrentDetails => torrentDetails.selectedTorrentFiles);
+export const getFilesInfoGrouped = createSelector(getFilesInfo, files => groupByFolderPath(files));
 
 export const getTrackersInfoNoDht = createSelector(getTorrentDetails, torrentDetails => {
     return (torrentDetails.selectedTorrentTrackers || []).filter(tracker => !DHT_TRACKERS.includes(tracker.url))

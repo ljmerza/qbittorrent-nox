@@ -25,16 +25,16 @@ export const initialState = {
     selectedTorrent: null,
 
     selectedTorrentGeneral: null,
-    isLoadingGeneral: true,
+    isLoadingGeneral: false,
 
     selectedTorrentTrackers: null,
-    isLoadingTrackers: true,
+    isLoadingTrackers: false,
 
     selectedTorrentPeers: null,
-    isLoadingPeers: true,
+    isLoadingPeers: false,
 
     selectedTorrentFiles: null,
-    isLoadingFiles: true,
+    isLoadingFiles: false,
 
     dateTimeFormat: 'MM/DD/YY LT',
 
@@ -77,7 +77,7 @@ export const torrentDetailsSlice = createSlice({
     initialState,
     reducers: {
         openDetails: state => ({ ...state, isOpen: true }),
-        closeDetails: state => ({ ...state, isOpen: false }),
+        closeDetails: state => ({ ...state, isOpen: false, selectedTorrent: null }),
         selectTorrent: (state, action) => {
             return { 
                 ...state, 

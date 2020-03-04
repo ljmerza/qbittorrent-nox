@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -60,26 +60,27 @@ const PeerCard = ({ peer }) => {
     )
 }
 
-function PeersTab({ refreshInterval, getPeersInfo, loading, data }) {
-
-    useEffect(() => {
-        getPeersInfo();
-        const timerId = setInterval(() => {
-            if (!loading) getPeersInfo();
-        }, refreshInterval);
-        return () => clearInterval(timerId);
-    }, [getPeersInfo, refreshInterval, loading]);
-
-
-    if (!data && loading) {
-        return <LoadingIndicator noOverlay />
-    } else if (!data || data.length === 0) {
-        return null;
+class PeersTab extends PureComponent {
+    componentDidMount() {
+        this.timerId = setInterval(() => {
+            if (!this.props.loading) this.props.getPeersInfo();
+        }, this.props.refreshInterval);
     }
 
-    return data.map(tracker => <PeerCard key={tracker.ip} peer={tracker} />)
-}
+    componentWillUnmount() {
+        if (this.timerId) clearInterval(this.timerId);
+    }
 
+    render() {
+        if (!this.props.data && this.props.loading) {
+            return <LoadingIndicator noOverlay />
+        } else if (!this.props.data || this.props.data.length === 0) {
+            return null;
+        }
+
+        return this.props.data.map(tracker => <PeerCard key={tracker.ip} peer={tracker} />)
+    }
+}
 
 PeersTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,

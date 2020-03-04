@@ -15,6 +15,7 @@ export default function* addTorrent() {
 
             const formData = new FormData();
 
+            // TODO: for some reason forEach didnt work here
             payload.torrents.map(file => {
                 formData.append("fileselect", file);
             });

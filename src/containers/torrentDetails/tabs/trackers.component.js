@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -52,35 +52,38 @@ const TrackerCard = ({ tracker, trackerEditUrl }) => {
         </Card>
     )
 }
-function TrackersTab({ refreshInterval, getTrackersInfo, trackerEditUrl, loading, data }) {
 
-    useEffect(() => {
-        getTrackersInfo();
-        const timerId = setInterval(() => {
-            if (!loading) getTrackersInfo();
-        }, refreshInterval);
-        return () => clearInterval(timerId);
-    }, [getTrackersInfo, refreshInterval, loading]);
-
-    if (!data && loading) {
-        return (
-            <>
-                <TrackerActions />
-                <LoadingIndicator noOverlay />
-            </>
-        );
-    } else if (!data || data.length === 0) {
-        return null;
+class TrackersTab extends PureComponent {
+    componentDidMount() {
+        this.timerId = setInterval(() => {
+            if (!this.props.loading) this.props.getTrackersInfo();
+        }, this.props.refreshInterval);
     }
 
-    return (
-        <>
-            <TrackerActions trackers={data} />
-            {data.map(tracker => <TrackerCard key={tracker.url} tracker={tracker} trackerEditUrl={trackerEditUrl} />)}
-        </>
-    );
-}
+    componentWillUnmount() {
+        if (this.timerId) clearInterval(this.timerId);
+    }
 
+    render() {
+        if (!this.props.data && this.props.loading) {
+            return (
+                <>
+                    <TrackerActions />
+                    <LoadingIndicator noOverlay />
+                </>
+            );
+        } else if (!this.props.data || this.props.data.length === 0) {
+            return null;
+        }
+
+        return (
+            <>
+                <TrackerActions trackers={this.props.data} />
+                {this.props.data.map(tracker => <TrackerCard key={tracker.url} tracker={tracker} trackerEditUrl={this.props.trackerEditUrl} />)}
+            </>
+        );
+    }
+}
 
 TrackersTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,

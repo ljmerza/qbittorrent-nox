@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -7,32 +7,31 @@ import { getSettingsInternalRefreshInterval } from 'containers/settings/settings
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { torrentDetailsActions } from '../torrentDetails.reducer';
-import { getFilesInfoLoading, getFilesInfo } from '../torrentDetails.selectors';
+import { getFilesInfoLoading, getFilesInfoGrouped } from '../torrentDetails.selectors';
 
 import FileGroup from './files/fileGroup.component';
-import { groupByFolderPath } from './files/tools';
 
-function FilesTab({ refreshInterval, getFilesInfo, data, loading }) {
-
-    useEffect(() => {
-        getFilesInfo();
-        const timerId = setInterval(() => {
-            if (!loading) getFilesInfo();
-        }, refreshInterval);
-        return () => clearInterval(timerId);
-    }, [getFilesInfo, refreshInterval, loading]);
-
-
-    if (!data && loading) {
-        return <LoadingIndicator noOverlay />
-    } else if (!data || data.length === 0) {
-        return null;
+class FilesTab extends PureComponent {
+    componentDidMount() {
+        this.timerId = setInterval(() => {
+            if (!this.props.loading) this.props.getFilesInfo();
+        }, this.props.refreshInterval);
     }
 
-    const groupedFiles = groupByFolderPath(data);
-    return groupedFiles.map(group => <FileGroup key={group.folder} group={group} />);
-}
+    componentWillUnmount() {
+        if (this.timerId) clearInterval(this.timerId);
+    }
 
+    render() {
+        if (!this.props.data && this.props.loading) {
+            return <LoadingIndicator noOverlay />
+        } else if (!this.props.data || this.props.data.length === 0) {
+            return null;
+        }
+
+        return this.props.data.map(group => <FileGroup key={group.folder} group={group} />);
+    }
+}
 
 FilesTab.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
@@ -45,7 +44,7 @@ const mapStateToProps = state => {
     return {
         refreshInterval: getSettingsInternalRefreshInterval(state),
         loading: getFilesInfoLoading(state),
-        data: getFilesInfo(state),
+        data: getFilesInfoGrouped(state),
     }
 };
 

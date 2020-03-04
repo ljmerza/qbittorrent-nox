@@ -48,10 +48,10 @@ const FileGroup = ({ group }) => {
             })}>
 
                 {group.files.map((file, idx) => (
-                    <>
+                    <div key={file.fileName}>
                         {idx === 0 ? null : <Divider className={classes.divider} />}
                         <FileCard file={file} />
-                    </>
+                    </div>
                 ))}
             </Box>
         </Card>

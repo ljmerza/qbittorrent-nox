@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -14,25 +14,28 @@ import { getGeneralInfoLoading, getGeneralInfo, getSelectedTorrent } from '../..
 import GeneralTabInformation from './information.component';
 import GeneralTabTransfer from './transfer.component';
 
-function GeneralDetailsTab({ refreshInterval, getGeneralInfo, loading, generalInfo, selectedTorrent, classes }) {
+class GeneralDetailsTab extends PureComponent {
+    componentDidMount(){
+        this.timerId = setInterval(() => {
+            if (!this.props.loading) this.props.getGeneralInfo();
+        }, this.props.refreshInterval);
+    }
+    
+    componentWillUnmount() {
+        if (this.timerId) clearInterval(this.timerId);
+    }
 
-    useEffect(() => {
-        getGeneralInfo();
-        const timerId = setInterval(() => {
-            if (!loading) getGeneralInfo();
-        }, refreshInterval);
-        return () => clearInterval(timerId);
-    }, [getGeneralInfo, refreshInterval, loading]);
+    render(){
+        if (!this.props.selectedTorrent) return null;
+        if (!this.props.generalInfo) return <div className={this.props.classes.progressIndicator}><LoadingIndicator noOverlay /></div>;
 
-    if (!selectedTorrent) return null;
-    if (!generalInfo) return <div className={classes.progressIndicator}><LoadingIndicator noOverlay /></div>;
-
-    return (
-        <>
-            <GeneralTabInformation generalInfo={generalInfo} selectedTorrent={selectedTorrent} />
-            <GeneralTabTransfer generalInfo={generalInfo} />
-        </>
-    );
+        return (
+            <>
+                <GeneralTabInformation generalInfo={this.props.generalInfo} selectedTorrent={this.props.selectedTorrent} />
+                <GeneralTabTransfer generalInfo={this.props.generalInfo} />
+            </>
+        );
+    }
 }
 
 GeneralDetailsTab.propTypes = {
