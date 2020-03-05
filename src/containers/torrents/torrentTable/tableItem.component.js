@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         flex: '1 0 auto',
+        padding: `${theme.spacing(2)}px !important`,
     },
     row: {
         display: 'flex',

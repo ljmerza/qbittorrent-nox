@@ -9,9 +9,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { 
     ACTION_RESUME, ACTION_PAUSE, ACTION_DELETE, ACTION_CHECK,
-    PAUSED_STATES, FORCED_STATES, ACTION_F_RESUME, ACTION_CLEAR,
-    ACTION_AUTO_MANAGE, ACTION_PIECE_PRIORITY, ACTION_SEQUENTIAL,
-    ACTION_REANNOUCE, ACTION_SUPER_SEED, ACTION_COPY, COPY_TYPES,
+    ACTION_F_RESUME, ACTION_CLEAR, ACTION_AUTO_MANAGE, ACTION_PIECE_PRIORITY, 
+    ACTION_SEQUENTIAL, ACTION_REANNOUCE, ACTION_SUPER_SEED, 
+    ACTION_COPY, COPY_TYPES,
 } from 'utilities/torrent-states';
 import Card from 'components/card.component';
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
@@ -38,8 +38,6 @@ function GeneralTabActions({
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
 
-    const isPaused = PAUSED_STATES.includes(selectedTorrent.state) || FORCED_STATES.includes(selectedTorrent.state);
-
     const handleMenuItemClick = () => setOpen(false);
     const handleToggle = () => setOpen(prevOpen => !prevOpen);
 
@@ -49,15 +47,13 @@ function GeneralTabActions({
     };
 
     const buttonClasses = { root: classes.buttonRoot, label: classes.buttonLabel };
-
-    const startStop = isPaused ? 
-        <Button classes={buttonClasses} onClick={pauseSelectedTorrent} startIcon={<ACTION_RESUME.icon />}>{ACTION_RESUME.name}</Button> 
-        : <Button classes={buttonClasses} onClick={resumeSelectedTorrent} startIcon={<ACTION_PAUSE.icon />}>{ACTION_PAUSE.name}</Button>
+    const isMultiSelected = Array.isArray(selectedTorrent);
 
     return (
         <Card title='Actions'>
             <ButtonGroup color="primary" orientation="vertical" size='large' className={classes.buttonGroup}>
-                {startStop}
+                <Button classes={buttonClasses} onClick={resumeSelectedTorrent} startIcon={<ACTION_RESUME.icon />}>{ACTION_RESUME.name}</Button> 
+                <Button classes={buttonClasses} onClick={pauseSelectedTorrent} startIcon={<ACTION_PAUSE.icon />}>{ACTION_PAUSE.name}</Button>
                 <Button classes={buttonClasses} onClick={() => setOpenDeleteModal(true)} startIcon={<ACTION_DELETE.icon />}>{ACTION_DELETE.name}</Button>
                 <Button classes={buttonClasses} onClick={forceResumeSelectedTorrent} startIcon={<ACTION_F_RESUME.icon />}>{ACTION_F_RESUME.name}</Button>
                 <Button classes={buttonClasses} onClick={checkSelectedTorrent} startIcon={<ACTION_CHECK.icon />}>{ACTION_CHECK.name}</Button>
@@ -66,7 +62,7 @@ function GeneralTabActions({
                 <Button classes={buttonClasses} onClick={sequentialSelectedTorrent} startIcon={<ACTION_SEQUENTIAL.icon />}>{ACTION_SEQUENTIAL.name}</Button>
                 <Button classes={buttonClasses} onClick={reannouceSelectedTorrent} startIcon={<ACTION_REANNOUCE.icon />}>{ACTION_REANNOUCE.name}</Button>
                 <Button classes={buttonClasses} onClick={superSeedSelectedTorrent} startIcon={<ACTION_SUPER_SEED.icon />}>{ACTION_SUPER_SEED.name}</Button>
-                <Button classes={buttonClasses} onClick={handleToggle} ref={anchorRef} startIcon={<ACTION_COPY.icon />}>{ACTION_COPY.name}</Button>
+                {isMultiSelected ? null : <Button classes={buttonClasses} onClick={handleToggle} ref={anchorRef} startIcon={<ACTION_COPY.icon />}>{ACTION_COPY.name}</Button>}
                 <Button classes={buttonClasses} onClick={closeDetails} startIcon={<ACTION_CLEAR.icon />}>{ACTION_CLEAR.name}</Button>
             </ButtonGroup>
 

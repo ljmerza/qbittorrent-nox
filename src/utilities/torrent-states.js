@@ -10,7 +10,7 @@ import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 import SupervisorAccountOutlinedIcon from '@material-ui/icons/SupervisorAccountOutlined';
 import DonutSmallOutlinedIcon from '@material-ui/icons/DonutSmallOutlined';
 import InsertChartOutlinedOutlinedIcon from '@material-ui/icons/InsertChartOutlinedOutlined';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 
 export const MANAGEMENT_MODE_MANUAL = { id: 'MANUAL', name: 'Manual' };
 export const MANAGEMENT_MODE_AUTOMATIC = { id: 'AUTOMATIC', name: 'Automatic' };
@@ -242,7 +242,7 @@ export const ACTION_PIECE_PRIORITY = { name: 'First/Last Piece Priority', icon: 
 export const ACTION_SEQUENTIAL = { name: 'Download Sequentially', icon: FormatListNumberedOutlinedIcon };
 export const ACTION_REANNOUCE = { name: 'Reannnouce to Trackers', icon: AnnouncementOutlinedIcon };
 export const ACTION_SUPER_SEED = { name: 'Super Seed', icon: SupervisorAccountOutlinedIcon };
-export const ACTION_COPY = { name: 'Copy', icon: ArrowDropDownIcon };
+export const ACTION_COPY = { name: 'Copy', icon: FileCopyOutlinedIcon };
 
 
 export const COPY_TYPE_NAME = { label: 'Copy Name to Clipboard', value: 'name' };
@@ -253,4 +253,4 @@ export const COPY_TYPES = [
     COPY_TYPE_NAME,
     COPY_TYPE_HASH,
     COPY_TYPE_MAGNET_LINK,
-]
+];

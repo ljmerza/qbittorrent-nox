@@ -1,9 +1,9 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 
-function SubText({text, ...props}) {
+function SubText({children, text, ...props}) {
     return (
-        <Typography variant="caption" color="textSecondary" {...props}>{text}</Typography>
+        <Typography variant="caption" color="textSecondary" {...props}>{children || text}</Typography>
     );
 }
 

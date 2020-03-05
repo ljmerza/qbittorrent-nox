@@ -5,7 +5,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     icon: {
-        transform: 'scale(-1, 1)'
+        transform: 'scale(-1, 1)',
+        fontSize: '1rem',
+        
     }
 });
 

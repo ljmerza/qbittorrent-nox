@@ -5,35 +5,36 @@ import Icon from 'components/icon.component';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
+import SubText from 'components/fields/subText.component';
+
 
 function Speed({ dlspeed, upspeed, dlspeedUi, upspeedUi }) {
-    let speeds = '';
 
     if (dlspeed && upspeed) {
-        speeds = (
+        return (
             <>
-                <div>{dlspeedUi}</div>
+                <SubText>{dlspeedUi}</SubText>
                 <Icon Icon={SwapVertIcon} />
-                <div>{upspeedUi}</div>
+                <SubText>{upspeedUi}</SubText>
             </>
         );
     } else if (dlspeed && !upspeed) {
-        speeds = (
+        return(
             <>
-                <div>{dlspeedUi}</div>
+                <SubText>{dlspeedUi}</SubText>
                 <Icon Icon={ArrowDownwardIcon} />
             </>
         );
     } else if (!dlspeed && upspeed) {
-        speeds = (
+        return(
             <>
-                <div>{upspeedUi}</div>
+                <SubText>{upspeedUi}</SubText>
                 <Icon Icon={ArrowUpwardIcon} />
             </>
         );
     }
 
-    return speeds;
+    return null;
 }
 
 Speed.propTypes = {
