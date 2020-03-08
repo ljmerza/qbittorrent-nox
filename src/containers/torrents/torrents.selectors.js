@@ -93,7 +93,7 @@ export const getFilteredTorrents = createSelector(
             filteredTorrents = filteredTorrents.filter(torrent => torrent.states.includes(selectedState));
         }
 
-        if (selectedCategory) {
+        if (selectedCategory !== ALL_CATEGORY.id) {
             filteredTorrents = filteredTorrents.filter(torrent => torrent.categoryUi === selectedCategory);
         }
 

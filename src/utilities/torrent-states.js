@@ -22,7 +22,7 @@ export const MANAGEMENT_MODES = [
 /**
  * extra uncategorized category
  */
-export const ALL_CATEGORY = { id: '', name: 'All', uneditable: true };
+export const ALL_CATEGORY = { id: 'all', name: 'All', uneditable: true };
 export const UNCATEGORIZED = { id: '', name: 'Uncategorized', uneditable: true };
 export const RESET_CATEGORY = { id: '', name: 'Reset Category', uneditable: true };
 
