@@ -25,25 +25,29 @@ function SettingsContainer({ settings, loading }) {
         );
     }
 
+    const onChange = (event) => {
+
+    }
+
     let content = null;
     switch (settingsTab){
         case SECTION_NAMES.advanced.key: 
-            content = <AdvancedSettings settings={settings} />;
+            content = <AdvancedSettings settings={settings} onChange={onChange} />;
             break;
         case SECTION_NAMES.bitTorrent.key:
-            content = <BitTorrentSettings settings={settings} />;
+            content = <BitTorrentSettings settings={settings} onChange={onChange} />;
             break;
         case SECTION_NAMES.connection.key:
-            content = <ConnectionSettings settings={settings} />;
+            content = <ConnectionSettings settings={settings} onChange={onChange} />;
             break;
         case SECTION_NAMES.speed.key:
-            content = <SpeedSettings settings={settings} />;
+            content = <SpeedSettings settings={settings} onChange={onChange} />;
             break;
         case SECTION_NAMES.webUi.key:
-            content = <WebUISettings settings={settings} />;
+            content = <WebUISettings settings={settings} onChange={onChange} />;
             break;
         default:
-            content = <DownloadSettings settings={settings} />;
+            content = <DownloadSettings settings={settings} onChange={onChange} />;
     }
 
     return (
