@@ -54,8 +54,6 @@ export const loginSlice = createSlice({
                     return oldCreds;
                 });
 
-                
-
                 storeSave(localStorageKey, newLoginInfo);
 
                 // if default updated then store
@@ -151,7 +149,7 @@ export const loginSlice = createSlice({
             };
         },
 
-        logout: state => ({ ...state, ...initialState, loggedIn: false  }),
+        logout: state => ({ ...state, loggedIn: false  }),
     }
 });
 
