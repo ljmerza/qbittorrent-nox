@@ -22,12 +22,9 @@ function DownloadSettings({ settings, onChange }) {
     const save_path_changed_tmm_enabled = settings.save_path_changed_tmm_enabled ? TORRENT_CHANGED_RELOCATE : TORRENT_CHANGED_MANUAL;
     const category_changed_tmm_enabled = settings.category_changed_tmm_enabled ? TORRENT_CHANGED_RELOCATE : TORRENT_CHANGED_MANUAL;
 
-    console.log({settings, auto_tmm_enabled, torrent_changed_tmm_enabled})
-
     // api doesnt actually have these values just if there's a path set or not
     const [copyTorrentFiles, setCopyTorrentFiles] = useState(!!settings.export_dir);
     const [copyTorrentFilesFinished, setCopyTorrentFilesFinished] = useState(!!settings.export_dir_fin);
-    console.log({ copyTorrentFiles, copyTorrentFilesFinished })
 
     return (
         <>

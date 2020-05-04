@@ -8,8 +8,6 @@ import { initialState, addTorrentActions } from './addTorrent.reducer';
 export default function* addTorrent() {
     yield takeLatest(`${addTorrentActions.addTorrent}`, function* ({ payload }) {
 
-        console.log({ payload })
-
         try {
             const apiUrl = yield select(getLoginApiUrl);
 

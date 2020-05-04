@@ -5,6 +5,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ValidatorForm } from 'react-material-ui-form-validator';
+import clsx from 'clsx';
 
 import { FormControl, withStyles, ButtonGroup } from '@material-ui/core';
 
@@ -48,7 +49,6 @@ export class CredentialsContainer extends PureComponent {
 
     saveCreds = (event, creds) => {
         const { _isNew, ...newCreds } = creds;
-        console.log({ newCreds })
         this.props.saveCreds(newCreds);
 
         if (!_isNew) return;
@@ -94,6 +94,7 @@ export class CredentialsContainer extends PureComponent {
 
         // only allow one new form at a time
         const hasIsNew = !!loginInfo.find(creds => creds._isNew);
+        const noCreds = loginInfo.length === 0;
 
         return (
             <PageContainer>
@@ -106,7 +107,7 @@ export class CredentialsContainer extends PureComponent {
                     const _setDefaultCreds = event => this.setDefaultCreds(event, creds);
 
                     return (
-                        <ValidatorForm onSubmit={_saveCreds} className={classes.formContainer}>
+                        <ValidatorForm onSubmit={_saveCreds} className={classes.formContainer} key={creds.id}>
                             <Card title={creds.default ? 'Default' : ''}>
                                 <FormControl className={classes.fieldWrapper}>
                                     <TextValidator name='username' label='Username' value={creds.username} onChange={_onChange} emptyValue fullWidth  />
@@ -128,7 +129,7 @@ export class CredentialsContainer extends PureComponent {
                     );
                 })}
 
-                <div className={classes.bottomActionButtons}>
+                <div className={clsx(classes.bottomActionButtons, { [classes.bottomActionButtonsNoCreds]: noCreds })}>
                     <ButtonGroup variant="text">
                         {hasIsNew ? null : <PrimaryButton size="large" variant="contained" color='primary' onClick={this.createNewCreds}>Create New</PrimaryButton>}
                         <PrimaryButton size="large" variant="outlined" color='secondary' onClick={this.goBack}>Back to Login</PrimaryButton>
@@ -140,7 +141,7 @@ export class CredentialsContainer extends PureComponent {
     }
 }
 
-const styles = () => ({
+const styles = theme => ({
     formContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -161,7 +162,10 @@ const styles = () => ({
     bottomActionButtons: {
         display: 'flex',
         justifyContent: 'center',
-    }
+    },
+    bottomActionButtonsNoCreds: {
+        marginTop: theme.spacing(10),
+    },
 });
 
 CredentialsContainer.propTypes = {
