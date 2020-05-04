@@ -58,14 +58,9 @@ export class CredentialsContainer extends PureComponent {
         // update he temp creds with the newly created one
         this.setState(oldState => {
             const matchingCreds = oldState.loginInfo.map(oldCreds => {
-                if (newCreds.id === oldCreds.id) {
-                    // set as default if only cred given
-                    if (oldState.loginInfo.length === 1) newCreds.default = true;
-                    return newCreds;
-                }
+                if (newCreds.id === oldCreds.id) return newCreds;
                 return oldCreds;
             });
-            console.log({ matchingCreds})
             return { loginInfo: matchingCreds };
         });
     }

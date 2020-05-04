@@ -28,7 +28,15 @@ export const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        login: (state, action) => ({ ...state, loading: true, ...action.payload }),
+        login: (state, action) => {
+            return {
+                ...state, 
+                loading: true, 
+                username: action.payload.username,
+                password: action.payload.password,
+                baseApiUrl: action.payload.url,
+            }
+        },
         loginSuccess: state => ({ ...state, loading: false, loggedIn: true }),
         notLoggedIn: state => ({ ...state, loading: false, loggedIn: false }),
 
@@ -65,13 +73,7 @@ export const loginSlice = createSlice({
             }
 
             // else this is new creds
-            const newCreds = { ...action.payload};
-            console.log({ loginInfo })
-            
-            // set as default if only cred
-            if (loginInfo.length === 0) newCreds.default = true;
-
-            loginInfo.push(newCreds);
+            loginInfo.push(action.payload);
             storeSave(localStorageKey, loginInfo);
 
             return {
