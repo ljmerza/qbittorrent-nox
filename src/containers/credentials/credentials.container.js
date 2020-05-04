@@ -5,22 +5,18 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import cloneDeep from 'lodash/cloneDeep';
 
-import { FormControl, InputAdornment, IconButton, withStyles } from '@material-ui/core';
+import { FormControl, withStyles, ButtonGroup } from '@material-ui/core';
 
 import uuid from 'utilities/uuid';
-import { Item } from 'components/grid.component';
 import PageContainer from 'components/pageContainer';
 import Card from 'components/card.component';
 import LoadingIndicator from 'components/LoadingIndicator';
 import TextValidator from 'components/fields/textValidator.component';
-import Text from 'components/fields/text.component';
 import PrimaryButton from 'components/buttons/primary.component';
 
 import { loginActions } from 'containers/login/login.reducer';
 import { getLoginLoginInfo } from 'containers/login/login.selectors';
-import { CreditCardSharp } from '@material-ui/icons';
 
 export class CredentialsContainer extends PureComponent {
     constructor(props) {
@@ -51,24 +47,34 @@ export class CredentialsContainer extends PureComponent {
     }
 
     saveCreds = (event, creds) => {
+        const { _isNew, ...newCreds } = creds;
+        console.log({ newCreds })
+        this.props.saveCreds(newCreds);
+
+        if (!_isNew) return;
+
+        // update he temp creds with the newly created one
         this.setState(oldState => {
-            const credsIndex = oldState.loginInfo.findIndex(oldCreds => oldCreds.id !== creds.id);
-            if (credsIndex === -1) return { loginInfo: [...oldState.loginInfo, creds] };
-            return oldState;
-        }, () => this.props.saveCreds(creds));
-    }
-
-    deleteCreds = (event, creds) => {
-        this.setState(oldState => ({ loginInfo: oldState.loginInfo.filter(oldCreds => oldCreds.id !== creds.id) }), () => {
-
-        }, () => {
-            // we dont need to update state if deleting new creds
-            if (creds._isNew) return;
-            this.props.deleteCreds(creds);
+            const matchingCreds = oldState.loginInfo.map(oldCreds => {
+                if (newCreds.id === oldCreds.id) return newCreds;
+                return oldCreds;
+            });
+            return { loginInfo: matchingCreds };
         });
     }
 
+    deleteCreds = (event, creds) => {
+        if (creds._isNew) {
+            this.setState(oldState => ({ loginInfo: oldState.loginInfo.filter(oldCreds => oldCreds.id !== creds.id) }));
+            return;
+        }
+        
+        this.props.deleteCreds(creds);
+    }
+
     setDefaultCreds = (event, creds) => {
+        this.props.setDefaultCreds(creds);
+
         this.setState(oldState => {
             const matchingCreds = oldState.loginInfo.map(oldCreds => {
                 oldCreds = { ...oldCreds };
@@ -77,13 +83,14 @@ export class CredentialsContainer extends PureComponent {
             });
 
             return { loginInfo: matchingCreds };
-        }, () => this.props.setDefaultCreds(creds));
+        });
     }
+
+    goBack = () => this.props.history.push('/login');
 
     render() {
         const { classes } = this.props;
         const { loginInfo, loading } = this.state;
-        console.log({ t: this.state })
 
         // only allow one new form at a time
         const hasIsNew = !!loginInfo.find(creds => creds._isNew);
@@ -100,7 +107,7 @@ export class CredentialsContainer extends PureComponent {
 
                     return (
                         <ValidatorForm onSubmit={_saveCreds} className={classes.formContainer}>
-                            <Card>
+                            <Card title={creds.default ? 'Default' : ''}>
                                 <FormControl className={classes.fieldWrapper}>
                                     <TextValidator name='username' label='Username' value={creds.username} onChange={_onChange} emptyValue fullWidth  />
                                 </FormControl>
@@ -121,18 +128,19 @@ export class CredentialsContainer extends PureComponent {
                     );
                 })}
 
-                {hasIsNew ? null : (
-                    <div className={classes.newButton}>
-                        <PrimaryButton size="large" variant="contained" color='primary' onClick={this.createNewCreds}>Create New</PrimaryButton>
-                    </div>
-                )}
+                <div className={classes.bottomActionButtons}>
+                    <ButtonGroup variant="text">
+                        {hasIsNew ? null : <PrimaryButton size="large" variant="contained" color='primary' onClick={this.createNewCreds}>Create New</PrimaryButton>}
+                        <PrimaryButton size="large" variant="outlined" color='secondary' onClick={this.goBack}>Back to Login</PrimaryButton>
+                    </ButtonGroup>
+                </div>
 
             </PageContainer>
         )
     }
 }
 
-const styles = theme => ({
+const styles = () => ({
     formContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -150,8 +158,7 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'space-between',
     },
-    newButton: {
-        marginTop: theme.spacing(3),
+    bottomActionButtons: {
         display: 'flex',
         justifyContent: 'center',
     }

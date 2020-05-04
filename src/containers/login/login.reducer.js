@@ -35,14 +35,14 @@ export const loginSlice = createSlice({
         saveCreds: (state, action) => {
             const loginInfo = getStoredData();
             const payload = action.payload;
-
+            
             // if existing creds then update and save
             const credMatch = loginInfo.find(creds => creds.id === payload.id);
             if (credMatch) {
 
                 // update the new creds
                 const newLoginInfo = state.loginInfo.map(oldCreds => {
-                    if (oldCreds.id === credMatch.id) oldCreds = credMatch;
+                    if (oldCreds.id === credMatch.id) return payload;
                     return oldCreds;
                 });
 
@@ -111,8 +111,13 @@ export const loginSlice = createSlice({
             const credMatch = loginInfo.find(creds => creds.id === payload.id);
             if (!credMatch) return state;
 
-            credMatch.default = true;
-            storeSave(localStorageKey, loginInfo);
+            const newLoginInfo = state.loginInfo.map(oldCreds => {
+                oldCreds = { ...oldCreds };
+                oldCreds.default = oldCreds.id === credMatch.id;
+                return oldCreds;
+            });
+
+            storeSave(localStorageKey, newLoginInfo);
 
             return {
                 ...state,

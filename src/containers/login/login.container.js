@@ -45,7 +45,7 @@ class LoginContainer extends PureComponent {
         const { classes, theme, loading, loginInfo } = this.props;
         const { username, password, url, showPassword, } = this.state;
 
-        const urlOptions = loginInfo.map(creds => ({ id: creds.url, name: creds. url }));
+        const urlOptions = loginInfo.map(creds => ({ id: creds.url, name: creds.url }));
         console.log({ loginInfo, urlOptions, username, password, url, showPassword, })
 
         return (
@@ -147,7 +147,7 @@ const styles = (/* theme */) => ({
     },
     buttonsWrapper: {
         marginTop: '1rem',
-        width: '100%'
+        width: '100%',
     },
     fullWidth: {
         width: '100%',
