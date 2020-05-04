@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 
 import { FormControl, InputAdornment, IconButton, withStyles } from '@material-ui/core';
@@ -9,11 +11,12 @@ import { PermIdentity, Lock, VisibilityOff, Visibility } from '@material-ui/icon
 
 import PrimaryButton from 'components/buttons/primary.component';
 import TextValidator from 'components/fields/textValidator.component';
+import Select from 'components/fields/select.component';
 import PageContainer from 'components/pageContainer';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import { loginActions } from './login.reducer';
-import { getLoginUsername, getLoginPassword, getLoginLoading } from './login.selectors';
+import { getLoginUsername, getLoginPassword, getLoginUrl, getLoginLoading, getLoginLoginInfo } from './login.selectors';
 
 class LoginContainer extends PureComponent {
     constructor(props){
@@ -22,6 +25,7 @@ class LoginContainer extends PureComponent {
         this.state = {
             username: props.username,
             password: props.password,
+            url: props.url,
             showPassword: false,
         };
     }
@@ -32,9 +36,17 @@ class LoginContainer extends PureComponent {
 
     handleSubmit = () => this.props.login(this.state);
 
+    editCreds = event => {
+        event.preventDefault();
+        this.props.history.push('/credentials');
+    }
+
     render() {
-        const { classes, theme, loading } = this.props;
-        const { username, password, showPassword } = this.state;
+        const { classes, theme, loading, loginInfo } = this.props;
+        const { username, password, url, showPassword, } = this.state;
+
+        const urlOptions = loginInfo.map(creds => ({ id: creds.url, name: creds. url }));
+        console.log({ loginInfo, urlOptions, username, password, url, showPassword, })
 
         return (
             <PageContainer>
@@ -93,9 +105,23 @@ class LoginContainer extends PureComponent {
                         />
                     </FormControl>
 
+                    <Select 
+                        className={classes.fullWidth} 
+                        label='URL (optional)' 
+                        value={url} 
+                        options={urlOptions} 
+                        onChange={this.onChange} 
+                    />
+
                     <div className={classes.buttonsWrapper}>
                         <PrimaryButton fullWidth type="submit" size="large" color="primary" variant="contained">
                             Login
+                        </PrimaryButton>
+                    </div>
+
+                    <div className={classes.buttonsWrapper} onClick={this.editCreds}>
+                        <PrimaryButton color='secondary' fullWidth type="submit" size="large" variant="contained">
+                            Edit Credentials
                         </PrimaryButton>
                     </div>
 
@@ -122,6 +148,10 @@ const styles = (/* theme */) => ({
     buttonsWrapper: {
         marginTop: '1rem',
         width: '100%'
+    },
+    fullWidth: {
+        width: '100%',
+        marginRight: 0,
     }
 });
 
@@ -131,13 +161,17 @@ LoginContainer.propTypes = {
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
+    loginInfo: PropTypes.array.isRequired,
+    history: ReactRouterPropTypes.history.isRequired,
 };
 
 const mapStateToProps = state => {
     return {
         username: getLoginUsername(state),
         password: getLoginPassword(state),
+        url: getLoginUrl(state),
         loading: getLoginLoading(state),
+        loginInfo: getLoginLoginInfo(state),
     }
 };
 
@@ -147,11 +181,8 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-
 export default compose(
     withStyles(styles, { withTheme: true }),
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
 )(LoginContainer);

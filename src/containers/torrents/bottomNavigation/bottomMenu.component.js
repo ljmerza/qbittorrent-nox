@@ -14,11 +14,12 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
 
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
+import { loginActions } from 'containers/login/login.reducer';
 import AddTorrent from 'containers/addTorrent';
 import Menu from 'components/menu/menu.component';
 
 
-function BottomMenu({ selectTorrent, history }) {
+function BottomMenu({ selectTorrent, history, logout }) {
     const onSettingsClick = () => history.push('/settings');
 
     return (
@@ -62,8 +63,16 @@ function BottomMenu({ selectTorrent, history }) {
                     </Menu.MenuItem>
 
                     <Menu.MenuItem>
-                        <Typography>Logout</Typography>
-                        <ExitToAppIcon classes={{ root: classes.iconRoot }} />
+                        <div
+                            onClick={() => {
+                                logout();
+                                history.push('/login');
+                            }}
+                            className={classes.iconAction}
+                        >
+                            <Typography>Logout</Typography>
+                            <ExitToAppIcon classes={{ root: classes.iconRoot }} />
+                        </div>
                     </Menu.MenuItem>
                 </>
             )}
@@ -73,12 +82,14 @@ function BottomMenu({ selectTorrent, history }) {
 
 BottomMenu.propTypes = {
     selectTorrent: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     history: ReactRouterPropTypes.history.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
         selectTorrent: torrent => dispatch(torrentDetailsActions.selectTorrent(torrent)),
+        logout: () => dispatch(loginActions.logout()),
     };
 }
 
