@@ -113,7 +113,7 @@ export class CredentialsContainer extends PureComponent {
                                     <TextValidator name='username' label='Username' value={creds.username} onChange={_onChange} emptyValue fullWidth  />
                                 </FormControl>
                                 <FormControl className={classes.fieldWrapper}>
-                                    <TextValidator name='password' label='Password' value={creds.password} onChange={_onChange} emptyValue fullWidth />
+                                    <TextValidator type='password' name='password' label='Password' value={creds.password} onChange={_onChange} emptyValue fullWidth />
                                 </FormControl>
                                 <FormControl className={classes.fieldWrapper}>
                                     <TextValidator name='url' label='Url' value={creds.url} onChange={_onChange} emptyValue fullWidth />
