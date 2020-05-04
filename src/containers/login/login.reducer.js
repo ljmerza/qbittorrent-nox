@@ -46,6 +46,8 @@ export const loginSlice = createSlice({
                     return oldCreds;
                 });
 
+                
+
                 storeSave(localStorageKey, newLoginInfo);
 
                 // if default updated then store
@@ -62,9 +64,14 @@ export const loginSlice = createSlice({
                 return { ...state, loginInfo: newLoginInfo };
             }
 
-
             // else this is new creds
-            loginInfo.push(action.payload);
+            const newCreds = { ...action.payload};
+            console.log({ loginInfo })
+            
+            // set as default if only cred
+            if (loginInfo.length === 0) newCreds.default = true;
+
+            loginInfo.push(newCreds);
             storeSave(localStorageKey, loginInfo);
 
             return {
@@ -81,9 +88,10 @@ export const loginSlice = createSlice({
             const credMatch = loginInfo.find(creds => creds.id === payload.id);
             if (!credMatch) return state;
 
+            const newLoginInfo = loginInfo.filter(creds => creds.id !== credMatch.id);
+            
             // if the current login creds in the store matched the deleted then we just get the next creds to set as 'default'
-            const newLoginInfo = loginInfo.filter(creds => creds === credMatch);
-            if (newLoginInfo.default && newLoginInfo.length > 0) {
+            if (credMatch.default && newLoginInfo.length > 0) {
                 newLoginInfo[0].default = true;
                 storeSave(localStorageKey, newLoginInfo);
 
@@ -94,7 +102,20 @@ export const loginSlice = createSlice({
                     baseApiUrl: newLoginInfo[0].url,
                     loginInfo: newLoginInfo,
                 };
-            };
+
+            }
+            
+            // if we deleted the last cred then reset store
+            if (credMatch.default && newLoginInfo.length === 0) {
+                storeSave(localStorageKey, newLoginInfo);
+                return {
+                    ...state,
+                    username: '',
+                    password: '',
+                    baseApiUrl: '',
+                    loginInfo: newLoginInfo,
+                };
+            }
 
             storeSave(localStorageKey, newLoginInfo);
             return {

@@ -48,6 +48,8 @@ export class CredentialsContainer extends PureComponent {
     }
 
     saveCreds = (event, creds) => {
+        if (!creds.username || !creds.password) return;
+
         const { _isNew, ...newCreds } = creds;
         this.props.saveCreds(newCreds);
 
@@ -56,19 +58,22 @@ export class CredentialsContainer extends PureComponent {
         // update he temp creds with the newly created one
         this.setState(oldState => {
             const matchingCreds = oldState.loginInfo.map(oldCreds => {
-                if (newCreds.id === oldCreds.id) return newCreds;
+                if (newCreds.id === oldCreds.id) {
+                    // set as default if only cred given
+                    if (oldState.loginInfo.length === 1) newCreds.default = true;
+                    return newCreds;
+                }
                 return oldCreds;
             });
+            console.log({ matchingCreds})
             return { loginInfo: matchingCreds };
         });
     }
 
     deleteCreds = (event, creds) => {
-        if (creds._isNew) {
-            this.setState(oldState => ({ loginInfo: oldState.loginInfo.filter(oldCreds => oldCreds.id !== creds.id) }));
-            return;
-        }
-        
+        this.setState(oldState => ({ loginInfo: oldState.loginInfo.filter(oldCreds => oldCreds.id !== creds.id) }));
+
+        if (creds._isNew) return;
         this.props.deleteCreds(creds);
     }
 
@@ -110,13 +115,39 @@ export class CredentialsContainer extends PureComponent {
                         <ValidatorForm onSubmit={_saveCreds} className={classes.formContainer} key={creds.id}>
                             <Card title={creds.default ? 'Default' : ''}>
                                 <FormControl className={classes.fieldWrapper}>
-                                    <TextValidator name='username' label='Username' value={creds.username} onChange={_onChange} emptyValue fullWidth  />
+                                    <TextValidator 
+                                        name='username'
+                                        label='Username'
+                                        value={creds.username}
+                                        onChange={_onChange}
+                                        emptyValue
+                                        fullWidth
+                                        validators={['required']}
+                                        errorMessages={['Username is required']}
+                                    />
                                 </FormControl>
                                 <FormControl className={classes.fieldWrapper}>
-                                    <TextValidator type='password' name='password' label='Password' value={creds.password} onChange={_onChange} emptyValue fullWidth />
+                                    <TextValidator 
+                                        type='password' 
+                                        name='password' 
+                                        label='Password' 
+                                        value={creds.password}
+                                        onChange={_onChange}
+                                        emptyValue
+                                        fullWidth
+                                        validators={['required']}
+                                        errorMessages={['Password is required']}
+                                    />
                                 </FormControl>
                                 <FormControl className={classes.fieldWrapper}>
-                                    <TextValidator name='url' label='Url' value={creds.url} onChange={_onChange} emptyValue fullWidth />
+                                    <TextValidator 
+                                        name='url' 
+                                        label='Url' 
+                                        value={creds.url} 
+                                        onChange={_onChange}
+                                        emptyValue
+                                        fullWidth
+                                    />
                                 </FormControl>
 
                                 <div className={classes.actionButtons}>
