@@ -56,6 +56,9 @@ class LoginContainer extends PureComponent {
                             type="text"
                             name="username"
                             label="username"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            spellCheck="false"
                             value={username}
                             onChange={this.onChange}
                             emptyValue
@@ -77,6 +80,10 @@ class LoginContainer extends PureComponent {
                             type={showPassword ? 'text' : 'password'}
                             name="password"
                             label="Password"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            spellCheck="false"
                             value={password}
                             onChange={this.onChange}
                             emptyValue

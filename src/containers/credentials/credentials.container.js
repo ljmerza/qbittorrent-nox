@@ -122,6 +122,9 @@ export class CredentialsContainer extends PureComponent {
                                         onChange={_onChange}
                                         emptyValue
                                         fullWidth
+                                        autoCorrect="off"
+                                        autoCapitalize="off"
+                                        spellCheck="false"
                                         validators={['required']}
                                         errorMessages={['Username is required']}
                                     />
@@ -130,7 +133,11 @@ export class CredentialsContainer extends PureComponent {
                                     <TextValidator 
                                         type='password' 
                                         name='password' 
-                                        label='Password' 
+                                        label='Password'
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        autoCapitalize="off"
+                                        spellCheck="false"
                                         value={creds.password}
                                         onChange={_onChange}
                                         emptyValue
