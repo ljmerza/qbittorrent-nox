@@ -148,9 +148,11 @@ export class CredentialsContainer extends PureComponent {
                                 </FormControl>
                                 <FormControl className={classes.fieldWrapper}>
                                     <TextValidator 
-                                        name='url' 
-                                        label='Url' 
-                                        value={creds.url} 
+                                        name='url'
+                                        label='Url (Optional)'
+                                        autoCorrect="off"
+                                        autoCapitalize="off"
+                                        value={creds.url}
                                         onChange={_onChange}
                                         emptyValue
                                         fullWidth

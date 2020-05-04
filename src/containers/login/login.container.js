@@ -30,7 +30,16 @@ class LoginContainer extends PureComponent {
         };
     }
 
-    onChange = ({ target: { name, value } }) => this.setState({ [name]: value });
+    onChange = ({ target: { name, value } }) => {
+        // change entire form if choosing different url
+        if(name === 'url'){
+            const newCreds = this.props.loginInfo.find(creds => creds.id === value);
+            this.setState({ username: newCreds.username, password: newCreds.password, url: newCreds.url });
+            return;
+        }
+
+        this.setState({ [name]: value });
+    }
 
     handleToggleShowPassword = () => this.setState(prevState => ({ showPassword: !prevState.showPassword }));
 
@@ -45,7 +54,8 @@ class LoginContainer extends PureComponent {
         const { classes, theme, loading, loginInfo } = this.props;
         const { username, password, url, showPassword, } = this.state;
 
-        const urlOptions = loginInfo.map(creds => ({ id: creds.url, name: creds.url }));
+        const urlOptions = loginInfo.map(creds => ({ id: creds.id, name: creds.url }));
+        const selectedOption = (urlOptions.find(creds => creds.name === url) || {}).id || '';
 
         return (
             <PageContainer>
@@ -113,8 +123,9 @@ class LoginContainer extends PureComponent {
 
                     <Select 
                         className={classes.fullWidth} 
-                        label='URL (optional)' 
-                        value={url} 
+                        label='URL (Optional)'
+                        name='url'
+                        value={selectedOption}
                         options={urlOptions} 
                         onChange={this.onChange} 
                     />
