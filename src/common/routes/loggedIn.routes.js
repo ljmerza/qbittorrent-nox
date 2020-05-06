@@ -15,6 +15,7 @@ import { getLoading } from 'containers/torrents/torrents.selectors';
 import { getSettingsInternalRefreshInterval, getSettingsLoading } from 'containers/settings/settings.selectors';
 import { settingsActions } from 'containers/settings/settings.reducer';
 import { torrentsActions } from 'containers/torrents/torrents.reducer';
+import { getLoginLoggedIn } from 'containers/login/login.selectors';
 
 class LoggedInRoutes extends PureComponent {
     componentDidMount() {
@@ -23,6 +24,7 @@ class LoggedInRoutes extends PureComponent {
 
         // load every set interval unless currently loading
         this._interval = setInterval(async () => {
+            console.log({ props: this.props })
             if (this.props.loading) return;
             this.props.getTorrents();
 
@@ -56,6 +58,7 @@ class LoggedInRoutes extends PureComponent {
 LoggedInRoutes.propTypes = {
     refreshInterval: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
     loadingSettings: PropTypes.bool.isRequired,
     getTorrents: PropTypes.func.isRequired,
     getSettings: PropTypes.func.isRequired,
@@ -66,6 +69,7 @@ const mapStateToProps = state => {
         loading: getLoading(state),
         loadingSettings: getSettingsLoading(state),
         refreshInterval: getSettingsInternalRefreshInterval(state),
+        loggedIn: getLoginLoggedIn(state),
     }
 };
 

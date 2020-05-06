@@ -149,7 +149,8 @@ export const loginSlice = createSlice({
             };
         },
 
-        logout: state => ({ ...state, loggedIn: false  }),
+        logout: state => state,
+        logoutSuccess: state => state,
     }
 });
 

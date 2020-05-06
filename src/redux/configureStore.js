@@ -10,7 +10,7 @@ export default function configureAppStore(preloadedState, history) {
 
     const store = configureStore({
         reducer: rootReducer,
-        middleware: [sagaMiddleware, routerMiddleware(history), ...getDefaultMiddleware()],
+        middleware: [...getDefaultMiddleware(), sagaMiddleware, routerMiddleware(history)],
         preloadedState,
     });
 

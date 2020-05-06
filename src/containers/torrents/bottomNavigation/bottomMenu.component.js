@@ -66,7 +66,7 @@ function BottomMenu({ selectTorrent, history, logout }) {
                         <div
                             onClick={() => {
                                 logout();
-                                history.push('/login');
+                                handleClose();
                             }}
                             className={classes.iconAction}
                         >

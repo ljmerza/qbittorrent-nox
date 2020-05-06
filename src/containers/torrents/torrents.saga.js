@@ -18,9 +18,7 @@ import { initialState, torrentsActions } from './torrents.reducer';
  */
 function chunkArray(myArray, chunkSize) {
     const results = [];
-    while (myArray.length) {
-        results.push(myArray.splice(0, chunkSize));
-    }
+    while (myArray.length) results.push(myArray.splice(0, chunkSize));
     return results;
 }
 
@@ -28,14 +26,7 @@ function chunkArray(myArray, chunkSize) {
  * async process a function
  * @param {Function} processingFunction 
  */
-function asyncFunction(processingFunction) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const processedChunk = processingFunction();
-            resolve(processedChunk);
-        }, 0);
-    });
-}
+const asyncFunction = (processingFunction) => new Promise(resolve => setTimeout(() => resolve(processingFunction()), 0));
 
 export default function* torrents() {
     yield takeLatest(`${torrentsActions.torrents}`, function* () {
