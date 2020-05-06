@@ -24,7 +24,6 @@ class LoggedInRoutes extends PureComponent {
 
         // load every set interval unless currently loading
         this._interval = setInterval(async () => {
-            console.log({ props: this.props })
             if (this.props.loading) return;
             this.props.getTorrents();
 
