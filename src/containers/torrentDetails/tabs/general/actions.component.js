@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -35,8 +35,8 @@ function GeneralTabActions({
  }) {
     
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [open, setOpen] = React.useState(false);
-    const anchorRef = React.useRef(null);
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef(null);
 
     const handleMenuItemClick = () => setOpen(false);
     const handleToggle = () => setOpen(prevOpen => !prevOpen);

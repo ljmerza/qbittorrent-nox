@@ -71,8 +71,8 @@ export const getDateFormat = createSelector(getTorrents, torrents => torrents.da
 export const getTimeFormat = createSelector(getTorrents, torrents => torrents.timeFormat);
 
 export const getServerState = createSelector(getTorrents, torrents => torrents.serverState);
-export const getServerStateDown = createSelector(getServerState, torrents => torrents.dlSpeed || '');
-export const getServerStateUp = createSelector(getServerState, torrents => torrents.upSpeed || '');
+export const getServerStateDown = createSelector(getServerState, torrents => torrents.dlInfoSpeedUi || '');
+export const getServerStateUp = createSelector(getServerState, torrents => torrents.upInfoSpeedUi || '');
 
 export const getFilteredTorrents = createSelector(
     [

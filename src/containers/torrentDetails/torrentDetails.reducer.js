@@ -107,8 +107,8 @@ export const torrentDetailsSlice = createSlice({
             const formattedPeers = Object.values((action.response.peers || {})).reduce((acc, peer, idx) => {
                 const oldPeer = state.selectedTorrentPeers[idx] || {};
 
-                peer.dlspeedUi = (oldPeer.dlspeed === peer.dl_speed) ? oldPeer.dlspeedUi : prettySizeTime(peer.dl_speed);
-                peer.upspeedUi = (oldPeer.dlspeed === peer.up_speed) ? oldPeer.upspeedUi : prettySizeTime(peer.up_speed);
+                peer.dlSpeedUi = (oldPeer.dl_speed === peer.dl_speed) ? oldPeer.dlSpeedUi : prettySizeTime(peer.dl_speed);
+                peer.upSpeedUi = (oldPeer.up_speed === peer.up_speed) ? oldPeer.upSpeedUi : prettySizeTime(peer.up_speed);
 
                 peer.downloadedUi = (oldPeer.downloaded === peer.downloaded) ? oldPeer.downloadedUi : prettySize(peer.downloaded);
                 peer.uploadedUi = (oldPeer.uploaded === peer.uploaded) ? oldPeer.uploadedUi : prettySize(peer.uploaded);

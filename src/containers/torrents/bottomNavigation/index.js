@@ -10,14 +10,16 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import { filtersActions } from 'containers/filters/filters.reducer';
 import { torrentDetailsActions } from 'containers/torrentDetails/torrentDetails.reducer';
 import { getSelectedTorrent } from 'containers/torrentDetails/torrentDetails.selectors';
-
-import Speed from 'components/speed.component';
+import SpeedStats from 'containers/settings/bottomNavigation/speedStats.component';
 import BottomNavigationComponent from 'components/bottomNavigation.component';
 
 import MultiSelectMenu from './multiSelectMenu.component';
 import BottomMenu from './bottomMenu.component';
 
 
+/**
+ * bottom mobile nav when in torrents views
+ */
 function BottomNav({ toggleFilterDrawer, selectedTorrent, clearTorrent }) {
     // if in multi select mode then use multi select menu
     const isMultiSelect = Array.isArray(selectedTorrent);
@@ -30,7 +32,7 @@ function BottomNav({ toggleFilterDrawer, selectedTorrent, clearTorrent }) {
                 <BottomNavigationAction icon = {<FilterListIcon />} onClick={toggleFilterDrawer} />
             )}
 
-            <BottomNavigationAction icon={null} label={<Speed />} />
+            <BottomNavigationAction icon={null} label={<SpeedStats />} />
             <BottomNavigationAction icon={isMultiSelect ? <MultiSelectMenu /> : <BottomMenu />} />
             
         </BottomNavigationComponent>

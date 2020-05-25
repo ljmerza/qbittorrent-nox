@@ -64,10 +64,10 @@ export const formatTorrent = (newTorrent, stateTorrent, dateTimeFormat) => {
                 stateTorrent.categoryUi = newTorrent.category || UNCATEGORIZED.id;
                 break;
             case 'dlspeed':
-                stateTorrent.dlspeedUi = (stateTorrent.dlspeed === newTorrent.dlspeed) ? stateTorrent.dlspeedUi : prettySizeTime(newTorrent.dlspeed);
+                stateTorrent.dlSpeedUi = (stateTorrent.dlspeed === newTorrent.dlspeed) ? stateTorrent.dlSpeedUi : prettySizeTime(newTorrent.dlspeed);
                 break;
             case 'upspeed':
-                stateTorrent.upspeedUi = (stateTorrent.upspeed === newTorrent.upspeed) ? stateTorrent.upspeedUi : prettySizeTime(newTorrent.upspeed);
+                stateTorrent.upSpeedUi = (stateTorrent.upspeed === newTorrent.upspeed) ? stateTorrent.upSpeedUi : prettySizeTime(newTorrent.upspeed);
                 break;
             case 'tags':
                 stateTorrent.tagsUi = newTorrent.tags.split(',').map(tag => tag.trim());
@@ -83,32 +83,29 @@ export const formatTorrent = (newTorrent, stateTorrent, dateTimeFormat) => {
     return stateTorrent;
 };
 
+const KEY_UI_MAP = {
+    dl_info_data: { key: 'dlInfoDataUi', format: prettySize },
+    dl_info_speed: { key: 'dlInfoSpeedUi', format: prettySizeTime },
+    dl_rate_limit: { key: 'dlRateLimitUi', format: prettySizeTime },
+    up_info_data: { key: 'upInfoDataUi', format: prettySize },
+    up_info_speed: { key: 'upInfoSpeedUi', format: prettySizeTime },
+    up_rate_limit: { key: 'upRateLimit', format: prettySizeTime },
+
+    total_wasted_session: { key: 'totalWastedSessionUi', format: prettySize },
+    total_buffers_size: { key: 'totalBuffersSizeUi', format: prettySize },
+    alltime_dl: { key: 'allTimeDlUi', format: prettySize },
+    alltime_ul: { key: 'allTimeUlUi', format: prettySize },
+    dlTotal: { key: 'dlTotalUi', format: prettySize },
+    free_space_on_disk: { key: 'freeSpaceOnDiskUi', format: prettySize },
+};
+
 export const formatServerStats = (serverState, oldServerState) => {
     const newServerState = oldServerState ? { ...oldServerState } : {};
 
     Object.entries(serverState || {}).forEach(([key, value]) => {
-
-        switch (key) {
-            case 'dl_info_data':
-                newServerState.dlTotal = (newServerState.time_active === serverState.time_active) ? newServerState.timeActiveUi : prettySize(serverState.dl_info_data);
-                break;
-            case 'dl_info_speed':
-                newServerState.dlSpeed = (newServerState.dl_info_speed === serverState.dl_info_speed) ? newServerState.dlSpeed : prettySizeTime(serverState.dl_info_speed);;
-                break;
-            case 'dl_rate_limit':
-                newServerState.dlLimit = (newServerState.dl_rate_limit === serverState.dl_rate_limit) ? newServerState.dlLimit : prettySizeTime(serverState.dl_rate_limit);;
-                break;
-            case 'up_info_data':
-                newServerState.upTotal = (newServerState.up_info_data === serverState.up_info_data) ? newServerState.upTotal : prettySize(serverState.up_info_data);;
-                break;
-            case 'up_info_speed':
-                newServerState.upSpeed = (newServerState.up_info_speed === serverState.up_info_speed) ? newServerState.upSpeed : prettySizeTime(serverState.up_info_speed);;
-                break;
-            case 'up_rate_limit':
-                newServerState.upLimit = (newServerState.up_rate_limit === serverState.up_rate_limit) ? newServerState.upLimit : prettySizeTime(serverState.up_rate_limit);;
-                break;
-            default:
-                break;
+        const uiFormat = KEY_UI_MAP[key];
+        if (uiFormat) {
+            newServerState[uiFormat.key] = (newServerState[key] === serverState[key]) ? newServerState[uiFormat.key] : uiFormat.format(serverState[key]);
         }
 
         // copy new value over to old AFTER we compare for new value in switch statements

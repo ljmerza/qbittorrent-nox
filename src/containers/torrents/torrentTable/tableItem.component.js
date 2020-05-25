@@ -119,8 +119,8 @@ function TableItem({ torrent, selectTorrent, selectedTorrent }) {
                                     <Speed 
                                         dlspeed={torrent.dlspeed} 
                                         upspeed={torrent.upspeed} 
-                                        dlspeedUi={torrent.dlspeedUi} 
-                                        upspeedUi={torrent.upspeedUi} 
+                                        dlspeedUi={torrent.dlSpeedUi} 
+                                        upspeedUi={torrent.upSpeedUi} 
                                     />
                                 </div>
                             ) : null}

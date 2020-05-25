@@ -9,21 +9,23 @@ import { BottomNavigationAction } from '@material-ui/core';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 
 import BottomNavigationComponent from 'components/bottomNavigation.component';
-
-import Speed from 'components/speed.component';
+import SpeedStats from 'containers/settings/bottomNavigation/speedStats.component';
 import BottomMenu from './bottomMenu.component';
 
-function BottomNav({ history, ...props }) {
+/**
+ * bottom mobile nav when in settings view
+ */
+function BottomNavigationSettings({ history, ...props }) {
     return (
         <BottomNavigationComponent>
             <BottomNavigationAction icon={<HomeOutlinedIcon />} onClick={() => history.push('/torrents')}/> 
-            <BottomNavigationAction icon={null} label={<Speed />} />
+            <BottomNavigationAction icon={null} label={<SpeedStats />} />
             <BottomNavigationAction icon={<BottomMenu {...props} />} />
         </BottomNavigationComponent>
     );
 }
 
-BottomNav.propTypes = {
+BottomNavigationSettings.propTypes = {
     history: ReactRouterPropTypes.history.isRequired,
 };
 
@@ -43,5 +45,5 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(BottomNav);
+)(BottomNavigationSettings);
 

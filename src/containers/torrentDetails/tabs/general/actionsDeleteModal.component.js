@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -16,8 +16,10 @@ function GeneralTabActionsDelete({
 }) {
 
     // handle checkbox
-    const [deleteFiles, setDeleteFiles] = React.useState(false);
-    const onCheckToggle = () => setDeleteFiles(!deleteFiles);
+    const [deleteFiles, setDeleteFiles] = useState(false);
+    const onCheckToggle = () => {
+        setDeleteFiles(!deleteFiles);
+    }
 
     const onConfirmDelete = () => {
         setOpenDeleteModal(false);

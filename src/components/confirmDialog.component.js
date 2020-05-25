@@ -6,16 +6,22 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper } from
 
 function PaperComponent(props) {
     return (
-        <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
+        <Draggable handle="#draggable-dialog" cancel={'[class*="MuiDialogContent-root"]'}>
             <Paper {...props} />
         </Draggable>
     );
 }
 
 function ConfirmDialog({
-    onClose, open, title, children,
-    onCancel, onConfirm,
-    cancelText='Cancel', confirmText='Confirm',
+    onClose, 
+    open, 
+    title, 
+    children,
+    onCancel, 
+    onConfirm,
+    cancelText, 
+    confirmText,
+    hideCancel,
     ...props
 }) {
 
@@ -24,6 +30,7 @@ function ConfirmDialog({
             open={open}
             onClose={onClose}
             PaperComponent={PaperComponent}
+            aria-labelledby="draggable-dialog"
             {...props}
         >
             <DialogTitle style={{ cursor: 'move' }}>
@@ -35,15 +42,23 @@ function ConfirmDialog({
             </DialogContent>
 
             <DialogActions>
-            <Button autoFocus onClick={onCancel ? onCancel : onClose} color="primary">
-                {cancelText}
-            </Button>
-            <Button onClick={onConfirm ? onConfirm : onClose} color="primary">
-                {confirmText}
-            </Button>
+                {hideCancel ? null : (
+                    <Button onClick={onCancel ? onCancel : onClose} color="primary">
+                        {cancelText}
+                    </Button>
+                )}
+                <Button onClick={onConfirm ? onConfirm : onClose} color="primary">
+                    {confirmText}
+                </Button>
             </DialogActions>
         </Dialog>
     );
 }
+
+ConfirmDialog.defaultProps = {
+    cancelText: 'Cancel',
+    confirmText: 'Confirm',
+    hideCancel: false,
+};
 
 export default ConfirmDialog;

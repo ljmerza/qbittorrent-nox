@@ -19,10 +19,10 @@ const PeerCard = ({ peer }) => {
     return (
         <Card title={`${peer.ip}:${peer.port}`}>
             <Item>
-                <Text label='Down Speed' disabled value={peer.dlspeedUi} />
+                <Text label='Down Speed' disabled value={peer.dlSpeedUi} />
             </Item>
             <Item>
-                <Text label='Up Speed' disabled value={peer.upspeedUi} />
+                <Text label='Up Speed' disabled value={peer.upSpeedUi} />
             </Item>
 
             <Item>
