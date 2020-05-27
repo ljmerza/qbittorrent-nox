@@ -9,6 +9,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import { FormControl, InputAdornment, IconButton, withStyles } from '@material-ui/core';
 import { PermIdentity, Lock, VisibilityOff, Visibility } from '@material-ui/icons';
 
+import Title from 'components/title.component';
 import PrimaryButton from 'components/buttons/primary.component';
 import TextValidator from 'components/fields/textValidator.component';
 import Select from 'components/fields/select.component';
@@ -59,6 +60,7 @@ class LoginContainer extends PureComponent {
 
         return (
             <PageContainer>
+                <Title customTitle='Login' />
                 {loading ? <LoadingIndicator /> : null}
                 <ValidatorForm onSubmit={this.handleSubmit} className={classes.formContainer}>
                     <FormControl className={classes.fieldWrapper}>

@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 
 import { getServerStateDown, getServerStateUp } from 'containers/torrents/torrents.selectors';
 
-function Title({ dlSpeed, upSpeed }) {
-    const title = (dlSpeed && upSpeed) ? `D: ${dlSpeed}, U: ${upSpeed}` : ``;
+function Title({ dlSpeed, upSpeed, customTitle }) {
+    const title = customTitle ? customTitle : (dlSpeed && upSpeed) ? `D: ${dlSpeed}, U: ${upSpeed}` : ``;
 
     return (
         <Helmet defer={false}>
@@ -19,6 +19,7 @@ function Title({ dlSpeed, upSpeed }) {
 Title.propTypes = {
     dlSpeed: PropTypes.string.isRequired,
     upSpeed: PropTypes.string.isRequired,
+    customTitle: PropTypes.string,
 };
 
 const mapStateToProps = state => {
