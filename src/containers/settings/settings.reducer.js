@@ -4,6 +4,8 @@ export const initialState = {
     apiVersion: null,
     pathVersion: 'app/webapiVersion',
     loadingApiVersion: false,
+    apiVersionError: false,
+    triedCheckingApi: false,
 
     config: {},
     loading: false,
@@ -19,9 +21,9 @@ export const settingsSlice = createSlice({
     name: 'settings',
     initialState,
     reducers: {
-        getApiVersion: state => ({ ...state, loadingApiVersion: true }),
-        getApiVersionSuccess: (state, action) => ({ ...state, apiVersion: action.apiVersion, loadingApiVersion: false }),
-        getApiVersionError: (state, action) => ({ ...state, loadingApiVersion: false }),
+        getApiVersion: state => ({ ...state, loadingApiVersion: true, apiVersionError: false, }),
+        getApiVersionSuccess: (state, action) => ({ ...state, apiVersion: action.apiVersion, loadingApiVersion: false, apiVersionError: false, triedCheckingApi: true }),
+        getApiVersionError: state => ({ ...state, loadingApiVersion: false, apiVersionError: true, triedCheckingApi: true }),
 
         getSettings: state => ({ ...state, loading: true }),
         getSettingsSuccess: (state, action) => ({ ...state, loading: false, config: action.settings }),

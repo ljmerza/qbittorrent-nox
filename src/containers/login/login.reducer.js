@@ -15,7 +15,12 @@ export const initialState = {
     username: defaultCreds ? defaultCreds.username : '',
     password: defaultCreds ? defaultCreds.password : '',
     baseApiUrl: defaultCreds ? defaultCreds.url : '',
-    loggedIn: null,
+
+    loggedIn: false,
+
+    // we want to first check if logged in - if not go to login then when logged in go to original route here
+    entranceRoute: null, 
+
     loading: false,
     loginInfo,
 
@@ -39,6 +44,7 @@ export const loginSlice = createSlice({
         },
         loginSuccess: state => ({ ...state, loading: false, loggedIn: true }),
         notLoggedIn: state => ({ ...state, loading: false, loggedIn: false }),
+        setEntranceRoute: (state, action) => ({ ...state, entranceRoute: action.payload }),
 
         saveCreds: (state, action) => {
             const loginInfo = getStoredData();

@@ -25,8 +25,6 @@ export default function* recheckTorrent() {
             yield call(request, options);
             yield put({ type: `${toastActions.showSuccess}`, message: 'Rechecking Torrent', from: 'recheckTorrent' });
 
-            
-
         } catch (e) {
             yield put({ type: `${toastActions.showError}`, message: e.message, from: 'recheckTorrent' });
         }

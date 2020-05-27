@@ -6,6 +6,8 @@ export const getLoginUsername = createSelector(getLogin, login => login.username
 export const getLoginPassword = createSelector(getLogin, login => login.password);
 export const getLoginUrl = createSelector(getLogin, login => login.baseApiUrl);
 
+export const getEntranceRoute = createSelector(getLogin, login => login.entranceRoute);
+
 export const getLoginApiPath = createSelector(getLogin, login => login.apiPath);
 export const getLoginApiUrl = createSelector(
     [getLoginUrl, getLoginApiPath], 
@@ -14,5 +16,6 @@ export const getLoginApiUrl = createSelector(
 
 export const getLoginLoading = createSelector(getLogin, login => login.loading);
 export const getLoginLoggedIn = createSelector(getLogin, login => login.loggedIn);
+export const getLoginCheckedLogin = createSelector(getLogin, login => login.checkedLogin);
 
 export const getLoginLoginInfo = createSelector(getLogin, login => login.loginInfo);

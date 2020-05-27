@@ -10,6 +10,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import TorrentsComponent from 'containers/torrents';
 import FiltersComponent from 'containers/filters';
 import SettingsComponent from 'containers/settings';
+import RssComponent from 'containers/rss';
 
 import { getLoading } from 'containers/torrents/torrents.selectors';
 import { getSettingsInternalRefreshInterval, getSettingsLoading } from 'containers/settings/settings.selectors';
@@ -47,6 +48,9 @@ class LoggedInRoutes extends PureComponent {
                 </Route>
                 <Route path="/settings">
                     <SettingsComponent />
+                </Route>
+                <Route path="/rss">
+                    <RssComponent />
                 </Route>
                 <Redirect from="*" to="/torrents" />
             </Switch>

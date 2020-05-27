@@ -17,11 +17,9 @@ const toastSlice = createSlice({
     name: 'toast',
     initialState,
     reducers: {
-        showSuccess: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.SUCCESS, ...action }),
-        showError: (state, action) => {
-            return { ...state, showToast: true, toastType: TOAST_TYPES.ERROR, ...action }
-        },
-        showWarning: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.ERROR, ...action }),
+        showSuccess: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.SUCCESS, ...(action.payload || action) }),
+        showError: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.ERROR, ...(action.payload || action) }),
+        showWarning: (state, action) => ({ ...state, showToast: true, toastType: TOAST_TYPES.ERROR, ...(action.payload || action) }),
         hideToast: state => ({ ...state, showToast: false, message: '' }),
         setPosition: (state, action) => ({ ...state, toastPosition: action.position }),
     }

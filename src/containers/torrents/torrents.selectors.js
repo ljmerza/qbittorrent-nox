@@ -12,7 +12,7 @@ import {
     getIsSortDescending,
     getSearch,
     getSearchBy,
- } from '../filters/filters.selectors'
+ } from '../filters/filters.selectors';
 
 import { generateSortFunction } from 'utilities/torrent.tools';
 

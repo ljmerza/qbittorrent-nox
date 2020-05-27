@@ -21,6 +21,7 @@ import Menu from 'components/menu/menu.component';
 
 function BottomMenu({ selectTorrent, history, logout }) {
     const onSettingsClick = () => history.push('/settings');
+    const onClickRss = () => history.push('/rss');
 
     return (
         <Menu>
@@ -47,6 +48,11 @@ function BottomMenu({ selectTorrent, history, logout }) {
                                 <LinkIcon classes={{ root: classes.iconRoot }} />
                             </div>
                         </AddTorrent>
+                    </Menu.MenuItem>
+
+                    <Menu.MenuItem onClick={onClickRss}>
+                        <Typography>RSS</Typography>
+                        <SettingsIcon classes={{ root: classes.iconRoot }} />
                     </Menu.MenuItem>
 
                     <Menu.MenuItem>

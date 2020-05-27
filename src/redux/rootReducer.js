@@ -10,6 +10,7 @@ import { torrentsReducer } from 'containers/torrents/torrents.reducer';
 import { addTorrentReducer } from 'containers/addTorrent/addTorrent.reducer';
 import { filtersReducer } from 'containers/filters/filters.reducer';
 import { torrentDetailsReducer } from 'containers/torrentDetails/torrentDetails.reducer';
+import { rssReducer } from 'containers/rss/rss.reducer';
 
 
 export const initialState = {};
@@ -21,6 +22,7 @@ export const appReducer = combineReducers({
     torrents: torrentsReducer,
     addTorrent: addTorrentReducer,
     filters: filtersReducer,
+    rss: rssReducer,
     torrentDetails: torrentDetailsReducer,
     router: connectRouter(history),
 })
