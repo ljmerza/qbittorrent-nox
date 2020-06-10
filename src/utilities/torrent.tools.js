@@ -1,7 +1,8 @@
 import { prettySize, prettySizeTime } from './pretty-sizes';
 
 import { mapTorrentState, computeStates, UNCATEGORIZED } from './torrent-states';
-import { computedDateTime, computeTimeLeft, computePercentDone } from './formatters';
+import { computedDateTime, computeTimeLeft, computePercentDone, getHostName } from './formatters';
+
 
 /**
  * format torrent values for UI - only update 
@@ -69,6 +70,9 @@ export const formatTorrent = (newTorrent, stateTorrent, dateTimeFormat) => {
             case 'upspeed':
                 stateTorrent.upSpeedUi = (stateTorrent.upspeed === newTorrent.upspeed) ? stateTorrent.upSpeedUi : prettySizeTime(newTorrent.upspeed);
                 break;
+            case 'tracker':
+                stateTorrent.trackerUi = (stateTorrent.tracker === newTorrent.tracker) ? stateTorrent.trackerUi : getHostName(newTorrent.tracker);
+                break;
             case 'tags':
                 stateTorrent.tagsUi = newTorrent.tags.split(',').map(tag => tag.trim());
                 break;
@@ -82,6 +86,7 @@ export const formatTorrent = (newTorrent, stateTorrent, dateTimeFormat) => {
 
     return stateTorrent;
 };
+
 
 const KEY_UI_MAP = {
     dl_info_data: { key: 'dlInfoDataUi', format: prettySize },
@@ -139,6 +144,7 @@ export function sumTorrents(formattedTorrents) {
     const categoryCount = {};
     const tagsCount = {};
     const statesCount = {};
+    const trackersCount = {};
 
     // now that we havev complete list - sum up what we need
     formattedTorrents.forEach(torrent => {
@@ -157,13 +163,19 @@ export function sumTorrents(formattedTorrents) {
             if (!statesCount[state]) statesCount[state] = 0;
             statesCount[state]++;
         });
+
+        // sum trackers by hostname
+        if (!trackersCount[torrent.trackerUi]) trackersCount[torrent.trackerUi] = 1;
+        else trackersCount[torrent.trackerUi] = trackersCount[torrent.trackerUi] + 1;
     });
+    
 
     categoryCount.all = formattedTorrents.length;
     tagsCount.all = formattedTorrents.length;
     statesCount.all = formattedTorrents.length;
+    trackersCount.all = formattedTorrents.length;
 
-    return { categoryCount, tagsCount, statesCount };
+    return { categoryCount, tagsCount, statesCount, trackersCount };
 }
 
 export const getTorrentHashes = torrents => {

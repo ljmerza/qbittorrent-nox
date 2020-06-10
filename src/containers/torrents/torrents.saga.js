@@ -2,7 +2,7 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 
 import request from 'utilities/request';
 import { formatTorrent, formatServerStats, sumTorrents } from 'utilities/torrent.tools';
-import { UNTAGGED, ALL_TAGGED } from 'utilities/torrent-states';
+import { UNTAGGED, ALL_TAGGED, ALL_TRACKERS } from 'utilities/torrent-states';
 
 import { toastActions } from 'common/toast/toast.reducer';
 import { getLoginApiUrl } from 'containers/login/login.selectors';
@@ -65,7 +65,7 @@ export default function* torrents() {
             // chunk torrents list into pieces so we can async process this X at a time
             const chunks = chunkArray(Object.entries(torrents || {}), 25);
 
-            // if we have a full update then start witha fresh list else start with the current list we have
+            // if we have a full update then start with a fresh list else start with the current list we have
             // for each torrent from the api - see if we have that torretn already
             // either merge with the old torrent or with a new object
             // if a full update - always add coimbined torrent siunce we are starting fresh
@@ -88,6 +88,7 @@ export default function* torrents() {
                         } else {
                             formattedTorrents[stateTorrentIndex] = newTorrentCombined;
                         }
+
                     });
                 });
             }
@@ -111,6 +112,14 @@ export default function* torrents() {
             // reset counter if full update else increment partial updates counter
             const numberOfConsecutivePartialUpdates = fullUpdate ? 0 : torrentState.numberOfConsecutivePartialUpdates + 1;
 
+            const { categoryCount, tagsCount, statesCount, trackersCount } = sumTorrents(formattedTorrents);
+            const trackers = Object.entries(trackersCount).reduce((trackers, tracker) => {
+                const [hostname] = tracker;
+                if (hostname === ALL_TRACKERS.id) return trackers;
+                trackers.push({ id: hostname, name: hostname });
+                return trackers;
+            }, []);
+
             yield put({
                 type: `${torrentsActions.torrentsSuccess}`, 
                 response: {
@@ -120,7 +129,11 @@ export default function* torrents() {
                     tags: formattedTags,
                     fullUpdate,
                     numberOfConsecutivePartialUpdates,
-                    ...sumTorrents(formattedTorrents),
+                    categoryCount, 
+                    tagsCount, 
+                    statesCount, 
+                    trackersCount,
+                    trackers,
                     ...rest
                 } 
             });

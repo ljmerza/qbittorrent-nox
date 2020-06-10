@@ -1,5 +1,6 @@
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
+import { NO_TRACKER } from './torrent-states';
 
 export const formatNumberWithCommas = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -16,6 +17,20 @@ export const createPlural = type => {
     }
     return `${type}s`;
 };
+
+
+/**
+ * get hostname of a url or return param is invalid url
+ * @param {string} url 
+ */
+export const getHostName = url => {
+    try {
+        const _url = new URL(url);
+        return _url.hostname;
+    } catch (e) {
+        return NO_TRACKER.name;
+    }
+}
 
 /**
  * round number to a certain precision

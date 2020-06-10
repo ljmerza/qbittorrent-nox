@@ -9,22 +9,22 @@ import { getCategoriesCount } from 'containers/torrents/torrents.selectors';
 import { filtersActions } from '../filters.reducer';
 import { getSelectedCategory, getOpenCategories } from '../filters.selectors';
 
-function FiltersContainer({ categoriesCounted, openCategories, selectedCategory, changeSelectedCategory, toggleCollapsedCategory }) {
+function FilterCategory({ categoriesCount, openCategories, selectedCategory, changeSelectedCategory, toggleCollapsedCategory }) {
 
     return (
         <CollapsibleList
             title='Category'
             open={openCategories}
             selected={selectedCategory}
-            items={categoriesCounted}
+            items={categoriesCount}
             onChangeSelected={changeSelectedCategory}
             onToggleCollapsed={toggleCollapsedCategory}
         />
     );
 }
 
-FiltersContainer.propTypes = {
-    categoriesCounted: PropTypes.array.isRequired,
+FilterCategory.propTypes = {
+    categoriesCount: PropTypes.array.isRequired,
     selectedCategory: PropTypes.string.isRequired,
     openCategories: PropTypes.bool.isRequired,
     changeSelectedCategory: PropTypes.func.isRequired,
@@ -33,7 +33,7 @@ FiltersContainer.propTypes = {
 
 const mapStateToProps = state => {
     return {
-        categoriesCounted: getCategoriesCount(state),
+        categoriesCount: getCategoriesCount(state),
         selectedCategory: getSelectedCategory(state),
         openCategories: getOpenCategories(state),
     }
@@ -51,4 +51,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(FiltersContainer);
+)(FilterCategory);

@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function FiltersSort({ openSort, selectedSort, changeSelectedSort, toggleCollapsedSort, isSortDescending }) {
+function FilterSort({ openSort, selectedSort, changeSelectedSort, toggleCollapsedSort, isSortDescending }) {
     const classes = useStyles();
 
     return (
@@ -55,7 +55,7 @@ function FiltersSort({ openSort, selectedSort, changeSelectedSort, toggleCollaps
     );
 }
 
-FiltersSort.propTypes = {
+FilterSort.propTypes = {
     selectedSort: PropTypes.string.isRequired,
     openSort: PropTypes.bool.isRequired,
     changeSelectedSort: PropTypes.func.isRequired,
@@ -83,4 +83,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(FiltersSort);
+)(FilterSort);

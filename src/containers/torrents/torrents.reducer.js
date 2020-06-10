@@ -9,6 +9,9 @@ export const initialState = {
     tags: [],
     tagsCount: [],
 
+    trackers: [],
+    trackersCount: [],
+    
     serverState: {},
     
     loading: false,

@@ -14,7 +14,7 @@ import { filtersActions } from '../filters.reducer';
 import { getOpenSearch, getSearch, getSearchBy } from '../filters.selectors';
 import { SEARCH_BY_OPTIONS } from '../filter.tools';
 
-class FiltersSearch extends PureComponent {
+class FilterSearch extends PureComponent {
     constructor(props){
         super(props);
 
@@ -76,7 +76,7 @@ class FiltersSearch extends PureComponent {
     }
 }
 
-FiltersSearch.propTypes = {
+FilterSearch.propTypes = {
     openSearch: PropTypes.bool.isRequired,
     search: PropTypes.string.isRequired,
     selectedSearchBy: PropTypes.string.isRequired,
@@ -114,4 +114,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(FiltersSearch);
+)(FilterSearch);

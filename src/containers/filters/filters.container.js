@@ -9,11 +9,12 @@ import { Drawer } from '@material-ui/core';
 import { filtersActions } from './filters.reducer';
 import { getOpenDrawer } from './filters.selectors';
 
-import FiltersState from './sections/state.component';
-import FiltersCategories from './sections/categories.component';
-import FiltersTags from './sections/tags.component';
-import FiltersSort from './sections/sort.component';
-import FiltersSearch from './sections/search.component';
+import FilterState from './sections/state.component';
+import FilterCategories from './sections/categories.component';
+import FilterTags from './sections/tags.component';
+import FilterTracker from './sections/trackers.component';
+import FilterSort from './sections/sort.component';
+import FilterSearch from './sections/search.component';
 
 const useStyles = makeStyles(() => ({
     drawerWidth: {
@@ -26,11 +27,12 @@ function FiltersContainer({ openDrawer, toggleFilterDrawer }) {
 
     return (
         <Drawer open={openDrawer} ModalProps={{ onBackdropClick: toggleFilterDrawer }} classes={{ paper: classes.drawerWidth}}>
-            <FiltersState />
-            <FiltersCategories />
-            <FiltersTags />
-            <FiltersSort />
-            <FiltersSearch />
+            <FilterState />
+            <FilterCategories />
+            <FilterTags />
+            <FilterTracker />
+            <FilterSort />
+            <FilterSearch />
         </Drawer>
     );  
 }

@@ -12,6 +12,9 @@ export const getSelectedCategory = createSelector(getFilters, filters => filters
 export const getOpenTags = createSelector(getFilters, filters => filters.openTags);
 export const getSelectedTag = createSelector(getFilters, filters => filters.selectedTag);
 
+export const getOpenTrackers = createSelector(getFilters, filters => filters.openTrackers);
+export const getSelectedTracker = createSelector(getFilters, filters => filters.selectedTracker);
+
 export const getOpenSort = createSelector(getFilters, filters => filters.openSort);
 export const getSelectedSort = createSelector(getFilters, filters => filters.selectedSort);
 export const getIsSortDescending = createSelector(getFilters, filters => filters.isSortDescending);

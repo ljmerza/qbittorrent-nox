@@ -9,7 +9,7 @@ import { getStatesCount } from 'containers/torrents/torrents.selectors';
 import { filtersActions } from '../filters.reducer';
 import { getSelectedState, getOpenState } from '../filters.selectors';
 
-function FiltersState({ statesCount, openState, selectedState, changeSelectedState, toggleCollapsedState }) {
+function FilterState({ statesCount, openState, selectedState, changeSelectedState, toggleCollapsedState }) {
     return (
         <CollapsibleList 
             title='State'
@@ -22,7 +22,7 @@ function FiltersState({ statesCount, openState, selectedState, changeSelectedSta
     );
 }
 
-FiltersState.propTypes = {
+FilterState.propTypes = {
     selectedState: PropTypes.string.isRequired,
     openState: PropTypes.bool.isRequired,
     changeSelectedState: PropTypes.func.isRequired,
@@ -50,4 +50,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(FiltersState);
+)(FilterState);

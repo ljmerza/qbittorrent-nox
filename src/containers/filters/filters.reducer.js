@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { DEFAULT_UI_STATE, DEFAULT_UI_SORT, DEFAULT_UI_TAG, DEFAULT_UI_CATEGORY } from 'utilities/torrent-states';
+import { DEFAULT_UI_STATE, DEFAULT_UI_SORT, DEFAULT_UI_TAG, DEFAULT_UI_CATEGORY, DEFAULT_UI_TRACKERS } from 'utilities/torrent-states';
 import { storeGetSlice, storeSaveSlice } from 'utilities/persistant-storage';
 import { DEFAULT_SEARCH_BY_ID } from './filter.tools';
 
@@ -18,6 +18,9 @@ export const initialState = {
     
     openTags: true,
     selectedTag: DEFAULT_UI_TAG,
+
+    openTrackers: true,
+    selectedTracker: DEFAULT_UI_TRACKERS,
 
     openSort: true,
     selectedSort: DEFAULT_UI_SORT,
@@ -69,6 +72,17 @@ export const filtersSlice = createSlice({
             const newState = { ...state, openTags: !state.openTags };
             storeSaveSlice(SLICE_NAME, newState);
             return newState;    
+        },
+
+        changeSelectedTracker: (state, action) => {
+            const newState = { ...state, selectedTracker: action.payload };
+            storeSaveSlice(SLICE_NAME, newState);
+            return newState;
+        },
+        toggleCollapsedTracker: state => {
+            const newState = { ...state, openTrackers: !state.openTrackers };
+            storeSaveSlice(SLICE_NAME, newState);
+            return newState;
         },
 
         changeSelectedSort: (state, action) => {

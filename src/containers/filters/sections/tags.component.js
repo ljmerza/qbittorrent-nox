@@ -9,8 +9,7 @@ import { getTagsCount } from 'containers/torrents/torrents.selectors';
 import { filtersActions } from '../filters.reducer';
 import { getSelectedTag, getOpenTags } from '../filters.selectors';
 
-function FiltersContainer({ tagsCount, selectedTag, openTags, changeSelectedTag, toggleCollapsedTag }) {
-
+function FilterContainer({ tagsCount, selectedTag, openTags, changeSelectedTag, toggleCollapsedTag }) {
     return (
         <CollapsibleList
             title='Tags'
@@ -23,7 +22,7 @@ function FiltersContainer({ tagsCount, selectedTag, openTags, changeSelectedTag,
     );
 }
 
-FiltersContainer.propTypes = {
+FilterContainer.propTypes = {
     tagsCount: PropTypes.array.isRequired,
     selectedTag: PropTypes.string.isRequired,
     openTags: PropTypes.bool.isRequired,
@@ -51,4 +50,4 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     )
-)(FiltersContainer);
+)(FilterContainer);
