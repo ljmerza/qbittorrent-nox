@@ -34,6 +34,7 @@ export default function* addTorrent() {
             formData.append("upLimit", payload.limitUploadRate * 1024);
 
             const options = {
+                exactTextResponse: 'ok.',
                 method: 'POST',
                 url: `${apiUrl}/${initialState.path}`,
                 data: formData,
@@ -46,7 +47,8 @@ export default function* addTorrent() {
             yield put({ type: `${toastActions.showSuccess}`, message: `Added successfully`, from: 'addTorrent' });
 
         } catch (e) {
-            yield put({ type: `${toastActions.showError}`, message: e.message, from: 'addTorrent' });
+            const message = e.response && e.response.response && e.response.response.data;
+            yield put({ type: `${toastActions.showError}`, message: message || e.message, from: 'addTorrent' });
         }
     });
 }

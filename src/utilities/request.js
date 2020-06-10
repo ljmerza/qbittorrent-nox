@@ -17,6 +17,10 @@ function checkStatus(response, options) {
 
         // if no flags were provided then we only allow arrays and object responses
         if (response.data && typeof response.data === 'object') return response.data;
+
+        // only allow success if a certain response
+        if (options.allowTextResponse && options.exactTextResponse === response.data) return response.data;
+
     }
 
     const error = new Error(response.data || 'Unknown Error');

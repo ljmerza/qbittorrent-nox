@@ -121,7 +121,6 @@ export const getFilteredTorrents = createSelector(
             });
         }
 
-        console.log({ selectedTracker, DEFAULT_UI_TRACKERS })
         if (selectedTracker !== DEFAULT_UI_TRACKERS) {
             filteredTorrents = filteredTorrents.filter(torrent => torrent.trackerUi.includes(selectedTracker));
         }

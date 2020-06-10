@@ -105,7 +105,7 @@ export const torrentDetailsSlice = createSlice({
         getPeersInfoSuccess: (state, action) => {
 
             const formattedPeers = Object.values((action.response.peers || {})).reduce((acc, peer, idx) => {
-                const oldPeer = state.selectedTorrentPeers[idx] || {};
+                const oldPeer = (state.selectedTorrentPeers && state.selectedTorrentPeers[idx]) || {};
 
                 peer.dlSpeedUi = (oldPeer.dl_speed === peer.dl_speed) ? oldPeer.dlSpeedUi : prettySizeTime(peer.dl_speed);
                 peer.upSpeedUi = (oldPeer.up_speed === peer.up_speed) ? oldPeer.upSpeedUi : prettySizeTime(peer.up_speed);
