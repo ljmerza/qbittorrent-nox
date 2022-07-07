@@ -19,7 +19,7 @@
     "humanize-duration": "^3.23.0",
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
