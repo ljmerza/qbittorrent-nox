@@ -31,7 +31,7 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.4",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-virtuoso": "^0.16.7",
     "recompose": "^0.30.0",
     "redux-saga": "^1.1.3",
